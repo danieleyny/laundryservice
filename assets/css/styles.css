@@ -77,6 +77,32 @@ h1, h2, h3 {
   line-height: 1.5;
 }
 
+input,
+textarea,
+button,
+select,
+a,
+i,
+div {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}  
+
+
+img {
+-khtml-user-select: none;
+-o-user-select: none;
+-moz-user-select: none;
+-webkit-user-select: none;
+user-select: none;
+pointer-events: none
+
+}
+
+html {
+scroll-behavior: smooth;
+}
+
+
 ul {
   list-style: none;
 }
@@ -196,6 +222,12 @@ body.dark-theme {
   flex-direction: column;
   align-items: center;
   row-gap: 1.5rem;
+}
+.nav__img{
+  width: 30px;
+}
+.nav__logo{
+  margin-left: -100px;
 }
 
 .nav__link, .nav__logo, .nav__toggle {
@@ -696,6 +728,38 @@ body.dark-theme {
   color: var(--text-color);
 }
 
+.social-icons {
+	display: flex;
+	margin-top: 0.5rem;
+  }
+  
+  .social-icons a {
+	width: 35px;
+	height: 35px;
+	border-radius: 5px;
+	background: linear-gradient(45deg, #38486d, #38486d);
+	color: #fff;
+	text-align: center;
+	line-height: 35px;
+	margin-right: 0.5rem;
+	transition: 0.3s;
+  }
+  
+  .social-icons a:hover {
+	transform: scale(1.15);
+  }
+
+
+
+  @media (max-width: 480px) {
+	.social-icons a {
+	  width: 30px;
+	  height: 30px;
+	  line-height: 30px;
+	}
+  
+  }
+
 /*=============== SCROLL UP ===============*/
 .scrollup {
   position: fixed;
@@ -771,6 +835,21 @@ body.dark-theme {
 
 @media screen and (max-width: 445px) {
 
+  .section {
+    padding: 6.5rem 0 2rem;
+}
+
+.q-section {
+  padding: 15.5rem 0 2rem;
+}
+  
+.request__container {
+  row-gap: 1rem;
+  position: relative;
+}
+  
+  
+  
   .request {
     margin-top: 150px;
     margin-bottom: 120px;
@@ -852,11 +931,23 @@ body.dark-theme {
   }
 }
 
+
 /* For large devices */
+@media screen and (max-width: 968px) {
+  .nav__img{
+    display: none;
+  }
+  
+  .nav__logo{
+    margin-left: 0;
+  }
+}
+
 @media screen and (min-width: 968px) {
   .button__header {
     display: block;
   }
+
   .svg__img {
     width: 470px;
   }
