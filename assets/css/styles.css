@@ -934,7 +934,7 @@ body.dark-theme {
 
 /* For large devices */
 @media screen and (max-width: 968px) {
-  .nav__img{
+  .nav__logo{
     display: none;
   }
   
