@@ -594,6 +594,16 @@ body.dark-theme {
   column-gap: .5rem;
 }
 
+.button-info {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+}
+
+
 .request-button{
   display: inline-block;
   background-color: var(--first-color);

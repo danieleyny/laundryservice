@@ -122,3 +122,17 @@ themeButton.addEventListener('click', () => {
  
  }
  
+
+
+
+  /*=============== PDF Download ===============*/
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const openPDFButton = document.getElementById("openPDF");
+  
+    openPDFButton.addEventListener("click", function() {
+      window.open("Laundry Day.pdf", "_blank");
+    });
+  });
+  
+  
