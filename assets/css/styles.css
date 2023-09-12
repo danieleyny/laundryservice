@@ -629,6 +629,38 @@ body.dark-theme {
   transform: translateX(.25rem);
 }
 
+
+.request-button-info{
+  display: inline-block;
+  background-color: var(--first-color);
+  color: white;
+  padding: 1rem 1.75rem;
+  border-radius: .5rem;
+  font-weight: 900;
+  transition: .6s;
+  border: none;
+  cursor: pointer;
+
+}
+
+.request-button-info:hover{
+  background-color: var(--first-color-lighten);
+}
+
+
+.request-button-info:hover {
+  transform: translateX(.25rem);
+}
+
+@media only screen and (max-width: 450px) {
+  .request-button-info {
+    /* Center the button horizontally */
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}
+
 .request__icon{
   font-size: 1.25rem;
 }
@@ -933,6 +965,7 @@ body.dark-theme {
 @media screen and (min-width: 767px) {
   body {
     margin: 0;
+    margin-top: 5rem;
   }
   .section {
     padding: 6rem 0 2rem;
@@ -981,6 +1014,9 @@ body.dark-theme {
 }
 
 @media screen and (min-width: 968px) {
+  body {
+    margin: 0;
+  }
   .button__header {
     display: block;
   }
