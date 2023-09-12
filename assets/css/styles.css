@@ -640,6 +640,7 @@ body.dark-theme {
   transition: .6s;
   border: none;
   cursor: pointer;
+  font-family: Sans-serif;
 
 }
 
