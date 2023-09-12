@@ -604,6 +604,8 @@ body.dark-theme {
 }
 
 
+
+
 .request-button{
   display: inline-block;
   background-color: var(--first-color);
@@ -661,6 +663,10 @@ body.dark-theme {
     display: block;
     font-size: 14px;
 
+  }
+  
+  .request__box {
+    margin-top: -70px;
   }
 }
 
