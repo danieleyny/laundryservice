@@ -21,6 +21,18 @@
 
         <title>Laundry Day</title>
     </head>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DDP450P7LP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DDP450P7LP');
+</script>
+
+
     <body>
         <!--=============== HEADER ===============-->
         <header class="header" id="header">
@@ -93,17 +105,22 @@
         <form action="https://formspree.io/f/mjvjordw" method="POST" class="request__form">
             <div class="request__inputs">
                 <div class="request__content">
-                    <input type="email" name="Email-209w102" placeholder=" " class="request__input" required>
+                    <input type="email" name="Email" placeholder=" " class="request__input" required>
                     <label for="" class="request__label">Email</label>
                 </div>
 
                 <div class="request__content">
-                    <input type="text" placeholder=" " name="Full Name-209w102" class="request__input">
+                    <input type="text" placeholder=" " name="Full Name" class="request__input">
                     <label for="" class="request__label">Full Name</label>
                 </div>
 
                 <div class="request__content">
-                    <input type="text" placeholder=" " name="Apartment Number-209w102" class="request__input" required>
+                    <input type="text" placeholder=" " name="Building Address" class="request__input" required>
+                    <label for="" class="request__label">Building Address</label>
+                </div>
+
+                <div class="request__content">
+                    <input type="text" placeholder=" " name="Apartment Number" class="request__input" required>
                     <label for="" class="request__label">Apartment Number</label>
                 </div>
 
@@ -111,7 +128,7 @@
             
 
                 <div class="request__content request__area">
-                    <textarea name="message" placeholder="Additional Questions / Messages (Optional)-209w102" class="request__input"></textarea>                              
+                    <textarea name="message" placeholder="Additional Questions / Messages (Optional)" class="request__input"></textarea>                              
                 </div>
                 
             </div>
