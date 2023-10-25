@@ -305,9 +305,7 @@ body.dark-theme {
   background-color: var(--first-color-lighten);
 }
 
-.button__header {
-  display: none;
-}
+
 
 .button-link {
   background: none;
