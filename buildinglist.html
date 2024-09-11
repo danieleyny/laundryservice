@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="We are Laundry Day! A team dedicated to providing effective laundry service to NYC.">
+    <meta name="author" content="Daniel Eyny">
+
+    <!--=============== FAVICON ===============-->
+    <link rel="shortcut icon" href="assets/img/Laundry Day (4) copy.png" type="image/x-icon">
+
+    <!--=============== BOXICONS ===============-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <title>Our Partners</title>
+    <style>
+        body {
+            font-family: var(--body-font);
+            background-color: var(--body-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        li{
+            color: rgb(40, 34, 34);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        li:hover{
+            color: rgb(255, 255, 255);
+        }
+
+        #addressInput {
+            text-align: center;
+        }
+
+        .container {
+            background-color: var(--container-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 100px;
+
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 150px;
+            height: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--title-color);
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px; /* Added margin from top */
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        li {
+            padding: 10px;
+            background-color: var(--container-color);
+            margin-bottom: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        li:hover {
+            background-color: var(--first-color-lighten);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--first-color);
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            
+        }
+
+        .back-button:hover {
+            background-color: var(--first-color-lighten);
+        }
+
+   
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            input[type="text"] {
+                font-size: 14px;
+            }
+
+            li {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-button">
+    <i class='bx bx-left-arrow-alt'></i> 
+</a>
+
+<div class="container">
+    <img src="assets/img/Laundry Day (4) copy.png" alt="Company Logo" class="logo">
+    <h2>Properties We Work With</h2>
+    <input type="text" id="addressInput" placeholder="Start typing an address...">
+    
+    <a href="interest.html">
+        <ul id="addressList">
+            <li>235 West 22nd Street</li>
+            <li>244 West 22nd Street</li>
+            <li>246 West 22nd Street</li>
+            <li>315 West 21st Street</li>
+            <li>148 Second Avenue</li>
+            <li>150 Second Avenue</li>
+            <li>171 East 2nd Street</li>
+            <li>176 East 3rd Street (aka The Jesse at 3rd)</li>
+            <li>185 Avenue C</li>
+            <li>186 Second Avenue</li>
+            <li>200 Avenue A</li>
+            <li>21 East 2nd Street</li>
+            <li>211 East 11th Street</li>
+            <li>226 East 13th Street</li>
+            <li>255 East 10th Street</li>
+            <li>272 East 3rd Street</li>
+            <li>284 East 10th Street</li>
+            <li>303 East 9th Street (aka 146 Second Avenue)</li>
+            <li>305 East 9th Street</li>
+            <li>307 East 9th Street</li>
+            <li>309 East 9th Street</li>
+            <li>329 East 13th Street</li>
+            <li>392 East 10th Street</li>
+            <li>525 East 13th Street</li>
+            <li>542 East 14th Street</li>
+            <li>545 East 12th Street</li>
+            <li>7 St Marks Place</li>
+            <li>79 St Marks Place</li>
+            <li>86 East 4th Street</li>
+            <li>96 Fifth Avenue</li>
+            <li>216 East 28th Street</li>
+            <li>239 East 24th Street</li>
+            <li>311 East 25th Street</li>
+            <li>335 East 22nd Street</li>
+            <li>340 East 29th Street</li>
+            <li>455 Second Ave</li>
+            <li>200 Grand Street (151 Mott Street)</li>
+            <li>3 Clinton Street</li>
+            <li>37-39 Clinton Street</li>
+            <li>42 Clinton Street</li>
+            <li>91 Clinton Street</li>
+            <li>93 Clinton Street</li>
+            <li>200 West 58th Street</li>
+            <li>1069 First Avenue</li>
+            <li>1073 First Avenue</li>
+            <li>1075-1077 First Avenue</li>
+            <li>150 East 46th Street</li>
+            <li>157 East 57th Street</li>
+            <li>159 East 55th Street</li>
+            <li>160 East 55th Street</li>
+            <li>161 East 55th Street (aka 914 Third Avenue)</li>
+            <li>162 East 55th Street</li>
+            <li>165 East 35th Street</li>
+            <li>20 Beekman Place</li>
+            <li>222 (224) East 51st Street</li>
+            <li>300 East 49th Street</li>
+            <li>302 East 49th Street</li>
+            <li>315 East 56th Street</li>
+            <li>337 East 49th Street</li>
+            <li>340 East 53rd Street</li>
+            <li>343 East 51st Street</li>
+            <li>347 East 51st Street</li>
+            <li>401 East 58th Street</li>
+            <li>405 East 56th Street</li>
+            <li>414 East 58th Street</li>
+            <li>465 Lexington Ave</li>
+            <li>922 Third Ave</li>
+            <li>947 First Avenue</li>
+            <li>985 First Avenue</li>
+            <li>341 West 45th Street</li>
+            <li>405 West 50th Street</li>
+            <li>407 West 50th Street</li>
+            <li>431 (427) West 51st Street</li>
+            <li>435 West 54th Street</li>
+            <li>439 West 51st Street</li>
+            <li>441 West 51st Street</li>
+            <li>443 West 51st Street</li>
+            <li>710 Ninth Avenue</li>
+            <li>712 Ninth Avenue</li>
+            <li>156 East 37th Street</li>
+            <li>226 East 36th Street</li>
+            <li>228 East 36th Street</li>
+            <li>307-309 Mott Street</li>
+            <li>202 Sixth Avenue</li>
+            <li>234-236 Mulberry Street</li>
+            <li>529 Broome Street</li>
+            <li>104-106 East 81st Street</li>
+            <li>107-109 East 88th Street</li>
+            <li>1134 Madison</li>
+            <li>1135 1st Avenue</li>
+            <li>118 East 93rd Street</li>
+            <li>119 East 97th Street</li>
+            <li>121 East 82nd Street</li>
+            <li>121 East 97th Street</li>
+            <li>129 East 97th Street (1504 Lexington Ave)</li>
+            <li>1297 Lexington (Second) Avenue</li>
+            <li>1341 Second Ave</li>
+            <li>1405 Second Ave</li>
+            <li>1427 York Ave</li>
+            <li>1435 First Avenue</li>
+            <li>1441 York Avenue</li>
+            <li>145 East 72nd Street</li>
+            <li>147 East 72nd Street</li>
+            <li>1473 First Avenue</li>
+            <li>1483 First Avenue</li>
+            <li>1485 First Avenue</li>
+            <li>149 East 72nd Street</li>
+            <li>1492 First Avenue</li>
+            <li>1497 Third Ave</li>
+            <li>155/159 & 163 East 92nd Street</li>
+            <li>157 East 71st Street</li>
+            <li>1570 Second Avenue</li>
+            <li>1570 Third Ave</li>
+            <li>1572 Third Ave</li>
+            <li>158 East 82nd Street</li>
+            <li>159 East 92nd Street</li>
+            <li>1590 First Avenue</li>
+            <li>1592 First Avenue (aka 400 East 83rd Street)</li>
+            <li>1612 York Avenue</li>
+            <li>1614 York Avenue</li>
+            <li>1619 York Avenue</li>
+            <li>163 East 87th Street</li>
+            <li>164 East 90th Street</li>
+            <li>165 East 87th Street</li>
+            <li>1653 3rd Avenue</li>
+            <li>1654 Third Avenue</li>
+            <li>166 East 90th Street</li>
+            <li>167 East 87th Street</li>
+            <li>171 East 88th Street (aka 1568 Third Avenue)</li>
+            <li>172 East 82nd Street</li>
+            <li>1731 Second Avenue</li>
+            <li>178 East 70th Street</li>
+            <li>1867 Second Ave</li>
+            <li>188 East 93rd Street</li>
+            <li>19 East 109th Street</li>
+            <li>212 East 85th Street</li>
+            <li>212 East 89th Street</li>
+            <li>214 East 85th Street</li>
+            <li>214 East 89th Street</li>
+            <li>216 East 85th Street</li>
+            <li>216 East 89th Street</li>
+            <li>216 East 95th Street</li>
+            <li>217 East 88th Street</li>
+            <li>218 East 85th Street</li>
+            <li>218 East 89th Street</li>
+            <li>219 East 69th Street</li>
+            <li>219 East 76th Street</li>
+            <li>220 East 85th Street</li>
+            <li>220 East 89th Street</li>
+            <li>222 East 85th Street</li>
+            <li>222 East 87th Street</li>
+            <li>222 East 89th Street</li>
+            <li>224 East 70th Street</li>
+            <li>224 East 89th Street</li>
+            <li>225 East 79th Street</li>
+            <li>226 East 87th Street</li>
+            <li>226 East 89th Street</li>
+            <li>228 East 89th Street</li>
+            <li>230 East 81st Street</li>
+            <li>230 East 87th Street</li>
+            <li>230 East 89th Street</li>
+            <li>232 East 74th Street</li>
+            <li>232 East 75th Street</li>
+            <li>232 East 83rd Street</li>
+            <li>232 East 89th Street</li>
+            <li>233 East 81st Street</li>
+            <li>234 East 83rd Street</li>
+            <li>234 East 87th Street</li>
+            <li>234 East 89th Street</li>
+            <li>238 East 87th Street</li>
+            <li>240 East 78th Street</li>
+            <li>240 East 82nd Street</li>
+            <li>241 East 73rd Street (aka 1403 2nd Avenue)</li>
+            <li>255-257 East 61st Street</li>
+            <li>26 East 91st Street</li>
+            <li>265 East 78th Street</li>
+            <li>302 East 90th Street</li>
+            <li>304 East 62nd Street</li>
+            <li>304 East 90th Street</li>
+            <li>307 East 77th Street</li>
+            <li>309 East 85th Street</li>
+            <li>309 East 90th Street</li>
+            <li>310 East 85th Street</li>
+            <li>311 East 85th Street</li>
+            <li>312 East 90th Street</li>
+            <li>312 East 91st Street</li>
+            <li>313 East 85th Street</li>
+            <li>313 East 93rd Street</li>
+            <li>314 East 91st Street</li>
+            <li>315 East 84th Street</li>
+            <li>315 East 93rd Street</li>
+            <li>317 East 78th Street</li>
+            <li>318 East 89th Street</li>
+            <li>318 East 93rd Street</li>
+            <li>319 East 75th Street</li>
+            <li>320 East 73rd Street</li>
+            <li>320 East 93rd Street</li>
+            <li>321 East 92nd Street</li>
+            <li>322 East 73rd Street</li>
+            <li>322 East 89th Street</li>
+            <li>324 East 83rd Street</li>
+            <li>324 East 91st Street</li>
+            <li>325 East 93rd Street</li>
+            <li>327 East 93rd Street</li>
+            <li>328 East 93rd Street</li>
+            <li>33 East 65th Street</li>
+            <li>330 East 74th Street</li>
+            <li>330 East 93rd Street</li>
+            <li>332 East 93rd Street</li>
+            <li>333 East 88th Street</li>
+            <li>334 East 78th Street</li>
+            <li>334 East 93rd Street</li>
+            <li>335 East 88th Street</li>
+            <li>335 East 92nd Street</li>
+            <li>336 East 86th Street</li>
+            <li>336 East 90th Street</li>
+            <li>337 East 88th Street</li>
+            <li>337 East 90th Street</li>
+            <li>338 East 92nd Street</li>
+            <li>339 East 77th Street</li>
+            <li>340 East 62nd Street</li>
+            <li>341 East 77th Street</li>
+            <li>342 East 62nd Street</li>
+            <li>344 East 87th Street</li>
+            <li>345 East 65th Street</li>
+            <li>345 East 76th Street</li>
+            <li>346 East 76th Street</li>
+            <li>346 East 87th Street</li>
+            <li>347 East 65th Street</li>
+            <li>348 East 87th Street</li>
+            <li>35-39 East 65th Street</li>
+            <li>350 East 76th Street</li>
+            <li>354 East 83rd Street</li>
+            <li>399 East 78th Street</li>
+            <li>400 East 89th Street</li>
+            <li>401 East 88th Street</li>
+            <li>402 East 78th Street</li>
+            <li>402 East 83rd Street</li>
+            <li>403 East 87th Street</li>
+            <li>405 East 87th Street</li>
+            <li>407 East 87th Street</li>
+            <li>409 East 74th Street</li>
+            <li>410 East 75th Street</li>
+            <li>411 East 70th Street</li>
+            <li>415 East 73rd Street</li>
+            <li>415 East 78th Street</li>
+            <li>415 East 87th Street</li>
+            <li>417 East 65th Street</li>
+            <li>417 East 87th Street</li>
+            <li>418 East 74th Street</li>
+            <li>419 East 72nd Street</li>
+            <li>419 East 73rd Street</li>
+            <li>419 East 87th Street</li>
+            <li>425 East 65th Street</li>
+            <li>425 East 80th Street</li>
+            <li>427 East 73rd Street</li>
+            <li>427 East 80th Street</li>
+            <li>428 East 83rd Street</li>
+            <li>428 East 89th Street</li>
+            <li>429 East 73rd Street</li>
+            <li>429 East 80th Street</li>
+            <li>43 East 74th Street</li>
+            <li>430 East 89th Street</li>
+            <li>431 East 73rd Street</li>
+            <li>432 East 83rd Street</li>
+            <li>440 East 81st Street</li>
+            <li>444 East 81st Street</li>
+            <li>445 East 85th Street</li>
+            <li>500 East 76th Street</li>
+            <li>502 East 88th Street</li>
+            <li>522 East 88th Street</li>
+            <li>55 East 95th Street</li>
+            <li>61 East 66th Street</li>
+            <li>16 West 69th Street</li>
+            <li>160 West 73rd Street</li>
+            <li>160 West 84th Street</li>
+            <li>166 West 72nd Street</li>
+            <li>167 West 83rd Street</li>
+            <li>200 West 89th Street (aka 594 Amsterdam Ave)</li>
+            <li>205 West 80th Street</li>
+            <li>206 West 104th Street (aka 892 Amsterdam Ave)</li>
+            <li>207 West 80th Street</li>
+            <li>209 West 80th Street</li>
+            <li>211 West 80th Street</li>
+            <li>218 West 72nd Street</li>
+            <li>24 West 88th Street</li>
+            <li>25 West 68th Street</li>
+            <li>25 West 87th Street</li>
+            <li>260 West 72nd Street</li>
+            <li>321 West 80th Street</li>
+            <li>326 Columbus Avenue</li>
+            <li>328 West 88th Street</li>
+            <li>4 West 103rd Street</li>
+            <li>4 West 90th Street</li>
+            <li>510 Amsterdam Avenue</li>
+            <li>53 West 105th Street</li>
+            <li>54 West 106th Street</li>
+            <li>55 West 105th Street</li>
+            <li>56 West 106th Street</li>
+            <li>588 Amsterdam</li>
+            <li>590 Amsterdam</li>
+            <li>592 Amsterdam</li>
+            <li>63 West 90th Street</li>
+            <li>65 West 106th Street</li>
+            <li>66 West 106th Street</li>
+            <li>78 Manhattan Avenue</li>
+            <li>946 Columbus Avenue</li>
+            <li>170 Thompson</li>
+            <li>178 Thompson</li>
+            <li>190 West 10th Street</li>
+            <li>20 Fifth Avenue</li>
+            <li>200 Prince Street</li>
+            <li>201 Sullivan Street (aka 169 Bleecker Street)</li>
+            <li>22 King Street</li>
+            <li>234 West 13th Street</li>
+            <li>24 King Street</li>
+            <li>240 Waverly Place</li>
+            <li>242 West 10th Street</li>
+            <li>26 Grove Street</li>
+            <li>26 King Street</li>
+            <li>28 King Street</li>
+            <li>30 (26) Charlton Street</li>
+            <li>303 West 11th Street</li>
+            <li>34 Morton Street</li>
+            <li>37 1/2 Bedford Street</li>
+            <li>39 Bedford Street</li>
+            <li>41 Bedford Street</li>
+            <li>49 West 11th Street</li>
+            <li>63 West 8th Street</li>
+            <li>64 West 9th</li>
+            <li>71 West 12th Street</li>
+            <li>8 Jones Street</li>
+            <li>14 West 103rd</li>
+            <li>214 West 102nd</li>
+            <li>215 West 101st</li>
+            <li>314 West 104th</li>
+            <li>264 East 2nd</li>
+            <li>336 East 5th St</li>
+            <li>139 First Ave</li>
+            <li>229 East 10th</li>
+            <li>218 First Ave</li>
+            <li>542 East 11th St</li>
+            <li>526 East 11th St</li>
+            <li>611 East 11th St</li>
+            <li>545 East 5th St</li>
+            <li>513 East 5th St</li>
+            <li>510 East 5th Str</li>
+            <li>508 East 5th St</li>
+            <li>506 East 5th St</li>
+            <li>633 East 6th St</li>
+            <li>637 East 6th St</li>
+            <li>269 East 10th St</li>
+            <li>150 East 3rd St</li>
+            <li>316 West 19th St</li>
+            <li>235 West 15th St</li>
+            <li>118 West 3rd St</li>
+            <li>434 East 76th St</li>
+            <li>436 East 76th St</li>
+            <li>217 East 59th St</li>
+            <li>400 East 82nd St</li>
+            <li>508 East 89th St</li>
+            <li>208 East 82nd St</li>
+            <li>214 East 82 St</li>
+            <li>119 East 96th St</li>
+            <li>24 East 97th St</li>
+            <li>1328 Madison Ave</li>
+            <li>112 East 97th St</li>
+            <li>114 East 97th St</li>
+            <li>350 East 67th St</li>
+        </ul>
+    </a>
+
+</div>
+
+<script>
+    document.getElementById('addressInput').addEventListener('input', function() {
+        let filter = this.value.toLowerCase();
+        let addressList = document.getElementById('addressList');
+        let addresses = addressList.getElementsByTagName('li');
+
+        for (let i = 0; i < addresses.length; i++) {
+            let address = addresses[i].innerText.toLowerCase();
+            if (address.includes(filter)) {
+                addresses[i].style.display = "";
+            } else {
+                addresses[i].style.display = "none";
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
