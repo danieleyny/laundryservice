@@ -63,16 +63,17 @@
             color: var(--title-color);
             margin-bottom: 20px;
         }
-
         input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            margin-top: 20px; /* Added margin from top */
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px; /* Added margin from top */
+    font-size: 16px; /* Ensure font size is 16px or more */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-text-size-adjust: 100%; /* Prevents font size adjustments after orientation changes */
+}
+
 
         ul {
             list-style: none;
