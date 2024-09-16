@@ -254,9 +254,22 @@ body.active { overflow: hidden; }
 }
 
 .logo {
-  font-size: 3.3rem;
+  font-size: 2.5rem;
   font-weight: var(--fw-700);
+  font-family: 'Playfair Display', serif;
+
 }
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 40px; /* Adjust as needed */
+  height: auto;
+}
+
 
 .header-action {
   display: flex;
@@ -409,6 +422,11 @@ body.active { overflow: hidden; }
 
 .hero-card .card-title:is(:hover, :focus) { color: var(--tan-crayola); }
 
+.card-title {
+  font-family: 'Lora', serif;
+  
+}
+
 
 
 
@@ -420,7 +438,7 @@ body.active { overflow: hidden; }
 .about { text-align: center; }
 
 .about .section-title {
-  font-family: var(--ff-mr_de_haviland);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: var(--fs-1);
   font-weight: var(--fw-500);
 }
@@ -954,7 +972,13 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
 
   .container { max-width: 768px; }
 
+  .logo-image {
+    width: 60px;
+  }
 
+  .logo {
+    font-size: 3.5rem;
+  }
 
   /**
    * HEADER
@@ -1031,6 +1055,13 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
   .grid-list { grid-template-columns: repeat(3, 1fr); }
 
 
+  .logo-image {
+    width: 70px;
+  }
+
+  .logo {
+    font-size: 4rem;
+  }
 
   /**
    * HERO
@@ -1048,6 +1079,22 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
     max-width: 85ch;
     margin-inline: auto;
   }
+
+
+  .highlight-reward {
+    color: rgb(83, 142, 162);
+    font-weight: bold;
+    display: inline; /* Ensure inline to prevent line breaks */
+  }
+  
+  .highlight-link {
+    text-decoration: none; /* Remove underline or any default link styles */
+    display: inline; /* Ensure inline to prevent line breaks */
+
+  }
+  
+  
+  
 
 
 
@@ -1101,6 +1148,15 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
 
     --fs-2: 3.6rem;
 
+  }
+
+
+  .logo-image {
+    width: 60px;
+  }
+
+  .logo {
+    font-size: 3.5rem;
   }
 
 

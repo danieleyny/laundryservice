@@ -73,24 +73,47 @@ addEventOnElem(window, "scroll", showElemOnScroll);
 /**
  * Product Filter
  */
-
+// Get filter buttons and product list
 const filterBtns = document.querySelectorAll("[data-filter-btn]");
-const filterBox = document.querySelector("[data-filter]");
+const productList = document.querySelector(".product-list");
 
-let lastClickedFilterBtn = filterBtns[0];
+// Function to filter products
+const filterProducts = (filter) => {
+  const products = productList.querySelectorAll("li");
+  
+  products.forEach(product => {
+    if (filter === "all" || product.classList.contains(filter)) {
+      product.style.display = "block";  // Show the product
+    } else {
+      product.style.display = "none";   // Hide the product
+    }
+  });
+};
 
-const filter = function () {
-  lastClickedFilterBtn.classList.remove("active");
-  this.classList.add("active");
-  lastClickedFilterBtn = this;
-
-  filterBox.setAttribute("data-filter", this.dataset.filterBtn)
-}
-
+// Add click event to each filter button
 filterBtns.forEach(btn => {
-  btn.addEventListener("click", filter);
+  btn.addEventListener("click", (e) => {
+    // Remove 'active' class from previously selected button
+    document.querySelector(".filter-btn.active").classList.remove("active");
+    
+    // Add 'active' class to the clicked button
+    e.currentTarget.classList.add("active");
+
+    // Get the filter value from data-filter-btn attribute
+    const filter = e.currentTarget.getAttribute("data-filter-btn");
+    
+    // Filter products based on the selected filter
+    filterProducts(filter);
+  });
 });
 
+// Initial load to show all products by default
+document.addEventListener("DOMContentLoaded", () => {
+  filterProducts("all");
+});
+
+
+// Your existing product card image slider functionality
 document.addEventListener('DOMContentLoaded', function() {
 
   const productCards = document.querySelectorAll('.product-card');
