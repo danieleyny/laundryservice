@@ -439,29 +439,31 @@ body.active { overflow: hidden; }
 
 .about .section-title {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: var(--fs-1);
+  font-size: 28px;
   font-weight: var(--fw-500);
 }
 
 .about .section-text { margin-block: 12px 45px; }
 
-.about-card { position: relative; }
+.about-card {
+  position: relative;
+  max-width: 100%; /* Ensure it scales properly on different screen sizes */
+  overflow: hidden;
+}
 
-.about-card .img-cover { transition: var(--transition-2); }
+.about-card .img-holder {
+  position: relative;
+  width: 100%;  /* Ensure the container takes full width */
+  height: auto;  /* Maintain the aspect ratio */
+}
 
-.about-card:is(:hover, :focus) .img-cover { transform: scale(1.1); }
-
-.about-card .play-btn {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-content: center;
-  color: var(--white);
-  font-size: 80px;
+.about-card .img-cover {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* Ensures the entire image is visible without being cut */
   transition: var(--transition-2);
 }
 
-.about-card:is(:hover, :focus) .play-btn { background-color: var(--black_50); }
 
 
 
@@ -1009,7 +1011,11 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
 
   .about .section-text { margin-block-end: 75px; }
 
-
+  .about .section-title {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+    font-weight: var(--fw-500);
+  }
 
   /**
    * PRODUCT
@@ -1080,6 +1086,11 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
     margin-inline: auto;
   }
 
+  .about .section-title {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: var(--fs-1);
+    font-weight: var(--fw-500);
+  }
 
   .highlight-reward {
     color: rgb(83, 142, 162);
@@ -1090,8 +1101,9 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
   .highlight-link {
     text-decoration: none; /* Remove underline or any default link styles */
     display: inline; /* Ensure inline to prevent line breaks */
-
+    white-space: nowrap; /* Prevent text from breaking onto a new line */
   }
+  
   
   
   
