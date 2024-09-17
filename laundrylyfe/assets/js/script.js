@@ -1,11 +1,8 @@
 'use strict';
 
-
-
 /**
- * add event on element
+ * Add event on element
  */
-
 const addEventOnElem = function (elem, type, callback) {
   if (elem.length > 1) {
     for (let i = 0; i < elem.length; i++) {
@@ -16,12 +13,9 @@ const addEventOnElem = function (elem, type, callback) {
   }
 }
 
-
-
 /**
- * navbar toggle
+ * Navbar toggle
  */
-
 const navbar = document.querySelector("[data-navbar]");
 const navbarLinks = document.querySelectorAll("[data-nav-link]");
 const navTogglers = document.querySelectorAll("[data-nav-toggler]");
@@ -43,12 +37,9 @@ const closeNavbar = function () {
 
 addEventOnElem(navbarLinks, "click", closeNavbar);
 
-
-
 /**
- * header & back top btn active when window scroll down to 100px
+ * Header & back top btn active when window scroll down to 100px
  */
-
 const header = document.querySelector("[data-header]");
 const backTopBtn = document.querySelector("[data-back-top-btn]");
 
@@ -63,12 +54,6 @@ const showElemOnScroll = function () {
 }
 
 addEventOnElem(window, "scroll", showElemOnScroll);
-
-
-
-
-
-
 
 /**
  * Product Filter
@@ -112,14 +97,13 @@ document.addEventListener("DOMContentLoaded", () => {
   filterProducts("all");
 });
 
-
-// Your existing product card image slider functionality
+/**
+ * Swipe functionality for product image sliders
+ */
 document.addEventListener('DOMContentLoaded', function() {
-
   const productCards = document.querySelectorAll('.product-card');
 
   productCards.forEach(function(card) {
-
     const slider = card.querySelector('.image-slider');
     const images = slider.querySelectorAll('img');
     const indicatorsContainer = card.querySelector('.image-indicators');
@@ -139,10 +123,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const indicators = indicatorsContainer.querySelectorAll('.indicator');
 
     // Update Slider Function
-    function updateSlider(direction = 'next') {
+    function updateSlider() {
       slider.style.transition = 'transform 0.3s ease';
       slider.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
-
+      
       indicators.forEach(function(indicator, index) {
         if (index === currentIndex) {
           indicator.classList.add('active');
@@ -230,7 +214,5 @@ document.addEventListener('DOMContentLoaded', function() {
     slider.addEventListener('dragstart', function(e) {
       e.preventDefault();
     });
-
   });
-
 });

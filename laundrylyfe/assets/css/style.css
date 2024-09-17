@@ -439,8 +439,8 @@ body.active { overflow: hidden; }
 
 .about .section-title {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 28px;
-  font-weight: var(--fw-500);
+  font-size: 32px;
+  font-weight: bolder;
 }
 
 .about .section-text { margin-block: 12px 45px; }
@@ -465,7 +465,17 @@ body.active { overflow: hidden; }
 }
 
 
+.highlight-reward {
+  color: rgb(83, 142, 162);
+  font-weight: bold;
+  display: inline; /* Ensure inline to prevent line breaks */
+}
 
+.highlight-link {
+  text-decoration: none; /* Remove underline or any default link styles */
+  display: inline; /* Ensure inline to prevent line breaks */
+  white-space: nowrap; /* Prevent text from breaking onto a new line */
+}
 
 
 
@@ -614,15 +624,16 @@ body.active { overflow: hidden; }
   width: 100%;
   height: 100%;
   display: flex;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
 }
 
 .image-slider img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  flex: 0 0 100%;
+  flex: 0 0 100%; /* Ensure that each image takes 100% width */
 }
+
 
 
 /* Image Indicators Styles */
@@ -1092,17 +1103,7 @@ a.card-meta-text:is(:hover, :focus) { color: var(--tan-crayola); }
     font-weight: var(--fw-500);
   }
 
-  .highlight-reward {
-    color: rgb(83, 142, 162);
-    font-weight: bold;
-    display: inline; /* Ensure inline to prevent line breaks */
-  }
-  
-  .highlight-link {
-    text-decoration: none; /* Remove underline or any default link styles */
-    display: inline; /* Ensure inline to prevent line breaks */
-    white-space: nowrap; /* Prevent text from breaking onto a new line */
-  }
+
   
   
   
