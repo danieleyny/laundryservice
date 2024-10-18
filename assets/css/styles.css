@@ -224,6 +224,14 @@ body.dark-theme {
     border-radius: 2rem;
     z-index: var(--z-fixed);
   }
+
+  .request__data {
+    display: grid;
+    text-align: center;
+  }
+  .section__title-center {
+    text-align: center;
+  }
 }
 
 .nav__list {
@@ -269,6 +277,8 @@ body.dark-theme {
   background-color: var(--title-color);
   border-radius: 50%;
 }
+
+
 
 /* Change background header */
 .scroll-header {
@@ -966,9 +976,7 @@ body.dark-theme {
   .svg__img {
     width: 100%;
   }
-  .section__title-center {
-    text-align: initial;
-  }
+ 
   .home__container,
   .about__container,
   .security__container,
@@ -1020,6 +1028,9 @@ body.dark-theme {
   }
   .home__container {
     padding: 6rem 0 2rem;
+  }
+  .section__title-center {
+    text-align: initial;
   }
   .app__buttons {
     justify-content: initial;
