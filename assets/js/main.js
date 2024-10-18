@@ -90,8 +90,6 @@ themeButton.addEventListener('click', () => {
 })
 
 
-
-
  /*=============== QUESTIONS ACCORDION ===============*/
  const accordionItems = document.querySelectorAll('.questions__item')
 
@@ -122,17 +120,12 @@ themeButton.addEventListener('click', () => {
  
  }
  
-
-
-
-  /*=============== PDF Download ===============*/
-
-  document.addEventListener("DOMContentLoaded", function() {
+/*=============== PDF Download ===============*/
+document.addEventListener("DOMContentLoaded", function() {
     const openPDFButton = document.getElementById("openPDF");
   
     openPDFButton.addEventListener("click", function() {
       window.open("Laundry Day.pdf", "_blank");
     });
-  });
-  
-  
+});
+

@@ -159,8 +159,8 @@ body.dark-theme {
 .center-image {
   display: block;
   margin: auto;
-  width: 276px;
-  height: 173px;
+  width: 126px;
+  height: auto;
   margin-top: -50px;
 }
 
@@ -383,6 +383,10 @@ body.dark-theme {
   margin-bottom: var(--mb-0-5);
 }
 
+
+
+
+
 /*=============== APP ===============*/
 .app__container {
   gap: 2.5rem;
@@ -527,7 +531,14 @@ body.dark-theme {
   transform: rotate(45deg);
 }
 /* ===== Questions End =====*/
-/*=============== Questions End ===============*/
+
+
+
+
+
+
+
+
 
 
 
