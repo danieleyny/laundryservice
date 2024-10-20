@@ -138,15 +138,33 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function() {
     const dropContainer = document.querySelector('.drop-container');
     const input = document.querySelector('.drop-container input');
+    const maxFileSize = 5 * 1024 * 1024; // 5MB limit
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf']; // Add allowed file types
 
     dropContainer.addEventListener('click', () => {
         input.click();
     });
 
     input.addEventListener('change', () => {
-        if (input.files.length > 0) {
-            // Instead of showing the file name, we display 'Uploaded'
+        const file = input.files[0];
+        
+        if (file) {
+            if (!allowedTypes.includes(file.type)) {
+                alert("Invalid file type. Only JPEG, PNG, and PDF files are allowed.");
+                input.value = ""; // Clear the input
+                dropContainer.querySelector('.drop-title').textContent = "Click to upload";
+                return;
+            }
+
+            if (file.size > maxFileSize) {
+                alert("File size exceeds 5MB. Please upload a smaller file.");
+                input.value = ""; // Clear the input
+                dropContainer.querySelector('.drop-title').textContent = "Click to upload";
+                return;
+            }
+
             dropContainer.querySelector('.drop-title').textContent = 'Uploaded!';
         }
     });
-  });
+});
+

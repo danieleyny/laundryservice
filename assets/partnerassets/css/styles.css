@@ -766,6 +766,15 @@ select.request__input:focus {
     font-size: 14px;
 
   }
+
+
+.drop-title {
+  font-size: 14px;
+  text-align: center;
+  color: #7ba3b7;
+  font-weight: bold;
+}
+
   
   .request__box {
     margin-top: -70px;
