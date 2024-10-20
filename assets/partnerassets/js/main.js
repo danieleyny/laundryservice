@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+/*=============== File Submission ===============*/
 
 document.addEventListener("DOMContentLoaded", function() {
     const dropContainer = document.querySelector('.drop-container');
@@ -143,9 +144,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     input.addEventListener('change', () => {
-        const fileName = input.files[0].name;
-        dropContainer.querySelector('.drop-title').textContent = `Selected: ${fileName}`;
+        if (input.files.length > 0) {
+            // Instead of showing the file name, we display 'Uploaded'
+            dropContainer.querySelector('.drop-title').textContent = 'Uploaded!';
+        }
     });
-
-    // Optional: You can add an AJAX form submission here if you want to handle uploads without reloading the page.
-});
+  });

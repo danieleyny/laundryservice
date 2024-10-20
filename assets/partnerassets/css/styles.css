@@ -413,10 +413,12 @@ body.dark-theme {
 }
 
 .drop-title {
-  font-size: 1.1rem;
+  font-size: 16px;
+  text-align: center;
   color: #7ba3b7;
   font-weight: bold;
 }
+
 
 
 
