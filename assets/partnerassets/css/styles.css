@@ -356,6 +356,10 @@ body.dark-theme {
   text-align: center;
 }
 
+#send-document-btn {
+  display: none;
+}
+
 /*=============== SERVICES ===============*/
 .services__container {
   padding-top: 1rem;
@@ -938,6 +942,28 @@ select.request__input:focus {
   .social-icons a:hover {
 	transform: scale(1.15);
   }
+
+
+  /* Hide uploader and submit button for screens less than 400px */
+/* Media query to hide form elements and show 'Send Document' button on screens smaller than 400px */
+@media screen and (max-width: 400px) {
+  #document-upload-form, .submit-button {
+      display: none;
+  }
+  .send-document-button {
+      display: inline-block;
+      background-color: hsl(200, 29%, 60%);
+      color: white;
+      padding: 1rem 1.75rem;
+      border-radius: .5rem;
+      font-weight: 900;
+      transition: .6s;
+      border: none;
+      cursor: pointer;
+  }
+
+}
+
 
 
 
