@@ -1,81 +1,224 @@
-const slider = document.querySelector('.slider');
-const images = document.querySelectorAll('.slider img');
-let currentIndex = 0;
-let startX = 0;
-let isDragging = false;
+'use strict';
 
-function updateSlider() {
-  document.querySelectorAll('.indicator').forEach((indicator, index) => {
-    indicator.classList.toggle('active', index === currentIndex);
-  });
+/**
+ * Add event on element
+ */
+const addEventOnElem = function (elem, type, callback) {
+  if (elem.length > 1) {
+    for (let i = 0; i < elem.length; i++) {
+      elem[i].addEventListener(type, callback);
+    }
+  } else {
+    elem.addEventListener(type, callback);
+  }
 }
 
-// Initialize the slider position and set the initial indicator state
-slider.style.transform = `translateX(${0}%)`;
-updateSlider();
+/**
+ * Navbar toggle
+ */
+const navbar = document.querySelector("[data-navbar]");
+const navbarLinks = document.querySelectorAll("[data-nav-link]");
+const navTogglers = document.querySelectorAll("[data-nav-toggler]");
+const overlay = document.querySelector("[data-overlay]");
 
-// Event listeners for mouse dragging (desktop)
-slider.addEventListener('mousedown', function (e) {
-  startX = e.clientX;
-  isDragging = true;
-  slider.style.transition = 'none'; // Disable smooth transition during dragging
-});
+const toggleNavbar = function () {
+  navbar.classList.toggle("active");
+  overlay.classList.toggle("active");
+  document.body.classList.toggle("active");
+}
 
-slider.addEventListener('mousemove', function (e) {
-  if (!isDragging) return;
-  let moveX = e.clientX - startX;
-  slider.style.transform = `translateX(${moveX - currentIndex * 100}%)`;
-});
+addEventOnElem(navTogglers, "click", toggleNavbar);
 
-slider.addEventListener('mouseup', function (e) {
-  isDragging = false;
-  let endX = e.clientX;
-  let diffX = startX - endX;
+const closeNavbar = function () {
+  navbar.classList.remove("active");
+  overlay.classList.remove("active");
+  document.body.classList.remove("active");
+}
 
-  if (Math.abs(diffX) > 50) {
-    if (diffX > 0) {
-      currentIndex++;
-      if (currentIndex >= images.length) currentIndex = 0;
-    } else {
-      currentIndex--;
-      if (currentIndex < 0) currentIndex = images.length - 1;
-    }
+addEventOnElem(navbarLinks, "click", closeNavbar);
+
+/**
+ * Header & back top btn active when window scroll down to 100px
+ */
+const header = document.querySelector("[data-header]");
+const backTopBtn = document.querySelector("[data-back-top-btn]");
+
+const showElemOnScroll = function () {
+  if (window.scrollY > 100) {
+    header.classList.add("active");
+    backTopBtn.classList.add("active");
+  } else {
+    header.classList.remove("active");
+    backTopBtn.classList.remove("active");
   }
+}
 
-  slider.style.transition = 'transform 0.3s ease';
-  slider.style.transform = `translateX(${-currentIndex * 100}%)`;
-  updateSlider();
-});
+addEventOnElem(window, "scroll", showElemOnScroll);
 
-// Event listeners for touch events (mobile)
-slider.addEventListener('touchstart', function (e) {
-  startX = e.touches[0].clientX;
-  isDragging = true;
-  slider.style.transition = 'none'; // Disable smooth transition during dragging
-});
+/**
+ * Product Filter
+ */
+// Get filter buttons and product list
+const filterBtns = document.querySelectorAll("[data-filter-btn]");
+const productList = document.querySelector(".product-list");
 
-slider.addEventListener('touchmove', function (e) {
-  if (!isDragging) return;
-  let moveX = e.touches[0].clientX - startX;
-  slider.style.transform = `translateX(${moveX - currentIndex * 100}%)`;
-});
-
-slider.addEventListener('touchend', function (e) {
-  isDragging = false;
-  let endX = e.changedTouches[0].clientX;
-  let diffX = startX - endX;
-
-  if (Math.abs(diffX) > 50) {
-    if (diffX > 0) {
-      currentIndex++;
-      if (currentIndex >= images.length) currentIndex = 0;
+// Function to filter products
+const filterProducts = (filter) => {
+  const products = productList.querySelectorAll("li");
+  
+  products.forEach(product => {
+    if (filter === "all" || product.classList.contains(filter)) {
+      product.style.display = "block";  // Show the product
     } else {
-      currentIndex--;
-      if (currentIndex < 0) currentIndex = images.length - 1;
+      product.style.display = "none";   // Hide the product
     }
-  }
+  });
+};
 
-  slider.style.transition = 'transform 0.3s ease';
-  slider.style.transform = `translateX(${-currentIndex * 100}%)`;
-  updateSlider();
+// Add click event to each filter button
+filterBtns.forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    // Remove 'active' class from previously selected button
+    document.querySelector(".filter-btn.active").classList.remove("active");
+    
+    // Add 'active' class to the clicked button
+    e.currentTarget.classList.add("active");
+
+    // Get the filter value from data-filter-btn attribute
+    const filter = e.currentTarget.getAttribute("data-filter-btn");
+    
+    // Filter products based on the selected filter
+    filterProducts(filter);
+  });
+});
+
+// Initial load to show all products by default
+document.addEventListener("DOMContentLoaded", () => {
+  filterProducts("all");
+});
+
+/**
+ * Swipe functionality for product image sliders
+ */
+document.addEventListener('DOMContentLoaded', function() {
+  const productCards = document.querySelectorAll('.product-card');
+
+  productCards.forEach(function(card) {
+    const slider = card.querySelector('.image-slider');
+    const images = slider.querySelectorAll('img');
+    const indicatorsContainer = card.querySelector('.image-indicators');
+
+    let currentIndex = 0;
+    let startX = 0;
+    let isDragging = false;
+
+    // Dynamically generate indicators
+    images.forEach(function(_, index) {
+      const indicator = document.createElement('span');
+      indicator.classList.add('indicator');
+      if (index === 0) indicator.classList.add('active');
+      indicatorsContainer.appendChild(indicator);
+    });
+
+    const indicators = indicatorsContainer.querySelectorAll('.indicator');
+
+    // Update Slider Function
+    function updateSlider() {
+      slider.style.transition = 'transform 0.3s ease';
+      slider.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
+      
+      indicators.forEach(function(indicator, index) {
+        if (index === currentIndex) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      });
+    }
+
+    // Touch Events for Mobile
+    slider.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    });
+
+    slider.addEventListener('touchmove', function(e) {
+      if (!isDragging) return;
+      const currentX = e.touches[0].clientX;
+      const moveDiff = startX - currentX;
+      slider.style.transform = `translateX(${(-currentIndex * 100) - (moveDiff / slider.offsetWidth) * 100}%)`;
+    });
+
+    slider.addEventListener('touchend', function(e) {
+      isDragging = false;
+      let endX = e.changedTouches[0].clientX;
+      let diffX = startX - endX;
+
+      if (Math.abs(diffX) > 50) { // Swipe threshold
+        if (diffX > 0) {
+          // Swiped left
+          currentIndex++;
+          if (currentIndex >= images.length) {
+            currentIndex = 0;
+          }
+        } else {
+          // Swiped right
+          currentIndex--;
+          if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+          }
+        }
+        updateSlider();
+      } else {
+        // Restore the slide if the swipe distance is not enough
+        updateSlider();
+      }
+    });
+
+    // Mouse Events for Desktop
+    slider.addEventListener('mousedown', function(e) {
+      startX = e.clientX;
+      isDragging = true;
+    });
+
+    slider.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+    });
+
+    slider.addEventListener('mouseup', function(e) {
+      isDragging = false;
+      let endX = e.clientX;
+      let diffX = startX - endX;
+
+      if (Math.abs(diffX) > 50) { // Swipe threshold
+        if (diffX > 0) {
+          // Swiped left
+          currentIndex++;
+          if (currentIndex >= images.length) {
+            currentIndex = 0;
+          }
+        } else {
+          // Swiped right
+          currentIndex--;
+          if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+          }
+        }
+        updateSlider();
+      }
+    });
+
+    // Click Events for Indicators
+    indicators.forEach(function(indicator, index) {
+      indicator.addEventListener('click', function() {
+        currentIndex = index;
+        updateSlider();
+      });
+    });
+
+    // Prevent default dragging of images
+    slider.addEventListener('dragstart', function(e) {
+      e.preventDefault();
+    });
+  });
 });
