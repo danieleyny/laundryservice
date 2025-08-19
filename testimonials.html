@@ -433,8 +433,22 @@
     }
 
     // ---------- Build list & ensure uniqueness ----------
-    const seeded = base.concat(extra).concat(generateMoreReviews()).concat(generateMore67());
-    makeDescriptionsUnique(seeded);
+ // Build all seeded reviews
+const seeded = base.concat(extra).concat(generateMoreReviews()).concat(generateMore67());
+
+// Manually inject the newest review at the top
+const latestManual = {
+  name: "Anonymous",
+  building: "219 E 88th",
+  rating: 2,
+  tag: "mixup",
+  desc: "They had been providing great service. However, have mixed up our clothes twice now. Refund was issued but this is completely unacceptable behavior."
+};
+seeded.unshift(latestManual);
+
+// Ensure non-empty descriptions are unique
+makeDescriptionsUnique(seeded);
+
 
     // Validate final totals: 331 reviews, 1489 stars → avg ~4.50
     const totalStars = seeded.reduce((a,r)=>a + r.rating, 0);
