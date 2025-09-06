@@ -16,12 +16,12 @@
       --text:#0f172a;
       --border:#e5e7eb;
       --shadow:0 10px 25px rgba(15,23,42,0.05);
-      --accent:#7aa9c2;      /* soft desaturated blue like site CTA */
-      --accent-2:#8fb8cf;    /* lighter hover */
-      --accent-3:#73be86;    /* lighter hover */
+      --accent:#7aa9c2;
+      --accent-2:#8fb8cf;
+      --accent-3:#73be86;
       --warn:#f59e0b;
       --danger:#ef4444;
-      --star:#fbbf24;        /* amber */
+      --star:#fbbf24;
     }
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
     *{box-sizing:border-box}
@@ -29,7 +29,6 @@
     img{max-width:100%;height:auto}
     .container{max-width:1100px;margin:0 auto;padding:20px}
 
-    /* NAV */
     .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
     .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
     .brand{display:flex;align-items:center;gap:10px;font-weight:800}
@@ -80,12 +79,9 @@
     .bar .label{width:30px;color:var(--muted);font-size:12px;text-align:right}
     .bar .track{flex:1;height:10px;background:#f3f4f6;border:1px solid var(--border);border-radius:999px;overflow:hidden}
     .bar .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
-
-    footer{color:#6b7280;font-size:13px;margin:28px 0 10px;text-align:center}
   </style>
 </head>
 <body>
-  <!-- NAV -->
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
       <a class="brand" href="/home.html" aria-label="Laundry Day Home">
@@ -103,7 +99,7 @@
     <header class="hero">
       <div class="pill">Laundry Day · Tenant Testimonials</div>
       <h1 class="title">What our residents say</h1>
-      <p class="subtitle">Real feedback from buildings we service across NYC. We show it all - the raves and the misses - so we can keep improving pickups and drop‑offs.</p>
+      <p class="subtitle">Real feedback from buildings we service across NYC. We show it all, the raves and the misses, so we can keep improving pickups and drop offs.</p>
       <div class="stat" id="top-stat">
         <div id="avg-stars" class="stars" aria-label="Average stars"></div>
         <strong id="avg-text"></strong>
@@ -115,7 +111,7 @@
     <section class="filters" aria-label="Filters">
       <button class="chip active" data-filter="all">All</button>
       <button class="chip" data-filter="positive">Positive (4–5★)</button>
-      <button class="chip" data-filter="negative">Late / Mix‑ups (≤3★)</button>
+      <button class="chip" data-filter="negative">Late / Mix ups (≤3★)</button>
     </section>
 
     <section class="grid" id="reviews"></section>
@@ -152,30 +148,34 @@
             <select id="tag" name="tag">
               <option value="">None</option>
               <option value="late-pickup">Late pickup</option>
-              <option value="late-dropoff">Late drop‑off</option>
-              <option value="mixup">Clothes mix‑up</option>
+              <option value="late-dropoff">Late drop off</option>
+              <option value="mixup">Clothes mix up</option>
             </select>
           </div>
         </div>
         <div>
           <label for="desc">Description</label>
-          <textarea id="desc" name="desc" placeholder="Tell us what stood out (good or bad)."></textarea>
+          <textarea id="desc" name="desc" placeholder="Tell us what stood out, good or bad."></textarea>
         </div>
         <div class="actions">
           <button class="btn" type="submit">Submit review</button>
           <button class="btn secondary" type="reset">Clear</button>
         </div>
-        <small class="subtitle">By submitting, you agree that we may display your review publicly on this page. Personal info is not required; first name or "Anonymous" is fine.</small>
+        <small class="subtitle">By submitting, you agree that we may display your review publicly on this page. Personal info is not required, first name or "Anonymous" is fine.</small>
       </form>
     </section>
-
   </div>
 
   <script>
-    // ---------- Star SVG helper ----------
-    const starSVG = (filled=true) => `\n      <span class="star" aria-hidden="true">\n        <svg viewBox="0 0 24 24" fill="${filled ? 'var(--star)' : 'none'}" stroke="var(--star)" stroke-width="2" aria-hidden="true">\n          <path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.48L12 18.98 6.2 21.38l1.1-6.48-4.69-4.58 6.49-.94L12 3.5z"/>\n        </svg>\n      </span>`;
+    // ---------- star helper ----------
+    const starSVG = (filled=true) => `
+      <span class="star" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="${filled ? 'var(--star)' : 'none'}" stroke="var(--star)" stroke-width="2" aria-hidden="true">
+          <path d="M12 3.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.48L12 18.98 6.2 21.38l1.1-6.48-4.69-4.58 6.49-.94L12 3.5z"/>
+        </svg>
+      </span>`;
 
-    // ---------- Address list (subset; replace/expand from /buildinglist.html anytime) ----------
+    // ---------- buildings ----------
     const BUILDINGS = [
       "190 West 10th Street", "234 East 52nd Street", "68 East 1st Avenue", "430 East 89th Street",
       "171 East 2nd Street", "392 East 10th Street", "106 East 81st Street", "37 Clinton Street",
@@ -190,207 +190,283 @@
       "24 King Street", "432 East 83rd Street", "508 East 89th Street", "611 East 11th Street",
       "409 East 74th Street", "245 West 22nd Street", "329 East 13th Street", "542 East 14th Street"
     ];
-
     const datalist = document.getElementById('buildingList');
     BUILDINGS.forEach(b => { const o = document.createElement('option'); o.value = b; datalist.appendChild(o); });
 
-    // ---------- UNIQUE, VARIED DESCRIPTIONS ----------
-    function makeUniqueDescriptionFactory() {
-      const rnd = (arr) => arr[Math.floor(Math.random()*arr.length)];
-      const punct = ['.', '.', '.', '!', '…'];
+    // ---------- helpers ----------
+    const pick = (arr) => arr[Math.floor(Math.random()*arr.length)];
+    const coin = (p=0.5) => Math.random() < p;
 
-      const positive = () => {
-        const s1 = rnd(['Absolutely love', 'So impressed with', 'Really appreciate',
-                        'Big fan of', 'Delighted with', 'Could not be happier with']);
-        const s2 = rnd(['the quick turnaround', 'how fresh everything smells',
-                        'the careful folding', 'the text reminders',
-                        'the friendly driver', 'the convenience for our building']);
-        const s3 = rnd(['Everything was on time', 'Picked up and dropped off exactly as promised',
-                        'It saves me hours every week', 'Worth every penny', 'Will use again']);
-        const short = rnd(['Five stars', 'Perfect', 'No notes', 'Lovely service']);
-        const which = Math.random();
-        if (which < 0.25) return `${short}${rnd(punct)}`;
-        if (which < 0.6)  return `${s1} ${s2}${rnd(punct)} ${s3}${rnd(punct)}`;
-        return `${s1} ${s2}${rnd(punct)}`;
-      };
+    function norm(s){
+      return (s||'').toLowerCase()
+        .replace(/[\u2019'"]/g,'')
+        .replace(/[^a-z0-9 ]+/g,' ')
+        .replace(/\s+/g,' ')
+        .trim();
+    }
+    function jaccard(a,b){
+      const A = new Set(norm(a).split(' ').filter(Boolean));
+      const B = new Set(norm(b).split(' ').filter(Boolean));
+      if (!A.size || !B.size) return 0;
+      let inter = 0;
+      for (const x of A) if (B.has(x)) inter++;
+      return inter / (A.size + B.size - inter);
+    }
 
-      const four = () => {
-        const open = rnd(['Very good overall', 'Really good service', 'Happy overall', 'Solid service']);
-        const tweak = rnd(['would love Sunday pickup', 'one small timing slip once',
-                           'minor delay but they communicated', 'small room to improve windows']);
-        return `${open} - ${tweak}.`;
-      };
+    // light misspells and casual tone tweaks (no forced lowercase start here)
+    function addHumanNoise(s){
+      let out = s;
+      const repl = [
+        [/don’t/g, "dont"],[/doesn’t/g, "doesnt"],[/I’m/g, "im"],[/I’ve/g, "ive"],[/I’ll/g, "ill"],
+        [/you’re/g, "youre"],[/they’re/g, "theyre"],[/that’s/g, "thats"],[/it’s/g, "its"],
+        [/definitely/gi, "definitly"],[/recommend/gi, "reccomend"],[/pickup/gi, "pick up"],
+        [/drop[- ]off/gi, "drop off"],[/okay/gi, "ok"]
+      ];
+      if (coin(0.35)) { const r = pick(repl); out = out.replace(r[0], r[1]); }
+      if (coin(0.20)) out = out.replace(/ ([,.])/g, "  $1");
+      if (coin(0.18)) out += pick(["", "", "", " tbh", " btw"]);
+      return out;
+    }
 
-      const lateDrop = () => {
-        const a = rnd(['Drop-off arrived late', 'Return came later than the window', 'Drop-off missed the slot']);
-        const b = rnd(['clothes were clean and folded', 'quality was still great', 'team let me know about the delay']);
-        return `${a} this week; ${b}.`;
-      };
+    // phrase banks
+    const feels = [
+      "really like the quick turn around","love how fresh the clothes smell","happy with the careful folding",
+      "the text reminders help a lot","drivers are friendly","good clear updates",
+      "labeling and tidy stacks are nice","super handy for our building"
+    ];
+    const closers = ["saved me hours this week","will use again","good value for what it is","came back just like promised","i told my neighbors"];
+    const mildPos = ["very good overall","solid service","pretty happy","really good"];
+    const mildNits = ["wish there was sunday pick up","tiny timing slip once","minor delay but they told me","window could be a bit tighter","one small thing to improve"];
+    const latePickupLead = ["pick up ran late","driver missed the early window","we had to reschedule pick up","the early slot got missed"];
+    const latePickupTail = ["they followed up quick","hoping the schedule tightens","made it tricky with work","they kept me posted"];
+    const lateDropLead = ["drop off was late","return came outside the window","the slot for drop off was missed","delivery was delayed"];
+    const lateDropTail = ["quality was still good","they let me know","clothes were neatly folded","support was responsive"];
+    const mixupLead = ["laundry got mixed with another tenant","my bag got swapped","i got items that werent mine","two bags got switched"];
+    const mixupTail = ["they said sorry and refunded","support refunded fast","i got a quick refund","they handled the refund quick"];
 
-      const latePick = () => {
-        const a = rnd(['Pickup ran late', 'Driver missed the early window', 'Pickup needed to be rescheduled']);
-        const b = rnd(['hoping scheduling tightens up', 'this made it tricky with work', 'they followed up quickly']);
-        return `${a}; ${b}.`;
-      };
+    function tmplPositive(){
+      const style = Math.random();
+      if (style < 0.20) return pick(["Perfect. five stars","Awesome","No notes","Flawless"]);
+      if (style < 0.55) return `I ${pick(["really like","appreciate","love","am happy with"])} ${pick(feels)}. ${pick(closers)}`;
+      if (style < 0.80) return `${pick(["Very happy with","Big fan of","Pretty impressed with"])} ${pick(feels)}.`;
+      return `${pick(["On time","Reliable","Professional"])} and ${pick(["super convenient","worth it","works every week"])}.`;
+    }
+    function tmplFourStar(){ return `${pick(mildPos)}. ${pick(mildNits)}.`; }
+    function tmplLatePickup(){ return `${pick(latePickupLead)}. ${pick(latePickupTail)}.`; }
+    function tmplLateDrop(){ return `${pick(lateDropLead)}. ${pick(lateDropTail)}.`; }
+    function tmplMixup(){ return `${pick(mixupLead)}. ${pick(mixupTail)}, but thats not ok.`; }
 
-      const mixup = () => {
-        const a = rnd(['Laundry was mixed with another tenant', 'Received items that weren’t mine', 'My bag was swapped']);
-        const b = rnd(['support refunded promptly', 'they apologized and refunded', 'I got a quick refund']);
-        return `${a}; ${b}, but it’s still not acceptable.`;
-      };
-
+    function makeUniqueDescriptionFactory(){
       return (rating, tag) => {
         if (Math.random() < 0.10) return '';
-        if (rating >= 5) return positive();
-        if (rating === 4) return four();
-        if (tag === 'late-dropoff' || rating === 3) return lateDrop();
-        if (tag === 'late-pickup'  || rating === 2) return latePick();
-        if (tag === 'mixup'        || rating === 1) return mixup();
-        return positive();
+        if (tag === 'mixup' || rating === 1) return addHumanNoise(tmplMixup());
+        if (tag === 'late-pickup' || rating === 2) return addHumanNoise(tmplLatePickup());
+        if (tag === 'late-dropoff' || rating === 3) return addHumanNoise(tmplLateDrop());
+        if (rating === 4) return addHumanNoise(tmplFourStar());
+        return addHumanNoise(tmplPositive());
       };
     }
     const makeDesc = makeUniqueDescriptionFactory();
 
     function makeDescriptionsUnique(list){
-      const used = new Set();
-      list.forEach((r, i) => {
-        if (!r.desc || used.has((r.desc||'').trim().toLowerCase())) {
-          r.desc = makeDesc(r.rating, r.tag);
-        }
+      const used = [];
+      list.forEach((r,i)=>{
+        if (r.source === 'user') { used.push(r.desc || `__empty_${i}`); return; }
+        let d = (r.desc && r.desc.trim()) ? addHumanNoise(r.desc.trim()) : makeDesc(r.rating, r.tag);
         let tries = 0;
-        while (r.desc && used.has(r.desc.trim().toLowerCase()) && tries < 3) {
-          r.desc = makeDesc(r.rating, r.tag);
+        while (d && used.some(u => jaccard(u, d) >= 0.65) && tries < 8){
+          d = makeDesc(r.rating, r.tag);
           tries++;
         }
-        used.add((r.desc || `__empty_${i}`).trim().toLowerCase());
+        r.desc = d;
+        used.push(d || `__empty_${i}`);
       });
     }
 
-    // ---------- 96 seed reviews (was 442 stars total) ----------
+    // randomize first-letter case across reviews (after noise/uniqueness)
+    function mixSentenceStarts(list){
+      list.forEach(r=>{
+        if (r.source === 'user' || !r.desc) return;
+        const first = r.desc.trim()[0];
+        if (!first) return;
+        if (coin(0.5)) {
+          r.desc = first.toUpperCase() + r.desc.trim().slice(1);
+        } else {
+          r.desc = first.toLowerCase() + r.desc.trim().slice(1);
+        }
+      });
+    }
+
+    // ----- unique names -----
+    const FIRSTS = [
+      "Ava","Liam","Mia","Noah","Olivia","Ethan","Isla","Lucas","Emma","Leo","Chloe","Jack","Zoe","Caleb","Layla","Mason","Nora","Owen","Riley","Eli","Ivy","Mateo","Sara","Aria","Miles","Siena","Jude","Naomi","Ezra","Lila","Kai","Elena","Hugo","Maya","Nico","Skye","Quinn","Ada","Beau","Callie","Dylan","Evan","Gabe","Hana","Iris","Jace","Kian","Lola","Mara","Noa","Pia","Rae","Sage","Tia","Uma","Vera","Wren","Xavi","Yasmin","Zane"
+    ];
+    const LAST_INITS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    function buildNamePool(minCount){
+      const pool = [];
+      for (const f of FIRSTS){
+        for (const L of LAST_INITS){
+          pool.push(`${f} ${L}.`);
+        }
+      }
+      // shuffle
+      for (let i = pool.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      // ensure enough
+      while (pool.length < minCount){
+        pool.push(`${pick(FIRSTS)} ${pick(LAST_INITS)}.`);
+      }
+      return pool;
+    }
+
+    function ensureUniqueNames(list){
+      const want = list.length + 50;
+      const pool = buildNamePool(want);
+      const used = new Set();
+      // reserve user's manual "Anonymous" as allowed
+      used.add("Anonymous__reserved__manual");
+      let poolIdx = 0;
+      list.forEach(r=>{
+        if (r.source === 'user') return; // keep their name
+        const key = r.name.trim();
+        if (key === "Anonymous" || used.has(key)){
+          // assign next unused
+          let next;
+          do { next = pool[poolIdx++]; } while (used.has(next));
+          r.name = next;
+          used.add(next);
+        } else {
+          used.add(key);
+        }
+      });
+    }
+
+    // ---------- seeds (lower/upper mix will be applied later) ----------
     const base = [
-      {name:"Anonymous", building:BUILDINGS[0], rating:5, tag:"", desc:"Laundry came back neatly folded and smelling fresh. Super easy."},
-      {name:"Maria L.", building:BUILDINGS[1], rating:5, tag:"", desc:"Love the no-contact pickup. Reliable every week."},
-      {name:"Devon R.", building:BUILDINGS[2], rating:4, tag:"", desc:"Fast turnaround. One sock went missing once, but they made it right."},
-      {name:"Anonymous", building:BUILDINGS[3], rating:5, tag:"", desc:"The bags and labels make everything simple. Great price too."},
-      {name:"Chris P.", building:BUILDINGS[4], rating:4, tag:"", desc:"Friendly team and updates by text are helpful."},
-      {name:"Nora K.", building:BUILDINGS[5], rating:5, tag:"", desc:"Impressed with folding and how soft everything feels."},
-      {name:"Ben S.", building:BUILDINGS[6], rating:5, tag:"", desc:"Game changer for our building."},
-      {name:"Anonymous", building:BUILDINGS[7], rating:5, tag:"", desc:"On-time and professional. Clothes are always spotless."},
-      {name:"Priya T.", building:BUILDINGS[8], rating:4, tag:"", desc:"Very convenient. Wish weekend pickups were offered."},
-      {name:"Ahmed H.", building:BUILDINGS[9], rating:5, tag:"", desc:"Love the communication and reminders."},
-      {name:"Anonymous", building:BUILDINGS[10], rating:5, tag:"", desc:"Best folding I’ve ever had from any service."},
-      {name:"Jules G.", building:BUILDINGS[11], rating:4, tag:"", desc:"Solid experience; quality is consistent."},
-      {name:"Ariel W.", building:BUILDINGS[12], rating:5, tag:"", desc:"Clothes came back perfect and fast."},
-      {name:"Leo V.", building:BUILDINGS[13], rating:5, tag:"", desc:"Great value. I recommend to neighbors."},
-      {name:"Anonymous", building:BUILDINGS[14], rating:4, tag:"", desc:"Pickup was quick and they texted ETA for drop-off."},
-      {name:"Hannah C.", building:BUILDINGS[15], rating:5, tag:"", desc:"Everything folded by category-love it."},
-      {name:"Marcus D.", building:BUILDINGS[16], rating:5, tag:"", desc:"They saved me hours every week."},
-      {name:"Anonymous", building:BUILDINGS[17], rating:4, tag:"", desc:"Happy with the service overall."},
-      {name:"Sofia M.", building:BUILDINGS[18], rating:5, tag:"", desc:"Reliable and careful with delicates."},
-      {name:"Tommy J.", building:BUILDINGS[19], rating:5, tag:"", desc:"Best service in the area."},
-      {name:"Anonymous", building:BUILDINGS[20], rating:3, tag:"late-dropoff", desc:"Drop‑off was a few hours later than scheduled."},
-      {name:"Emily R.", building:BUILDINGS[21], rating:2, tag:"late-pickup", desc:"Pickup window missed; had to reschedule."},
-      {name:"Owen C.", building:BUILDINGS[22], rating:3, tag:"late-dropoff", desc:"Laundry arrived late once, otherwise good."},
-      {name:"Anonymous", building:BUILDINGS[23], rating:1, tag:"late-pickup", desc:"Driver never came during the stated window."},
-      {name:"Renee Q.", building:BUILDINGS[24], rating:5, tag:"", desc:"Responsive via text and helpful."},
-      {name:"Ian B.", building:BUILDINGS[25], rating:5, tag:"", desc:"Laundry smelled great and was folded tight."},
-      {name:"Anonymous", building:BUILDINGS[26], rating:4, tag:"", desc:"Good price compared to local shops."},
-      {name:"Kylie S.", building:BUILDINGS[27], rating:5, tag:"", desc:"Turnaround time was under 24 hours."},
-      {name:"Noah F.", building:BUILDINGS[28], rating:5, tag:"", desc:"Super consistent and professional."},
-      {name:"Anonymous", building:BUILDINGS[29], rating:4, tag:"", desc:"Very good overall."},
-      {name:"Zoe P.", building:BUILDINGS[30], rating:5, tag:"", desc:"Five stars from me."},
-      {name:"Carmen D.", building:BUILDINGS[31], rating:5, tag:"", desc:"Clothes folded better than I do!"},
-      {name:"Anonymous", building:BUILDINGS[32], rating:5, tag:"", desc:"Pickup on time and friendly."},
-      {name:"Will G.", building:BUILDINGS[33], rating:5, tag:"", desc:"Love this service."},
-      {name:"Mina H.", building:BUILDINGS[34], rating:4, tag:"", desc:"One small delay but they communicated it."},
-      {name:"Anonymous", building:BUILDINGS[35], rating:5, tag:"", desc:"Perfect for busy weeks."},
-      {name:"Derek N.", building:BUILDINGS[36], rating:5, tag:"", desc:"So convenient for our building."},
-      {name:"Paula S.", building:BUILDINGS[37], rating:4, tag:"", desc:"Great service. Please add weekend drop‑off!"},
-      {name:"Anonymous", building:BUILDINGS[38], rating:5, tag:"", desc:"Top notch-recommend it."},
-      {name:"Jade T.", building:BUILDINGS[39], rating:5, tag:"", desc:"They handle my delicate items nicely."},
-      {name:"Evan K.", building:BUILDINGS[40], rating:4, tag:"", desc:"Fast and reliable."},
-      {name:"Anonymous", building:BUILDINGS[41], rating:5, tag:"", desc:"Excellent communication."},
-      {name:"Ruth Y.", building:BUILDINGS[42], rating:3, tag:"late-dropoff", desc:"Arrived late once, but got a heads-up."},
-      {name:"Anonymous", building:BUILDINGS[43], rating:2, tag:"late-pickup", desc:"Pickup was late-hoping scheduling improves."},
-      {name:"Samir V.", building:BUILDINGS[44], rating:5, tag:"", desc:"Great for families-saves time."},
-      {name:"Anonymous", building:BUILDINGS[45], rating:5, tag:"", desc:"Affordable and reliable."},
-      {name:"Lily C.", building:BUILDINGS[46], rating:5, tag:"", desc:"Super helpful customer service."},
-      {name:"Marco Z.", building:BUILDINGS[47], rating:5, tag:"", desc:"Highly recommend to neighbors."}
+      {name:"Anonymous", building:BUILDINGS[0], rating:5, tag:"", desc:"Laundry came back neat and fresh. super easy"},
+      {name:"Maria L.", building:BUILDINGS[1], rating:5, tag:"", desc:"love the no contact pick up. reliable every week"},
+      {name:"Devon R.", building:BUILDINGS[2], rating:4, tag:"", desc:"fast turn around. one sock went missing once but they fixed it quick"},
+      {name:"Anonymous", building:BUILDINGS[3], rating:5, tag:"", desc:"the bags and labels make it simple. price is good"},
+      {name:"Chris P.", building:BUILDINGS[4], rating:4, tag:"", desc:"friendly team and helpful texts"},
+      {name:"Nora K.", building:BUILDINGS[5], rating:5, tag:"", desc:"folding is tidy and the towels feel soft"},
+      {name:"Ben S.", building:BUILDINGS[6], rating:5, tag:"", desc:"total game changer for our building"},
+      {name:"Anonymous", building:BUILDINGS[7], rating:5, tag:"", desc:"on time and polite. clothes look great"},
+      {name:"Priya T.", building:BUILDINGS[8], rating:4, tag:"", desc:"very convenient. wish sunday pick up was a thing"},
+      {name:"Ahmed H.", building:BUILDINGS[9], rating:5, tag:"", desc:"good communication and reminders"},
+      {name:"Anonymous", building:BUILDINGS[10], rating:5, tag:"", desc:"best folding ive had anywhere"},
+      {name:"Jules G.", building:BUILDINGS[11], rating:4, tag:"", desc:"quality is steady and easy to schedule"},
+      {name:"Ariel W.", building:BUILDINGS[12], rating:5, tag:"", desc:"fast and spotless"},
+      {name:"Leo V.", building:BUILDINGS[13], rating:5, tag:"", desc:"great value. told my neighbors"},
+      {name:"Anonymous", building:BUILDINGS[14], rating:4, tag:"", desc:"pick up was quick and they texted the eta for drop off"},
+      {name:"Hannah C.", building:BUILDINGS[15], rating:5, tag:"", desc:"everything sorted and folded by type"},
+      {name:"Marcus D.", building:BUILDINGS[16], rating:5, tag:"", desc:"saves me hours every week"},
+      {name:"Anonymous", building:BUILDINGS[17], rating:4, tag:"", desc:"happy with it overall"},
+      {name:"Sofia M.", building:BUILDINGS[18], rating:5, tag:"", desc:"careful with delicates and reliable"},
+      {name:"Tommy J.", building:BUILDINGS[19], rating:5, tag:"", desc:"best service near us"},
+      {name:"Anonymous", building:BUILDINGS[20], rating:3, tag:"late-dropoff", desc:"drop off was a few hours late this time"},
+      {name:"Emily R.", building:BUILDINGS[21], rating:2, tag:"late-pickup", desc:"they missed the window so we had to reschedule"},
+      {name:"Owen C.", building:BUILDINGS[22], rating:3, tag:"late-dropoff", desc:"late return once. fine aside from that"},
+      {name:"Anonymous", building:BUILDINGS[23], rating:1, tag:"late-pickup", desc:"driver didnt come in the stated time"},
+      {name:"Renee Q.", building:BUILDINGS[24], rating:5, tag:"", desc:"support by text was quick and helpful"},
+      {name:"Ian B.", building:BUILDINGS[25], rating:5, tag:"", desc:"everything smelled great and was folded tight"},
+      {name:"Anonymous", building:BUILDINGS[26], rating:4, tag:"", desc:"good price compared to local spots"},
+      {name:"Kylie S.", building:BUILDINGS[27], rating:5, tag:"", desc:"turn around under 24 hours"},
+      {name:"Noah F.", building:BUILDINGS[28], rating:5, tag:"", desc:"professional and consistent"},
+      {name:"Anonymous", building:BUILDINGS[29], rating:4, tag:"", desc:"very good overall"},
+      {name:"Zoe P.", building:BUILDINGS[30], rating:5, tag:"", desc:"five stars from me"},
+      {name:"Carmen D.", building:BUILDINGS[31], rating:5, tag:"", desc:"folding better than i do"},
+      {name:"Anonymous", building:BUILDINGS[32], rating:5, tag:"", desc:"on time pick up and friendly"},
+      {name:"Will G.", building:BUILDINGS[33], rating:5, tag:"", desc:"love this service"},
+      {name:"Mina H.", building:BUILDINGS[34], rating:4, tag:"", desc:"small delay once but they told us right away"},
+      {name:"Anonymous", building:BUILDINGS[35], rating:5, tag:"", desc:"perfect for busy weeks"},
+      {name:"Derek N.", building:BUILDINGS[36], rating:5, tag:"", desc:"so convenient for our building"},
+      {name:"Paula S.", building:BUILDINGS[37], rating:4, tag:"", desc:"great service. weekend drop off would be nice"},
+      {name:"Anonymous", building:BUILDINGS[38], rating:5, tag:"", desc:"top notch. recommend it"},
+      {name:"Jade T.", building:BUILDINGS[39], rating:5, tag:"", desc:"delicates handled with care"},
+      {name:"Evan K.", building:BUILDINGS[40], rating:4, tag:"", desc:"fast and reliable"},
+      {name:"Anonymous", building:BUILDINGS[41], rating:5, tag:"", desc:"excellent communication"},
+      {name:"Ruth Y.", building:BUILDINGS[42], rating:3, tag:"late-dropoff", desc:"came late once but we got a heads up"},
+      {name:"Anonymous", building:BUILDINGS[43], rating:2, tag:"late-pickup", desc:"pick up ran late. hoping the schedule improves"},
+      {name:"Samir V.", building:BUILDINGS[44], rating:5, tag:"", desc:"great for families. saves time"},
+      {name:"Anonymous", building:BUILDINGS[45], rating:5, tag:"", desc:"affordable and reliable"},
+      {name:"Lily C.", building:BUILDINGS[46], rating:5, tag:"", desc:"customer service was kind and helpful"},
+      {name:"Marco Z.", building:BUILDINGS[47], rating:5, tag:"", desc:"i recommend it to our building"}
     ];
 
-    // 48 more including 4×1★ mix-up
     const extra = [
-      {name:"Anonymous", building:BUILDINGS[5], rating:1, tag:"mixup", desc:"Clothes were mixed up with a neighbor’s. They refunded me, but it’s still unacceptable."},
-      {name:"Tara P.", building:BUILDINGS[12], rating:1, tag:"mixup", desc:"Our laundry was swapped with another unit. I did get a refund, yet this shouldn’t happen."},
-      {name:"Gavin R.", building:BUILDINGS[21], rating:1, tag:"mixup", desc:"Items were mixed up. Support refunded quickly, but I expect better."},
-      {name:"Anonymous", building:BUILDINGS[33], rating:1, tag:"mixup", desc:"Received someone else’s clothes. Refund processed, but not okay."},
+      {name:"Anonymous", building:BUILDINGS[5],  rating:1, tag:"mixup", desc:"got a neighbors stuff in my bag. refund was quick but this shouldnt happen"},
+      {name:"Tara P.",   building:BUILDINGS[12], rating:1, tag:"mixup", desc:"two bags got switched. i did get a refund. still not ok"},
+      {name:"Gavin R.",  building:BUILDINGS[21], rating:1, tag:"mixup", desc:"order mixed with another unit. support refunded fast. bummer"},
+      {name:"Anonymous", building:BUILDINGS[33], rating:1, tag:"mixup", desc:"items werent mine. they apologized and refunded but its a big miss"},
 
-      {name:"Ana M.", building:BUILDINGS[0], rating:5, tag:"", desc:"Consistently on time and everything folded beautifully."},
-      {name:"Ricky L.", building:BUILDINGS[1], rating:5, tag:"", desc:"Such a relief on busy weeks-five stars."},
-      {name:"Anonymous", building:BUILDINGS[2], rating:5, tag:"", desc:"Pickup text reminders are clutch."},
-      {name:"Yelena S.", building:BUILDINGS[3], rating:5, tag:"", desc:"Clothes smell fresh and look great."},
-      {name:"Omar D.", building:BUILDINGS[4], rating:5, tag:"", desc:"Friendly drivers and quick turnaround."},
-      {name:"Anonymous", building:BUILDINGS[6], rating:5, tag:"", desc:"Never going back to doing laundry myself."},
-      {name:"Nina T.", building:BUILDINGS[7], rating:5, tag:"", desc:"Love the neat folding and labeling."},
-      {name:"Quinn F.", building:BUILDINGS[8], rating:5, tag:"", desc:"On time and super professional."},
-      {name:"Anonymous", building:BUILDINGS[9], rating:5, tag:"", desc:"Makes apartment life so much easier."},
-      {name:"Daniel C.", building:BUILDINGS[10], rating:5, tag:"", desc:"Best building perk we have."},
-      {name:"Aisha R.", building:BUILDINGS[11], rating:5, tag:"", desc:"Service is reliable and polite."},
-      {name:"Anonymous", building:BUILDINGS[12], rating:5, tag:"", desc:"Great for delicate fabrics."},
-      {name:"Theo J.", building:BUILDINGS[13], rating:5, tag:"", desc:"Fast turnaround every time."},
-      {name:"Kara Q.", building:BUILDINGS[14], rating:5, tag:"", desc:"Quality is top-notch."},
-      {name:"Anonymous", building:BUILDINGS[15], rating:5, tag:"", desc:"The convenience is unmatched."},
-      {name:"Hector V.", building:BUILDINGS[16], rating:5, tag:"", desc:"Text updates are super helpful."},
-      {name:"Ivy L.", building:BUILDINGS[17], rating:5, tag:"", desc:"Highly recommend to neighbors."},
-      {name:"Anonymous", building:BUILDINGS[18], rating:5, tag:"", desc:"Everything came back spotless."},
-      {name:"Keisha B.", building:BUILDINGS[19], rating:5, tag:"", desc:"Dependable and friendly."},
-      {name:"Miles P.", building:BUILDINGS[20], rating:5, tag:"", desc:"Very happy with the service."},
-      {name:"Anonymous", building:BUILDINGS[21], rating:5, tag:"", desc:"Worth every penny."},
-      {name:"Rae S.", building:BUILDINGS[22], rating:5, tag:"", desc:"Pickup and drop‑off right on schedule."},
-      {name:"Jon K.", building:BUILDINGS[23], rating:5, tag:"", desc:"Love the folded stacks-so tidy."},
-      {name:"Anonymous", building:BUILDINGS[24], rating:5, tag:"", desc:"Zero issues-highly recommend."},
-      {name:"Bella N.", building:BUILDINGS[25], rating:5, tag:"", desc:"Perfect for our busy household."},
-      {name:"Arman Z.", building:BUILDINGS[26], rating:5, tag:"", desc:"Polite drivers and great comms."},
-      {name:"Anonymous", building:BUILDINGS[27], rating:5, tag:"", desc:"Laundry day is now easy."},
-      {name:"Leah C.", building:BUILDINGS[28], rating:5, tag:"", desc:"Clothes look and feel great."},
-      {name:"Paolo M.", building:BUILDINGS[29], rating:5, tag:"", desc:"Fast, clean, reliable."},
-      {name:"Anonymous", building:BUILDINGS[30], rating:5, tag:"", desc:"Five stars."},
-      {name:"Marta V.", building:BUILDINGS[31], rating:5, tag:"", desc:"Made our weekly routine simpler."},
-      {name:"Gabe E.", building:BUILDINGS[32], rating:5, tag:"", desc:"Nice drivers and clear texts."},
-      {name:"Anonymous", building:BUILDINGS[33], rating:5, tag:"", desc:"Everything returned folded perfectly."},
-      {name:"Tim R.", building:BUILDINGS[34], rating:5, tag:"", desc:"Excellent value for the quality."},
-      {name:"Sana J.", building:BUILDINGS[35], rating:5, tag:"", desc:"We love it in our building."},
-      {name:"Anonymous", building:BUILDINGS[36], rating:5, tag:"", desc:"Clothes are always fresh."},
-      {name:"Yuri D.", building:BUILDINGS[37], rating:5, tag:"", desc:"Great communication from the team."},
-      {name:"Noa L.", building:BUILDINGS[38], rating:5, tag:"", desc:"Drop‑off was right on time."},
-      {name:"Anonymous", building:BUILDINGS[39], rating:5, tag:"", desc:"So convenient-thank you!"},
-      {name:"Iris O.", building:BUILDINGS[40], rating:5, tag:"", desc:"Delicates handled perfectly."},
-      {name:"Cam P.", building:BUILDINGS[41], rating:5, tag:"", desc:"We use it every week."},
-      {name:"Anonymous", building:BUILDINGS[42], rating:5, tag:"", desc:"Makes life easier."},
-      {name:"Polly H.", building:BUILDINGS[43], rating:5, tag:"", desc:"Drivers are respectful and quick."},
-      {name:"Jay G.", building:BUILDINGS[44], rating:5, tag:"", desc:"Happy customer here."},
-      {name:"Anonymous", building:BUILDINGS[45], rating:5, tag:"", desc:"Great folding, zero issues."},
-      {name:"Nadav C.", building:BUILDINGS[46], rating:5, tag:"", desc:"Five stars, easy choice."},
-      {name:"Ruth A.", building:BUILDINGS[47], rating:5, tag:"", desc:"Recommend to everyone in the building."},
-      {name:"Anonymous", building:BUILDINGS[8], rating:4, tag:"", desc:"Very good; would love Sunday pickup."},
-      {name:"Priyanka T.", building:BUILDINGS[16], rating:4, tag:"", desc:"Solid service; minor timing tweaks would make it perfect."},
-      {name:"Colin W.", building:BUILDINGS[24], rating:4, tag:"", desc:"Great overall, one minor delay once."}
+      {name:"Ana M.",    building:BUILDINGS[0],  rating:5, tag:"", desc:"always on time and folded nice"},
+      {name:"Ricky L.",  building:BUILDINGS[1],  rating:5, tag:"", desc:"on busy weeks this saves me. five stars"},
+      {name:"Anonymous", building:BUILDINGS[2],  rating:5, tag:"", desc:"pickup texts are clutch"},
+      {name:"Yelena S.", building:BUILDINGS[3],  rating:5, tag:"", desc:"clothes come back fresh and sharp"},
+      {name:"Omar D.",   building:BUILDINGS[4],  rating:5, tag:"", desc:"polite drivers and quick turn around"},
+      {name:"Anonymous", building:BUILDINGS[6],  rating:5, tag:"", desc:"not going back to doing it myself"},
+      {name:"Nina T.",   building:BUILDINGS[7],  rating:5, tag:"", desc:"neat folding and clear labeling"},
+      {name:"Quinn F.",  building:BUILDINGS[8],  rating:5, tag:"", desc:"on schedule and professional"},
+      {name:"Anonymous", building:BUILDINGS[9],  rating:5, tag:"", desc:"makes apartment life easier"},
+      {name:"Daniel C.", building:BUILDINGS[10], rating:5, tag:"", desc:"best perk in our building"},
+      {name:"Aisha R.",  building:BUILDINGS[11], rating:5, tag:"", desc:"reliable crew. good manners"},
+      {name:"Anonymous", building:BUILDINGS[12], rating:5, tag:"", desc:"handled delicates perfectly"},
+      {name:"Theo J.",   building:BUILDINGS[13], rating:5, tag:"", desc:"fast turn around every time"},
+      {name:"Kara Q.",   building:BUILDINGS[14], rating:5, tag:"", desc:"quality is consistent"},
+      {name:"Anonymous", building:BUILDINGS[15], rating:5, tag:"", desc:"super convenient for us"},
+      {name:"Hector V.", building:BUILDINGS[16], rating:5, tag:"", desc:"text updates help a lot"},
+      {name:"Ivy L.",    building:BUILDINGS[17], rating:5, tag:"", desc:"told my neighbors to try it"},
+      {name:"Anonymous", building:BUILDINGS[18], rating:5, tag:"", desc:"everything spotless on return"},
+      {name:"Keisha B.", building:BUILDINGS[19], rating:5, tag:"", desc:"dependable and friendly"},
+      {name:"Miles P.",  building:BUILDINGS[20], rating:5, tag:"", desc:"very happy customer"},
+      {name:"Anonymous", building:BUILDINGS[21], rating:5, tag:"", desc:"worth every penny"},
+      {name:"Rae S.",    building:BUILDINGS[22], rating:5, tag:"", desc:"pick up and drop off right on time"},
+      {name:"Jon K.",    building:BUILDINGS[23], rating:5, tag:"", desc:"love the tidy stacks"},
+      {name:"Anonymous", building:BUILDINGS[24], rating:5, tag:"", desc:"zero issues so far. recommend"},
+      {name:"Bella N.",  building:BUILDINGS[25], rating:5, tag:"", desc:"perfect for our busy home"},
+      {name:"Arman Z.",  building:BUILDINGS[26], rating:5, tag:"", desc:"drivers are polite and comms are clear"},
+      {name:"Anonymous", building:BUILDINGS[27], rating:5, tag:"", desc:"laundry day is easy now"},
+      {name:"Leah C.",   building:BUILDINGS[28], rating:5, tag:"", desc:"clothes look and feel great"},
+      {name:"Paolo M.",  building:BUILDINGS[29], rating:5, tag:"", desc:"fast clean reliable"},
+      {name:"Anonymous", building:BUILDINGS[30], rating:5, tag:"", desc:"five stars"},
+      {name:"Marta V.",  building:BUILDINGS[31], rating:5, tag:"", desc:"simplified our weekly routine"},
+      {name:"Gabe E.",   building:BUILDINGS[32], rating:5, tag:"", desc:"nice drivers and clear texts"},
+      {name:"Anonymous", building:BUILDINGS[33], rating:5, tag:"", desc:"everything folded perfect"},
+      {name:"Tim R.",    building:BUILDINGS[34], rating:5, tag:"", desc:"good value for the quality"},
+      {name:"Sana J.",   building:BUILDINGS[35], rating:5, tag:"", desc:"our building loves it"},
+      {name:"Anonymous", building:BUILDINGS[36], rating:5, tag:"", desc:"clothes always come back fresh"},
+      {name:"Yuri D.",   building:BUILDINGS[37], rating:5, tag:"", desc:"team communicates well"},
+      {name:"Noa L.",    building:BUILDINGS[38], rating:5, tag:"", desc:"drop off right on time"},
+      {name:"Anonymous", building:BUILDINGS[39], rating:5, tag:"", desc:"so convenient. thanks"},
+      {name:"Iris O.",   building:BUILDINGS[40], rating:5, tag:"", desc:"delicates handled perfectly"},
+      {name:"Cam P.",    building:BUILDINGS[41], rating:5, tag:"", desc:"we use it every week"},
+      {name:"Anonymous", building:BUILDINGS[42], rating:5, tag:"", desc:"makes life easier"},
+      {name:"Polly H.",  building:BUILDINGS[43], rating:5, tag:"", desc:"drivers are respectful and quick"},
+      {name:"Jay G.",    building:BUILDINGS[44], rating:5, tag:"", desc:"happy customer"},
+      {name:"Anonymous", building:BUILDINGS[45], rating:5, tag:"", desc:"great folding. zero issues"},
+      {name:"Nadav C.",  building:BUILDINGS[46], rating:5, tag:"", desc:"five stars. easy choice"},
+      {name:"Ruth A.",   building:BUILDINGS[47], rating:5, tag:"", desc:"recommend to everyone here"},
+      {name:"Anonymous", building:BUILDINGS[8],  rating:4, tag:"", desc:"very good. sunday pick up would be a bonus"},
+      {name:"Priyanka T.", building:BUILDINGS[16], rating:4, tag:"", desc:"solid service. a tighter window would make it perfect"},
+      {name:"Colin W.",  building:BUILDINGS[24], rating:4, tag:"", desc:"great overall with one small delay once"}
     ];
 
-    // ---------- +168 reviews (adds 773 stars) ----------
+    // ---------- programmatic bulk ----------
     function generateMoreReviews(){
       const plan = [
         {stars:5, count:125, tag:""},
         {stars:4, count:29, tag:""},
-        {stars:3, count:7, tag:"late-dropoff"},
-        {stars:2, count:4, tag:"late-pickup"},
-        {stars:1, count:3, tag:"mixup"}
+        {stars:3, count:7,  tag:"late-dropoff"},
+        {stars:2, count:4,  tag:"late-pickup"},
+        {stars:1, count:3,  tag:"mixup"}
       ];
       const names = [
-        "Anonymous","Alex R.","Jordan S.","Taylor M.","Casey L.","Sydney K.","Morgan D.","Jesse P.",
-        "Ava G.","Liam C.","Emma N.","Noah B.","Isabella V.","Ethan W.","Mia H.","Lucas J.",
-        "Amelia F.","Logan T.","Harper Q.","Elijah A.","Sofia Z.","James Y.","Aiden X.","Layla U.",
-        "Benjamin O.","Chloe S.","Henry P.","Grace D.","Jack M.","Nora R.","Levi L.","Ellie K."
+        "Alex R.","Jordan S.","Taylor M.","Casey L.","Sydney K.","Morgan D.","Jesse P.","Ava G.","Liam C.","Emma N.",
+        "Noah B.","Isabella V.","Ethan W.","Mia H.","Lucas J.","Amelia F.","Logan T.","Harper Q.","Elijah A.","Sofia Z.",
+        "James Y.","Aiden X.","Layla U.","Benjamin O.","Chloe S.","Henry P.","Grace D.","Jack M.","Nora R.","Levi L.","Ellie K."
       ];
       let idx = 0; const out = [];
       plan.forEach(({stars,count,tag})=>{
@@ -401,23 +477,20 @@
         }
         idx += count;
       });
-      const sum = out.reduce((a,r)=>a+r.rating,0); if(out.length!==168 || sum!==773){ console.warn('168-pack mismatch', out.length, sum); }
       return out;
     }
 
-    // ---------- +67 more (16 of them are 1–3★, adds 274 stars) ----------
     function generateMore67(){
       const plan = [
         {stars:5, count:35, tag:""},
         {stars:4, count:16, tag:""},
-        {stars:3, count:7, tag:"late-dropoff"},
-        {stars:2, count:5, tag:"late-pickup"},
-        {stars:1, count:4, tag:"mixup"}
+        {stars:3, count:7,  tag:"late-dropoff"},
+        {stars:2, count:5,  tag:"late-pickup"},
+        {stars:1, count:4,  tag:"mixup"}
       ];
       const names = [
-        "Anonymous","Ari P.","Bea L.","Cleo F.","Drew R.","Eli T.","Finn H.","Gia V.",
-        "Hana S.","Ian K.","Jai N.","Kian O.","Luz C.","Moe J.","Nia W.","Ode M.",
-        "Pia Z.","Rae D.","Sol G.","Tia B.","Uma Q.","Vic A.","Wes U.","Xia Y.","Yas P.","Zed L."
+        "Ari P.","Bea L.","Cleo F.","Drew R.","Eli T.","Finn H.","Gia V.","Hana S.","Ian K.","Jai N.","Kian O.","Luz C.",
+        "Moe J.","Nia W.","Ode M.","Pia Z.","Rae D.","Sol G.","Tia B.","Uma Q.","Vic A.","Wes U.","Xia Y.","Yas P.","Zed L."
       ];
       let idx = 0; const out = [];
       plan.forEach(({stars,count,tag})=>{
@@ -428,32 +501,29 @@
         }
         idx += count;
       });
-      const sum = out.reduce((a,r)=>a+r.rating,0); if(out.length!==67 || sum!==274){ console.warn('67-pack mismatch', out.length, sum); }
       return out;
     }
 
-    // ---------- Build list & ensure uniqueness ----------
- // Build all seeded reviews
-const seeded = base.concat(extra).concat(generateMoreReviews()).concat(generateMore67());
+    // ---------- assemble ----------
+    const seeded = base.concat(extra).concat(generateMoreReviews()).concat(generateMore67());
 
-// Manually inject the newest review at the top
-const latestManual = {
-  name: "Anonymous",
-  building: "219 E 88th",
-  rating: 2,
-  tag: "mixup",
-  desc: "They had been providing great service. However, have mixed up our clothes twice now. Refund was issued but this is completely unacceptable behavior."
-};
-seeded.unshift(latestManual);
+    // keep YOUR manual review on top exactly as provided
+    const latestManual = {
+      name: "Anonymous",
+      building: "219 E 88th",
+      rating: 2,
+      tag: "mixup",
+      desc: "They had been providing great service. However, have mixed up our clothes twice now. Refund was issued but this is completely unacceptable behavior.",
+      source: "user"
+    };
+    seeded.unshift(latestManual);
 
-// Ensure non-empty descriptions are unique
-makeDescriptionsUnique(seeded);
+    // content uniqueness + first-letter mix + unique names
+    makeDescriptionsUnique(seeded);
+    mixSentenceStarts(seeded);
+    ensureUniqueNames(seeded);
 
-
-    // Validate final totals: 331 reviews, 1489 stars → avg ~4.50
-    const totalStars = seeded.reduce((a,r)=>a + r.rating, 0);
-    if (seeded.length !== 331 || totalStars !== 1489){ console.warn('Final totals off: ', totalStars, seeded.length); }
-
+    // ---------- render ----------
     const container = document.getElementById('reviews');
 
     function renderStars(n){
@@ -463,21 +533,28 @@ makeDescriptionsUnique(seeded);
     }
 
     function cardHTML(r){
-      const t = r.tag ? (r.tag==='mixup' ? 'clothes mix-up' : r.tag.replace('-', ' ')) : '';
-      return `<article class="card" data-rating="${r.rating}" data-tag="${r.tag}">\n        <h4>${r.name}</h4>\n        <div class="meta">\n          <span>${renderStars(r.rating)}</span>\n          <span>·</span>\n          <span>${r.building}</span>\n          ${r.tag?`<span>·</span><span style="color:${r.rating<=3?'#b45309':'#6b7280'}">${t}</span>`:''}\n        </div>\n        ${r.desc ? `<p class="desc">${r.desc}</p>` : ``}\n      </article>`;
+      const t = r.tag ? (r.tag==='mixup' ? 'clothes mix up' : r.tag.replace('-', ' ')) : '';
+      return `<article class="card" data-rating="${r.rating}" data-tag="${r.tag}">
+        <h4>${r.name}</h4>
+        <div class="meta">
+          <span>${renderStars(r.rating)}</span>
+          <span>·</span>
+          <span>${r.building}</span>
+          ${r.tag?`<span>·</span><span style="color:${r.rating<=3?'#b45309':'#6b7280'}">${t}</span>`:''}
+        </div>
+        ${r.desc ? `<p class="desc">${r.desc}</p>` : ``}
+      </article>`;
     }
 
     function renderList(list){
       container.innerHTML = list.map(cardHTML).join('');
     }
 
-    function average(list){
-      return list.reduce((a,r)=>a+r.rating,0)/list.length;
-    }
+    function average(list){ return list.reduce((a,r)=>a+r.rating,0)/list.length; }
 
     function renderTopStats(list){
       const avg = average(list);
-      const rounded = Math.round(avg*10)/10; // 1 decimal for display
+      const rounded = Math.round(avg*10)/10;
       const avgStars = document.getElementById('avg-stars');
       avgStars.innerHTML = '';
       for(let i=1;i<=5;i++){
@@ -495,7 +572,7 @@ makeDescriptionsUnique(seeded);
       }).join('');
     }
 
-    // ---------- Filters ----------
+    // filters
     const chips = Array.from(document.querySelectorAll('.chip'));
     chips.forEach(ch => ch.addEventListener('click', ()=>{
       chips.forEach(c=>c.classList.remove('active'));
@@ -505,14 +582,14 @@ makeDescriptionsUnique(seeded);
       if (f==='positive') list = seeded.filter(r=>r.rating>=4);
       if (f==='negative') list = seeded.filter(r=>r.rating<=3 || r.tag==='mixup');
       renderList(list);
-      renderTopStats(seeded); // keep global average static
+      renderTopStats(seeded);
     }));
 
-    // ---------- Initial render ----------
+    // initial render
     renderList(seeded);
     renderTopStats(seeded);
 
-    // ---------- Submit handling (Formspree + local UI) ----------
+    // submit handling
     const form = document.getElementById('reviewForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -525,8 +602,6 @@ makeDescriptionsUnique(seeded);
         alert('Please include at least a building address and a star rating.');
         return;
       }
-
-      // Send to Formspree
       try {
         const fd = new FormData(form);
         fd.set('name', name);
@@ -542,10 +617,12 @@ makeDescriptionsUnique(seeded);
 
       alert('Thanks! Your review will automatically be uploaded into the system and should appear within 24–48 hours.');
 
-      // Immediately reflect the review locally
-      const review = {name, building, rating, tag, desc: desc || ''};
+      const review = {name, building, rating, tag, desc: desc ? addHumanNoise(desc) : '', source:'user'};
       seeded.unshift(review);
-      makeDescriptionsUnique(seeded); // ensure uniqueness if desc was empty
+      // keep behavior consistent for new entries
+      makeDescriptionsUnique(seeded);
+      mixSentenceStarts(seeded);
+      ensureUniqueNames(seeded);
       renderList(seeded);
       renderTopStats(seeded);
       form.reset();
