@@ -808,6 +808,20 @@ body.dark-theme {
   border-bottom: 1px solid hsl(112, 4%, 55%);
 }
 
+
+  .request__content-checkbox {
+    position: relative;
+    margin-bottom: 1.5rem;
+    /* No border-bottom here */
+}
+
+.request__label-checkbox {
+    font-size: .85rem;
+    color: hsl(112, 4%, 55%);
+    line-height: 1.4;
+}
+
+
 .request__input{
   position: absolute;
   top: 0;

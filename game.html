@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Laundry Day | $20 Credit Challenge</title>
+    <title>Laundry Dash | NYC Challenge</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,6 +12,7 @@
             --text-color: #707070;
             --body-color: #fbfefd;
             --container-color: #ffffff;
+            --police-red-orange: #ff4500; 
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; touch-action: none; }
@@ -102,7 +103,6 @@
 
     <div class="game-header">
         <h1>Laundry Dash</h1>
-        <p style="font-size: 0.85rem;">Collect 10 bags for your $20 Credit!</p>
         <div class="score-panel" id="score-display">Pickups: 0/10</div>
     </div>
 
@@ -111,13 +111,13 @@
         
         <div id="start-overlay" class="overlay">
             <h2 style="color: var(--first-color)">Ready for Pickup?</h2>
-            <p>Swipe anywhere to drive the van.</p>
+            <p>Avoid Ticket Men! They relocate every time you get a bag.</p>
             <button class="button" id="start-btn">Start Driving</button>
         </div>
     </div>
 
     <div class="instructions">
-        Don't hit the curbs!<br>
+        Don't hit the curbs or ticket men!<br>
         <b style="font-size: 0.7rem; opacity: 0.8;">*Disclaimer: Offer for first-time laundry users.</b>
     </div>
 
@@ -140,6 +140,8 @@
         let score = 0;
         let gameStarted = false;
         let frameId;
+        let ticketMen = [];
+        let animationTime = 0;
 
         const headerSpace = 150; 
         const footerSpace = 80;
@@ -167,8 +169,36 @@
             };
         }
 
+        // Improved Spawn logic to ensure unique locations
+        function getSafeSpawn() {
+            const pos = getRandomFood();
+            const tooCloseToBag = Math.hypot(pos.x - laundryBag.x, pos.y - laundryBag.y) < gridSize * 1.5;
+            const tooCloseToVan = Math.hypot(pos.x - van.x, pos.y - van.y) < gridSize * 3;
+            
+            // Also check if too close to other ticket men already in the list
+            const tooCloseToOtherCop = ticketMen.some(man => Math.hypot(pos.x - man.x, pos.y - man.y) < gridSize * 1.5);
+
+            if (tooCloseToBag || tooCloseToVan || tooCloseToOtherCop) {
+                return getSafeSpawn();
+            }
+            return pos;
+        }
+
+        function respawnAllCops() {
+            let copCount = 0;
+            if (score >= 9) copCount = 3;
+            else if (score >= 7) copCount = 2;
+            else if (score >= 5) copCount = 1;
+
+            ticketMen = []; // Clear existing locations
+            for (let i = 0; i < copCount; i++) {
+                ticketMen.push(getSafeSpawn());
+            }
+        }
+
         function update() {
             if (!gameStarted) return;
+            animationTime += 0.08; 
             van.dir = van.nextDir;
 
             if (van.dir === 'LEFT') van.x -= moveSpeed;
@@ -177,94 +207,105 @@
             if (van.dir === 'DOWN') van.y += moveSpeed;
 
             van.history.unshift({ x: van.x, y: van.y });
-            
-            const maxHistory = 400; 
-            if (van.history.length > maxHistory) van.history.pop();
+            if (van.history.length > 400) van.history.pop();
 
             if (van.x < 0 || van.x > canvas.width || van.y < 0 || van.y > canvas.height) {
-                failGame();
+                failGame("Delivery failed! Watch the curbs.");
                 return;
+            }
+
+            for (let man of ticketMen) {
+                if (Math.hypot(van.x - man.x, van.y - man.y) < gridSize * 0.6) {
+                    failGame("NYC Ticket! You've been fined.");
+                    return;
+                }
             }
 
             const dist = Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y);
             if (dist < gridSize * 0.7) {
                 score++;
                 scoreDisplay.innerText = `Pickups: ${score}/${targetScore}`;
-                if (score >= targetScore) {
-                    winGame();
-                    return;
-                }
+                
+                if (score >= targetScore) { winGame(); return; }
+
                 laundryBag = getRandomFood();
+                
+                // NEW LOGIC: Respawn all cops at new unique locations every bag pick up
+                if (score >= 5) {
+                    respawnAllCops();
+                }
             }
 
             draw();
             frameId = requestAnimationFrame(update);
         }
 
-        function drawTrailer(x, y, angle, bagsInside) {
+        function drawTicketMan(x, y) {
             ctx.save();
             ctx.translate(x, y);
-            ctx.rotate(angle);
-
-            // Front Hitch Point for the rope to connect to
-            const hitchX = 10;
-            const hitchY = 0;
-
-            const trailerLength = 80; 
-            const trailerWidth = 34;
-
-            ctx.fillStyle = "#bdc3c7"; 
-            ctx.strokeStyle = "#7f8c8d";
-            ctx.lineWidth = 2;
-            ctx.fillRect(-trailerLength, -trailerWidth/2, trailerLength, trailerWidth);
-            ctx.strokeRect(-trailerLength, -trailerWidth/2, trailerLength, trailerWidth);
-
-            if (bagsInside > 0 && useImage) {
-                const bSize = 32; 
-                const spacing = 7; 
-                let startX = -trailerLength + 5; 
-
-                for(let i = 0; i < bagsInside; i++) {
-                    const xOffset = startX + (i * spacing);
-                    ctx.drawImage(bagImage, xOffset, -16, bSize, bSize);
-                }
+            
+            // Slowed Angry Ear Steam
+            for(let i=0; i<4; i++) {
+                let shift = (animationTime * 8 + i * 5) % 25;
+                let opacity = 1 - (shift / 25);
+                let size = 2 + (shift / 5);
+                ctx.fillStyle = i % 2 === 0 ? `rgba(255, 69, 0, ${opacity * 0.6})` : `rgba(150, 150, 150, ${opacity * 0.4})`;
+                ctx.beginPath(); ctx.arc(-8 - shift, -18 - shift * 0.5, size, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(8 + shift, -18 - shift * 0.5, size, 0, Math.PI * 2); ctx.fill();
             }
 
-            ctx.fillStyle = "#000";
-            ctx.fillRect(-trailerLength + 10, -21, 10, 5); 
-            ctx.fillRect(-trailerLength + 10, 16, 10, 5);
-            ctx.fillRect(-25, -21, 10, 5); 
-            ctx.fillRect(-25, 16, 10, 5);
-
-            ctx.restore();
+            // Uniform & Orange-Red Vest
+            ctx.fillStyle = "#1a252f"; ctx.fillRect(-8, -12, 16, 24); 
+            ctx.fillStyle = "#ff4500"; ctx.fillRect(-8, -8, 16, 12);
+            ctx.strokeStyle = "#333"; ctx.lineWidth = 1; ctx.strokeRect(-8, -8, 16, 12);
             
-            // Return hitch coordinates in world space for rope drawing
-            return {
-                x: x + Math.cos(angle) * hitchX,
-                y: y + Math.sin(angle) * hitchX
-            };
+            // Angry Face & Cap
+            ctx.fillStyle = "#f5cba7"; ctx.beginPath(); ctx.arc(0, -18, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(-5, -20); ctx.lineTo(-2, -18); ctx.stroke(); 
+            ctx.beginPath(); ctx.moveTo(5, -20); ctx.lineTo(2, -18); ctx.stroke(); 
+            ctx.beginPath(); ctx.arc(0, -13, 3, Math.PI, 0, false); ctx.stroke(); 
+            ctx.fillStyle = "#1a252f"; ctx.fillRect(-10, -24, 20, 5); 
+            ctx.fillStyle = "#f1c40f"; ctx.fillRect(-2, -23, 4, 3);
+
+            // Waving Red Ticket
+            const wave = Math.sin(animationTime * 1.5) * 5;
+            ctx.translate(6, -5 + wave);
+            ctx.rotate(Math.sin(animationTime * 0.8) * 0.2);
+            ctx.fillStyle = "#ff0000"; ctx.fillRect(0, 0, 12, 16); 
+            ctx.strokeStyle = "#fff"; ctx.strokeRect(0, 0, 12, 16);
+            ctx.restore();
+        }
+
+        function drawTrailer(x, y, angle, bagsInside) {
+            ctx.save();
+            ctx.translate(x, y); ctx.rotate(angle);
+            const trailerLength = 80; const trailerWidth = 34;
+            ctx.fillStyle = "#bdc3c7"; ctx.strokeStyle = "#7f8c8d"; ctx.lineWidth = 2;
+            ctx.fillRect(-trailerLength, -trailerWidth/2, trailerLength, trailerWidth);
+            ctx.strokeRect(-trailerLength, -trailerWidth/2, trailerLength, trailerWidth);
+            if (bagsInside > 0 && useImage) {
+                const bSize = 32; const spacing = 7; let startX = -trailerLength + 5; 
+                for(let i = 0; i < bagsInside; i++) ctx.drawImage(bagImage, startX + (i * spacing), -16, bSize, bSize);
+            }
+            ctx.fillStyle = "#000";
+            ctx.fillRect(-trailerLength + 10, -21, 10, 5); ctx.fillRect(-trailerLength + 10, 16, 10, 5);
+            ctx.fillRect(-25, -21, 10, 5); ctx.fillRect(-25, 16, 10, 5);
+            ctx.restore();
+            return { x: x + Math.cos(angle) * 10, y: y + Math.sin(angle) * 10 };
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.imageSmoothingEnabled = false; 
-
-            ctx.strokeStyle = "#e2ecec";
-            ctx.setLineDash([5, 15]);
-            for(let i=0; i<=canvas.width; i+=gridSize) {
-                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
-            }
-            for(let i=0; i<=canvas.height; i+=gridSize) {
-                ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
-            }
+            ctx.strokeStyle = "#e2ecec"; ctx.setLineDash([5, 15]);
+            for(let i=0; i<=canvas.width; i+=gridSize) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke(); }
+            for(let i=0; i<=canvas.height; i+=gridSize) { ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke(); }
             ctx.setLineDash([]);
-
-            if (useImage) {
-                const bSize = gridSize * 1.0; 
-                ctx.drawImage(bagImage, laundryBag.x - bSize/2, laundryBag.y - bSize/2, bSize, bSize);
-            }
-
-            // Draw Trailer and calculate its hitch point
+            if (useImage) ctx.drawImage(bagImage, laundryBag.x - 20, laundryBag.y - 20, 40, 40);
+            
+            for (let man of ticketMen) drawTicketMan(man.x, man.y);
+            
             let trailerHitch = null;
             if (van.history.length > van.trailerGap) {
                 const tPos = van.history[van.trailerGap];
@@ -272,63 +313,36 @@
                 let angle = Math.atan2(forwardPos.y - tPos.y, forwardPos.x - tPos.x);
                 trailerHitch = drawTrailer(tPos.x, tPos.y, angle, score);
             }
-
-            // Draw Black Van
             ctx.save();
             ctx.translate(van.x, van.y);
-            let vanAngle = 0;
-            if (van.dir === 'RIGHT') vanAngle = 0;
-            if (van.dir === 'LEFT') vanAngle = Math.PI;
-            if (van.dir === 'UP') vanAngle = -Math.PI / 2;
-            if (van.dir === 'DOWN') vanAngle = Math.PI / 2;
+            let vanAngle = (van.dir === 'LEFT' ? Math.PI : van.dir === 'UP' ? -Math.PI/2 : van.dir === 'DOWN' ? Math.PI/2 : 0);
             ctx.rotate(vanAngle);
-
-            ctx.fillStyle = "#111111"; 
-            ctx.fillRect(-18, -12, 36, 24); 
-            ctx.fillStyle = "#ffffff"; 
-            ctx.fillRect(10, -10, 6, 20);
-            ctx.fillStyle = "#000"; 
-            ctx.fillRect(-12, -15, 8, 4); ctx.fillRect(-12, 11, 8, 4);
+            ctx.fillStyle = "#111111"; ctx.fillRect(-18, -12, 36, 24); 
+            ctx.fillStyle = "#ffffff"; ctx.fillRect(10, -10, 6, 20);
+            ctx.fillStyle = "#000"; ctx.fillRect(-12, -15, 8, 4); ctx.fillRect(-12, 11, 8, 4);
             ctx.fillRect(6, -15, 8, 4); ctx.fillRect(6, 11, 8, 4);
             ctx.restore();
-
-            // --- DRAW CONNECTING ROPE ---
             if (trailerHitch) {
-                // Calculate van's hitch point (rear center)
-                const vanHitchX = van.x - Math.cos(vanAngle) * 18;
-                const vanHitchY = van.y - Math.sin(vanAngle) * 18;
-                
-                // Use a point in the van's history as a control point for the curve
-                const controlPos = van.history[Math.floor(van.trailerGap / 2)];
-
-                ctx.beginPath();
-                ctx.moveTo(vanHitchX, vanHitchY);
-                ctx.quadraticCurveTo(controlPos.x, controlPos.y, trailerHitch.x, trailerHitch.y);
-                ctx.strokeStyle = "#555"; // Dark gray rope
-                ctx.lineWidth = 3;
-                ctx.stroke();
+                const vhX = van.x - Math.cos(vanAngle) * 18;
+                const vhY = van.y - Math.sin(vanAngle) * 18;
+                const cp = van.history[Math.floor(van.trailerGap/2)];
+                ctx.beginPath(); ctx.moveTo(vhX, vhY); ctx.quadraticCurveTo(cp.x, cp.y, trailerHitch.x, trailerHitch.y);
+                ctx.strokeStyle = "#555"; ctx.lineWidth = 3; ctx.stroke();
             }
         }
 
-        function startGame() {
-            if(gameStarted) return;
-            gameStarted = true;
-            startOverlay.style.display = "none";
-            update();
-        }
-
+        function startGame() { if(!gameStarted) { gameStarted = true; startOverlay.style.display = "none"; update(); } }
         startBtn.addEventListener("click", startGame);
 
-        function failGame() {
+        function failGame(msg) {
             cancelAnimationFrame(frameId);
-            alert("Delivery failed! Watch the curbs.");
+            alert(msg || "Delivery failed!");
             location.reload();
         }
 
         function winGame() {
             cancelAnimationFrame(frameId);
-            const message = encodeURIComponent('FREE $20 CREDIT WON');
-            window.location.href = `interest.html?message=${message}`;
+            window.location.href = `interest.html?message=${encodeURIComponent('FREE $20 CREDIT WON')}`;
         }
 
         function handleInput(newDir) {
@@ -343,20 +357,13 @@
         });
 
         let tsX, tsY;
-        window.addEventListener('touchstart', e => { 
-            tsX = e.touches[0].clientX; 
-            tsY = e.touches[0].clientY; 
-        }, {passive: false});
-
+        window.addEventListener('touchstart', e => { tsX = e.touches[0].clientX; tsY = e.touches[0].clientY; }, {passive: false});
         window.addEventListener('touchend', e => {
             if(!gameStarted) return;
             let dx = e.changedTouches[0].clientX - tsX; 
             let dy = e.changedTouches[0].clientY - tsY;
-            if (Math.abs(dx) > Math.abs(dy)) {
-                if (Math.abs(dx) > 20) handleInput(dx > 0 ? "RIGHT" : "LEFT");
-            } else {
-                if (Math.abs(dy) > 20) handleInput(dy > 0 ? "DOWN" : "UP");
-            }
+            if (Math.abs(dx) > Math.abs(dy)) { if (Math.abs(dx) > 20) handleInput(dx > 0 ? "RIGHT" : "LEFT"); }
+            else { if (Math.abs(dy) > 20) handleInput(dy > 0 ? "DOWN" : "UP"); }
         }, {passive: false});
 
         draw();
