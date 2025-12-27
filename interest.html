@@ -1,28 +1,37 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="We are Laundry Day! A team dedicated to providing effective contraceptives to college dorms everywhere.">
-        <meta name="keywords" content="Laundry NYC, townhouse laundry, apartment laundry, laundry service, laundry business, wash and fold service, dry cleaner, laundry new york, laundry 10025, laundry 10024 ">
-        <meta name="author" content="Daniel Eyny">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="We are Laundry Day! A team dedicated to providing effective contraceptives to college dorms everywhere.">
+    <meta name="keywords" content="Laundry NYC, townhouse laundry, apartment laundry, laundry service, laundry business, wash and fold service, dry cleaner, laundry new york, laundry 10025, laundry 10024 ">
+    <meta name="author" content="Daniel Eyny">
 
-    
+    <link rel="shortcut icon" href="assets/img/Laundry Day (4) copy.png" type="image/x-icon">
 
-        <!--=============== FAVICON ===============-->
-        <link rel="shortcut icon" href="assets/img/Laundry Day (4) copy.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
+    <link rel="stylesheet" href="assets/css/styles.css">
 
-        <!--=============== BOXICONS ===============-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-        <!--=============== CSS ===============-->
-        <link rel="stylesheet" href="assets/css/styles.css">
+    <title>Interest Form</title>
 
-        <title>Interest Form</title>
-    </head>
+    <style>
+        /* Modal styling for the Congratulations Pop-Up */
+        #win-modal {
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            z-index: 9999; 
+            background: rgba(0,0,0,0.85); 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px;
+        }
+    </style>
+</head>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DDP450P7LP"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -33,7 +42,20 @@
 </script>
 
     <body>
-        <!--=============== HEADER ===============-->
+        <div id="win-modal">
+            <div style="background: white; max-width: 450px; width: 100%; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; border: 4px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5);">
+                <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>
+                <h2 style="color: #3d969c; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 15px;">Congratulations!</h2>
+                <p style="color: #444; line-height: 1.6; font-family: 'Poppins', sans-serif; margin-bottom: 25px;">
+                    Complete our interest form so that we can get more information about our service sent over to you. 
+                    <b>Your $20 credit will automatically be applied</b> to your account once you begin using the service.
+                </p>
+                <button onclick="closeWinModal()" style="background: #3d969c; color: white; border: none; padding: 12px 35px; border-radius: 30px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s;">
+                    Got it!
+                </button>
+            </div>
+        </div>
+
         <header class="header" id="header">
             <nav class="nav container">
                 <img class="nav__img" src="./assets/img/Laundry Day (4) copy.png">
@@ -71,7 +93,6 @@
         <main class="main">
        
 
- <!--==================== Request Machine ====================-->
  <section class="request request-section request-container" id="contact">                
     <div class="request__container request-grid">
         <div class="request__box">
@@ -111,14 +132,6 @@
 
 
     </div>
-    <!--====
-
-    <br><br>
-
-    <button class="request-button-info request-button--flex" id="openPDF">Laundry Informational</button>
-    
-    ===-->
-    
     <br/><br/>
 
             
@@ -209,11 +222,7 @@
         </div>
     </div>
 </section>
- <!--==================== Request Machine End ====================-->
-
-
-
-<br/>
+ <br/>
 
 
 
@@ -221,7 +230,6 @@
 
         </main>
 
-     <!--=============== FOOTER ===============-->
      <footer class="footer section">
         <div class="footer__container container grid">
             <div class="footer__content">
@@ -298,33 +306,64 @@
         <p class="footer__copy">&#169; Eyny. All right reserved</p>
     </footer>
 
-        <!--=============== SCROLL UP ===============-->
         <a href="#" class="scrollup" id="scroll-up">
             <i class='bx bx-up-arrow-alt scrollup__icon'></i>
         </a>
 
-        <!--=============== MAIN JS ===============-->
         <script src="assets/js/main.js"></script>
 <script>
+    function closeWinModal() {
+        // 1. Hide the modal
+        document.getElementById('win-modal').style.display = 'none';
+        
+        // 2. Restore scrolling
+        document.body.style.overflow = 'auto'; 
+        
+        // 3. Smooth scroll to the hidden status note field
+        const noteField = document.getElementById('reward-status-note');
+        if (noteField) {
+            // Since the field is hidden, this will scroll the form to the position 
+            // where that hidden input is located.
+            noteField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const winMessage = urlParams.get('message');
         
-        // Only trigger if they arrive with the 'won' message from game.html
         if (winMessage && winMessage.includes('FREE $20 CREDIT WON')) {
+            // 1. Show the Modal Pop-Up
+            document.getElementById('win-modal').style.display = 'flex';
             
-            // 1. Show the Gold Emblem below the referral section
-            const emblem = document.getElementById('reward-emblem');
-            if (emblem) {
-                emblem.style.display = 'block';
-            }
+            // 2. Disable scrolling while modal is open
+            document.body.style.overflow = 'hidden'; 
 
-            // 2. Update the hidden note so YOUR form submission email 
-            // shows they won, without showing it in the user's message box.
+            // 3. Show the Gold Emblem
+            const emblem = document.getElementById('reward-emblem');
+            if (emblem) emblem.style.display = 'block';
+
+            // 4. Update hidden note
             const noteField = document.getElementById('reward-status-note');
-            if (noteField) {
-                noteField.value = "VERIFIED WINNER: This user won the $20 credit challenge!";
-            }
+            if (noteField) noteField.value = "VERIFIED WINNER: This user won the $20 credit challenge!";
+
+            // 5. Trigger Fireworks & Confetti
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+
+                const particleCount = 50 * (timeLeft / duration);
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+            }, 250);
+            
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, zIndex: 10000 });
         }
     });
 </script>
