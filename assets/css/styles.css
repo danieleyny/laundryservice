@@ -537,7 +537,52 @@ body.dark-theme {
 
 
 
+/*==================== NEON BORDER ANIMATION ====================*/
+.neon-wrapper {
+    position: relative;
+    padding: 5px; /* Defines border thickness */
+    border-radius: 1.5rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+/* The rotating neon "laser" light */
+.neon-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: conic-gradient(
+        transparent, 
+        var(--first-color), 
+        #00ffd5, 
+        var(--first-color), 
+        transparent 40%
+    );
+    animation: rotateNeon 4s linear infinite;
+}
+
+/* The inner box that creates the mask */
+.neon-inner {
+    position: relative;
+    background-color: var(--container-color);
+    border-radius: 1.25rem;
+    z-index: 1;
+    width: 100%;
+}
+
+@keyframes rotateNeon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Optional: Subtle glow for the entire section */
+#game-challenge {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
 
 
 

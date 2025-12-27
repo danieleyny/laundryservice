@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Laundry Day | $20 Credit Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --first-color: #3d969c; 
+            --title-color: #393939;
+            --text-color: #707070;
+            --body-color: #fbfefd;
+            --container-color: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; touch-action: none; }
+
+        body {
+            background: var(--body-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--first-color);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .score-panel {
+            font-weight: 700;
+            color: var(--title-color);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        #game-container {
+            position: relative;
+            border: 5px solid var(--first-color);
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            background: #fff;
+            overflow: hidden;
+        }
+
+        canvas { display: block; background-color: #f4f9f9; }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--first-color);
+            color: #FFF;
+            padding: 1rem 1.75rem;
+            border-radius: .5rem;
+            font-weight: 600;
+            transition: .3s;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .instructions {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-header">
+        <h1>Laundry Dash</h1>
+        <p>Collect 10 Laundry Bags for your $20 Credit!</p>
+        <div class="score-panel" id="score-display">Pickups: 0/10</div>
+    </div>
+
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="start-overlay" class="overlay">
+            <h2 style="color: var(--first-color)">Ready for Pickup?</h2>
+            <p>Swipe anywhere or use arrow keys to drive the van.</p>
+            <button class="button" id="start-btn">Start Driving</button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        Don't hit the curbs!<br>
+        <b>*Disclaimer: This offer is only applicable for first-time laundry users.</b>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const scoreDisplay = document.getElementById("score-display");
+        const startOverlay = document.getElementById("start-overlay");
+        const startBtn = document.getElementById("start-btn");
+
+        // --- IMAGE HANDLING ---
+        let useImage = false;
+        const bagImage = new Image();
+        bagImage.src = './assets/img/laundrybag.png'; 
+        
+        bagImage.onload = () => { useImage = true; };
+        bagImage.onerror = () => { console.warn("Image not found, using fallback."); };
+
+        // --- CONFIG ---
+        const gridSize = 40; 
+        const moveSpeed = 2; 
+        const targetScore = 10;
+        
+        let score = 0;
+        let gameStarted = false;
+        let frameId;
+
+        const size = Math.min(window.innerWidth - 50, 400);
+        canvas.width = Math.floor(size / gridSize) * gridSize;
+        canvas.height = canvas.width;
+
+        let van = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            dir: 'RIGHT',
+            nextDir: 'RIGHT',
+            history: [],
+            trailerGap: 45 // Slightly more gap for the longer trailer
+        };
+
+        let laundryBag = getRandomFood();
+
+        function getRandomFood() {
+            return {
+                x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize + gridSize/2,
+                y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize + gridSize/2
+            };
+        }
+
+        function update() {
+            if (!gameStarted) return;
+            van.dir = van.nextDir;
+
+            if (van.dir === 'LEFT') van.x -= moveSpeed;
+            if (van.dir === 'RIGHT') van.x += moveSpeed;
+            if (van.dir === 'UP') van.y -= moveSpeed;
+            if (van.dir === 'DOWN') van.y += moveSpeed;
+
+            van.history.unshift({ x: van.x, y: van.y, dir: van.dir });
+            
+            const maxHistory = 350; 
+            if (van.history.length > maxHistory) van.history.pop();
+
+            if (van.x < 0 || van.x > canvas.width || van.y < 0 || van.y > canvas.height) {
+                failGame();
+                return;
+            }
+
+            const dist = Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y);
+            if (dist < gridSize * 0.6) {
+                score++;
+                scoreDisplay.innerText = `Pickups: ${score}/${targetScore}`;
+                if (score >= targetScore) {
+                    winGame();
+                    return;
+                }
+                laundryBag = getRandomFood();
+            }
+
+            draw();
+            frameId = requestAnimationFrame(update);
+        }
+
+        function drawTrailer(x, y, angle, bagsInside) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+
+            // Hitch (Connection Bar)
+            ctx.fillStyle = "#555";
+            ctx.fillRect(30, -2, 15, 4);
+
+            // Trailer Bed Dimensions
+            const trailerLength = 80; // Slightly longer bed
+            const trailerWidth = 34;
+
+            // Draw Bed
+            ctx.fillStyle = "#bdc3c7"; 
+            ctx.strokeStyle = "#7f8c8d";
+            ctx.lineWidth = 2;
+            ctx.fillRect(-trailerLength/2, -trailerWidth/2, trailerLength, trailerWidth);
+            ctx.strokeRect(-trailerLength/2, -trailerWidth/2, trailerLength, trailerWidth);
+
+            // Cargo Logic
+            if (bagsInside > 0 && useImage) {
+                const bSize = 32; 
+                // Each bag takes up about 7 pixels of visible space on the bed
+                const spacing = 7; 
+                
+                // Calculate the total width the bags occupy to center them on the trailer
+                const totalCargoWidth = (bagsInside - 1) * spacing + bSize;
+                
+                // Start drawing from the back of the trailer, moving forward
+                // -trailerLength/2 + padding ensures we don't hit the back edge
+                let startX = -(trailerLength / 2) + 2; 
+
+                for(let i = 0; i < bagsInside; i++) {
+                    const xOffset = startX + (i * spacing);
+                    const yOffset = -16; // Centered vertically on bed
+                    
+                    ctx.drawImage(
+                        bagImage, 
+                        xOffset, 
+                        yOffset, 
+                        bSize, 
+                        bSize
+                    );
+                }
+            }
+
+            // Wheels
+            ctx.fillStyle = "#000";
+            ctx.fillRect(-30, -21, 10, 5); 
+            ctx.fillRect(-30, 16, 10, 5);
+            ctx.fillRect(10, -21, 10, 5); 
+            ctx.fillRect(10, 16, 10, 5);
+
+            ctx.restore();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.imageSmoothingEnabled = false; 
+
+            // Road Grid
+            ctx.strokeStyle = "#e2ecec";
+            ctx.setLineDash([5, 15]);
+            for(let i=0; i<=canvas.width; i+=gridSize) {
+                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
+            }
+            ctx.setLineDash([]);
+
+            // Pickup Bag
+            if (useImage) {
+                const bSize = gridSize * 1.0; 
+                ctx.drawImage(bagImage, laundryBag.x - bSize/2, laundryBag.y - bSize/2, bSize, bSize);
+            }
+
+            // Trailer
+            if (van.history.length > van.trailerGap) {
+                const tPos = van.history[van.trailerGap];
+                let tAngle = 0;
+                if (tPos.dir === 'RIGHT') tAngle = 0;
+                if (tPos.dir === 'LEFT') tAngle = Math.PI;
+                if (tPos.dir === 'UP') tAngle = -Math.PI / 2;
+                if (tPos.dir === 'DOWN') tAngle = Math.PI / 2;
+                
+                drawTrailer(tPos.x, tPos.y, tAngle, score);
+            }
+
+            // Black Van
+            ctx.save();
+            ctx.translate(van.x, van.y);
+            let angle = 0;
+            if (van.dir === 'RIGHT') angle = 0;
+            if (van.dir === 'LEFT') angle = Math.PI;
+            if (van.dir === 'UP') angle = -Math.PI / 2;
+            if (van.dir === 'DOWN') angle = Math.PI / 2;
+            ctx.rotate(angle);
+
+            ctx.fillStyle = "#111111"; 
+            ctx.fillRect(-18, -12, 36, 24); 
+            ctx.fillStyle = "#ffffff"; 
+            ctx.fillRect(10, -10, 6, 20);
+            ctx.fillStyle = "#000"; 
+            ctx.fillRect(-12, -15, 8, 4); ctx.fillRect(-12, 11, 8, 4);
+            ctx.fillRect(6, -15, 8, 4); ctx.fillRect(6, 11, 8, 4);
+            ctx.restore();
+        }
+
+        function startGame() {
+            if(gameStarted) return;
+            gameStarted = true;
+            startOverlay.style.display = "none";
+            update();
+        }
+
+        startBtn.addEventListener("click", startGame);
+
+        function failGame() {
+            cancelAnimationFrame(frameId);
+            alert("Delivery failed! Watch the curbs.");
+            location.reload();
+        }
+
+      function winGame() {
+            cancelAnimationFrame(frameId);
+            // Redirect to interest.html with the message as a URL parameter
+            const message = encodeURIComponent('FREE $20 CREDIT WON');
+            window.location.href = `interest.html?message=${message}`;
+        }
+
+        function handleInput(newDir) {
+            if (!gameStarted) return;
+            const opposites = { 'UP': 'DOWN', 'DOWN': 'UP', 'LEFT': 'RIGHT', 'RIGHT': 'LEFT' };
+            if (newDir !== opposites[van.dir]) van.nextDir = newDir;
+        }
+
+        window.addEventListener("keydown", e => {
+            const keyMap = { "ArrowUp": "UP", "ArrowDown": "DOWN", "ArrowLeft": "LEFT", "ArrowRight": "RIGHT" };
+            if (keyMap[e.key]) handleInput(keyMap[e.key]);
+        });
+
+        let tsX, tsY;
+        window.addEventListener('touchstart', e => { 
+            tsX = e.touches[0].clientX; 
+            tsY = e.touches[0].clientY; 
+        }, {passive: false});
+
+        window.addEventListener('touchend', e => {
+            if(!gameStarted) return;
+            let dx = e.changedTouches[0].clientX - tsX; 
+            let dy = e.changedTouches[0].clientY - tsY;
+            if (Math.abs(dx) > Math.abs(dy)) {
+                if (Math.abs(dx) > 20) handleInput(dx > 0 ? "RIGHT" : "LEFT");
+            } else {
+                if (Math.abs(dy) > 20) handleInput(dy > 0 ? "DOWN" : "UP");
+            }
+        }, {passive: false});
+
+        draw();
+    </script>
+</body>
+</html>

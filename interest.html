@@ -92,7 +92,7 @@
     <div class="request__data">
         <div class="request__information">
             <h3 class="contact__subtitle">Price</h3>
-               <span class="contact__text"><span style="color: rgb(244, 56, 56); font-weight: 900; text-decoration: line-through;"> $2.30</span>    <span style="color: rgb(68, 229, 68); font-weight: 900;"> $0.80</span> - <span style="color: rgb(68, 229, 68); font-weight: 900;">$1.40</span> per pound!<br/><br/>(price varies depending on the amount of tenants using the service within your building)</span>
+               <span class="contact__text"><span style="color: rgb(244, 56, 56); font-weight: 900; text-decoration: line-through;"> $2.30</span>    <span style="color: rgb(68, 229, 68); font-weight: 900;"> $0.80</span> - <span style="color: rgb(68, 229, 68); font-weight: 900;">$1.50</span> per pound!<br/><br/>(price varies depending on the amount of tenants using the service within your building)</span>
         </div>
 
         <div class="request__information">
@@ -124,7 +124,7 @@
             
         </div>
 
-        <form action="https://formspree.io/f/mjvjordw" method="POST" class="request__form">
+        <form action="https://formspree.io/f/xpqzdjjo" method="POST" class="request__form">
             <div class="request__inputs">
                 <div class="request__content">
                     <input type="email" name="Email-215" placeholder=" " class="request__input" required>
@@ -147,9 +147,21 @@
                 </div>
 
                 <div class="request__content">
-                    <input type="text" placeholder=" " name="Referral-215" class="request__input" required>
+                    <input type="text" placeholder=" " name="Referral-215" class="request__input" >
                     <label for="" class="request__label">Referral</label>
                 </div>
+
+                <div id="reward-emblem" style="display: none; margin-top: 20px; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, #2c3e50, #000000); border: 2px solid #f1c40f; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+    <h3 style="color: #f1c40f; font-family: 'Poppins', sans-serif; font-weight: 700; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
+        ✨ FREE $20 CREDIT WON ✨
+    </h3>
+    <p style="color: #ffffff; font-size: 0.8rem; margin-top: 5px; font-family: 'Poppins', sans-serif;">
+        Special NYC Reward Applied to your Account
+    </p>
+</div>
+
+
+<input type="hidden" name="Reward_Status" id="reward-status-note" value="No Reward">
 
 
             
@@ -288,5 +300,28 @@
 
         <!--=============== MAIN JS ===============-->
         <script src="assets/js/main.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const winMessage = urlParams.get('message');
+        
+        // Only trigger if they arrive with the 'won' message from game.html
+        if (winMessage && winMessage.includes('FREE $20 CREDIT WON')) {
+            
+            // 1. Show the Gold Emblem below the referral section
+            const emblem = document.getElementById('reward-emblem');
+            if (emblem) {
+                emblem.style.display = 'block';
+            }
+
+            // 2. Update the hidden note so YOUR form submission email 
+            // shows they won, without showing it in the user's message box.
+            const noteField = document.getElementById('reward-status-note');
+            if (noteField) {
+                noteField.value = "VERIFIED WINNER: This user won the $20 credit challenge!";
+            }
+        }
+    });
+</script>
     </body>
 </html>
