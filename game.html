@@ -112,7 +112,7 @@
 
         .how-to-btn {
             background: transparent; color: var(--first-color); border: 2px solid var(--first-color);
-            padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 15px; border-radius: 0.5rem; cursor: pointer; font-weight: 600;
+            padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 10px; border-radius: 0.5rem; cursor: pointer; font-weight: 600;
         }
     </style>
 </head>
@@ -179,7 +179,9 @@
         canvas.height = Math.floor(availableHeight / gridSize) * gridSize;
 
         const isMobile = canvas.width < 500;
-        const moveSpeed = isMobile ? 3.0 : 2.8;
+        
+        // --- GAME PLAY SPEEDS ---
+        const moveSpeed = isMobile ? 1.6 : 2.4;
 
         let van = {
             x: canvas.width / 2,
@@ -220,10 +222,11 @@
         let demoFinished = true; 
         let demoCargo = 0;
         
-        const MOBILE_V_SPEED = 1.0;
-        const MOBILE_H_SPEED = 1.2;
-        const DESKTOP_V_SPEED = 2.0;
-        const DESKTOP_H_SPEED = 2.4;
+        // --- DEMO SPEEDS (REDUCED FOR DESKTOP SLOW DOWN) ---
+        const MOBILE_V_SPEED = 0.5;
+        const MOBILE_H_SPEED = 0.7;
+        const DESKTOP_V_SPEED = 0.8; // Reduced for slow demo
+        const DESKTOP_H_SPEED = 1.0; // Reduced for slow demo
 
         function manualStartDemo() {
             tutorialTimer = 0;
@@ -256,7 +259,7 @@
             tutorialTimer++;
 
             if (isMobile) {
-                // --- MOBILE LOGIC ---
+                // Mobile Logic (Kept Same)
                 if (tutorialTimer < 180) {
                     van.dir = 'UP'; 
                     if (van.y > laundryBag.y + 2) van.y -= MOBILE_V_SPEED; else van.y = laundryBag.y;
@@ -279,7 +282,6 @@
                          tutText.innerText = "Swipe up to turn up";
                     }
                 }
-                // Fixed: Final Mobile Turn left earlier
                 else if (tutorialTimer < 420) {
                     van.dir = 'UP'; van.y -= MOBILE_V_SPEED;
                     if (tutorialTimer < 360) {
@@ -306,7 +308,7 @@
                 }
                 else { endDemo(); return; }
             } else {
-                // --- DESKTOP PATH ---
+                // --- SLOWED DESKTOP PATH ---
                 if (tutorialTimer < 120) {
                     van.dir = 'UP';
                     if (van.y > laundryBag.y) van.y -= DESKTOP_V_SPEED; else van.y = laundryBag.y;
@@ -318,28 +320,31 @@
                         tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
                     }
                 }
-                else if (tutorialTimer < 240) {
-                    van.dir = 'RIGHT'; van.x += DESKTOP_H_SPEED;
+                else if (tutorialTimer < 280) {
+                    van.dir = 'RIGHT'; 
+                    van.x += DESKTOP_H_SPEED;
                     if (demoCargo === 0 && Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 30) { 
                         demoCargo = 1; laundryBag.x = -5000; 
                     }
-                    if (tutorialTimer >= 180 && tutorialTimer < 240) {
+                    if (tutorialTimer >= 220 && tutorialTimer < 280) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeDown 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe down to turn down";
                     }
                 }
-                else if (tutorialTimer < 340) {
-                    van.dir = 'DOWN'; van.y += DESKTOP_V_SPEED;
-                    if (tutorialTimer >= 280 && tutorialTimer < 340) {
+                else if (tutorialTimer < 400) {
+                    van.dir = 'DOWN';
+                    van.y += DESKTOP_V_SPEED;
+                    if (tutorialTimer >= 340 && tutorialTimer < 400) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe left to turn left";
                     }
                 }
-                else if (tutorialTimer < 460) {
-                    van.dir = 'LEFT'; van.x -= DESKTOP_H_SPEED;
-                    if (tutorialTimer > 420) {
+                else if (tutorialTimer < 520) {
+                    van.dir = 'LEFT';
+                    van.x -= DESKTOP_H_SPEED;
+                    if (tutorialTimer > 480) {
                         tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
                     }
                 }
