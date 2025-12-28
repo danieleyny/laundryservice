@@ -98,6 +98,7 @@
         @keyframes swipeUp { 0% { transform: translateY(50px); opacity: 0; } 20% { opacity: 1; } 80% { transform: translateY(-50px); opacity: 1; } 100% { transform: translateY(-50px); opacity: 0; } }
         @keyframes swipeRight { 0% { transform: translateX(-50px); opacity: 0; } 20% { opacity: 1; } 80% { transform: translateX(50px); opacity: 1; } 100% { transform: translateX(50px); opacity: 0; } }
         @keyframes swipeLeft { 0% { transform: translateX(50px); opacity: 0; } 20% { opacity: 1; } 80% { transform: translateX(-50px); opacity: 1; } 100% { transform: translateX(-50px); opacity: 0; } }
+        @keyframes swipeDown { 0% { transform: translateY(-50px); opacity: 0; } 20% { opacity: 1; } 80% { transform: translateY(50px); opacity: 1; } 100% { transform: translateY(50px); opacity: 0; } }
 
         .tutorial-text {
             margin-top: 25px; font-weight: 700; color: var(--first-color); text-transform: uppercase; letter-spacing: 2px;
@@ -174,8 +175,8 @@
 
         const isMobile = canvas.width < 500;
         
-        // Speed set to 2 for mobile as requested
-        const moveSpeed = isMobile ? 2.4 : 1.8;
+        // Speed logic
+        const moveSpeed = isMobile ? 3.0 : 2.8;
 
         let van = {
             x: canvas.width / 2,
@@ -215,8 +216,11 @@
         let tutorialTimer = 0;
         let demoFinished = true; 
         let demoCargo = 0;
-        const MOBILE_V_SPEED = 0.6;
-        const MOBILE_H_SPEED = 0.8;
+        
+        const MOBILE_V_SPEED = 1.0;
+        const MOBILE_H_SPEED = 1.2;
+        const DESKTOP_V_SPEED = 2.0;
+        const DESKTOP_H_SPEED = 2.4;
 
         function manualStartDemo() {
             tutorialTimer = 0;
@@ -229,14 +233,17 @@
             tutText.style.opacity = "0";
             
             if (isMobile) {
-                van.x = canvas.width * 0.4;
+                van.x = canvas.width * 0.35;
                 van.y = canvas.height * 0.85;
                 const turnY = (canvas.height * 0.85) - (180 * MOBILE_V_SPEED);
-                laundryBag = { x: canvas.width * 0.7, y: turnY };
+                laundryBag = { x: canvas.width * 0.75, y: turnY };
             } else {
-                van.x = canvas.width / 2;
-                van.y = canvas.height * 0.75;
-                laundryBag = { x: canvas.width * 0.85, y: canvas.height * 0.3 };
+                // FIXED DESKTOP START
+                van.x = canvas.width * 0.35;
+                van.y = canvas.height * 0.8;
+                // Anchor bag on horizontal path
+                const turnY = (canvas.height * 0.8) - (120 * DESKTOP_V_SPEED);
+                laundryBag = { x: canvas.width * 0.65, y: turnY };
             }
             van.dir = 'UP';
             van.history = [];
@@ -248,9 +255,11 @@
             tutorialTimer++;
 
             if (isMobile) {
+                // --- MOBILE LOGIC ---
                 if (tutorialTimer < 180) {
-                    van.dir = 'UP'; van.y -= MOBILE_V_SPEED;
-                    if (tutorialTimer >= 120 && tutorialTimer <= 240) {
+                    van.dir = 'UP'; 
+                    if (van.y > laundryBag.y + 2) van.y -= MOBILE_V_SPEED; else van.y = laundryBag.y;
+                    if (tutorialTimer >= 100 && tutorialTimer <= 220) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeRight 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe right to turn right";
@@ -260,23 +269,32 @@
                 }
                 else if (tutorialTimer < 300) {
                     van.dir = 'RIGHT'; van.x += MOBILE_H_SPEED;
-                    if (demoCargo === 0 && Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 25) {
+                    if (demoCargo === 0 && Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 30) {
                         demoCargo = 1; laundryBag.x = -5000;
                     }
+                    if (tutorialTimer >= 240 && tutorialTimer < 300) {
+                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                         tutHand.style.animation = "swipeUp 1.5s infinite ease-in-out";
+                         tutText.innerText = "Swipe up to turn up";
+                    }
                 }
-                else if (tutorialTimer < 480) {
+                else if (tutorialTimer < 450) {
                     van.dir = 'UP'; van.y -= MOBILE_V_SPEED;
-                    if (tutorialTimer >= 300 && tutorialTimer < 420) {
+                    if (tutorialTimer < 380) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeUp 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe up to turn up";
+                    } else if (tutorialTimer >= 400 && tutorialTimer < 450) {
+                        tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                        tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
+                        tutText.innerText = "Swipe left to turn left";
                     } else {
                         tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
                     }
                 }
-                else if (tutorialTimer < 600) {
+                else if (tutorialTimer < 570) {
                     van.dir = 'LEFT'; van.x -= MOBILE_H_SPEED;
-                    if (tutorialTimer >= 480 && tutorialTimer < 560) {
+                    if (tutorialTimer < 520) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe left to turn left";
@@ -286,36 +304,51 @@
                 }
                 else { endDemo(); return; }
             } else {
-                if (tutorialTimer < 100) {
-                    tutHand.style.opacity = "1"; tutText.style.opacity = "1";
-                    tutHand.style.animation = "swipeUp 2.5s infinite ease-in-out";
-                    tutText.innerText = "Swipe up to go up";
-                    van.x += 0.8; 
-                } 
-                else if (tutorialTimer < 220) {
-                    tutHand.style.opacity = "0"; tutText.style.opacity = "0";
-                    van.dir = 'UP'; van.y -= 1.2;
+                // --- DESKTOP PATH: UP -> RIGHT (COLLECT) -> DOWN -> LEFT ---
+                
+                // 1. UP (0-120)
+                if (tutorialTimer < 120) {
+                    van.dir = 'UP';
+                    if (van.y > laundryBag.y) van.y -= DESKTOP_V_SPEED; else van.y = laundryBag.y;
+                    
+                    if (tutorialTimer >= 40 && tutorialTimer <= 100) {
+                        tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                        tutHand.style.animation = "swipeRight 1.5s infinite ease-in-out";
+                        tutText.innerText = "Swipe right to turn right";
+                    } else {
+                        tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
+                    }
                 }
-                else if (tutorialTimer < 320) {
-                    tutHand.style.opacity = "1"; tutText.style.opacity = "1";
-                    tutHand.style.animation = "swipeRight 2.5s infinite ease-in-out";
-                    tutText.innerText = "Swipe right to turn right";
-                    van.y -= 0.8; 
+                // 2. RIGHT & COLLECT (120-240)
+                else if (tutorialTimer < 240) {
+                    van.dir = 'RIGHT'; 
+                    van.x += DESKTOP_H_SPEED;
+                    if (demoCargo === 0 && Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 30) { 
+                        demoCargo = 1; laundryBag.x = -5000; 
+                    }
+                    if (tutorialTimer >= 180 && tutorialTimer < 240) {
+                        tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                        tutHand.style.animation = "swipeDown 1.5s infinite ease-in-out";
+                        tutText.innerText = "Swipe down to turn down";
+                    }
                 }
-                else if (tutorialTimer < 520) {
-                    tutHand.style.opacity = "0"; tutText.style.opacity = "0";
-                    van.dir = 'RIGHT'; van.x += 1.5;
-                    if (Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 25) { demoCargo = 1; laundryBag.x = -1000; }
+                // 3. DOWN (240-340)
+                else if (tutorialTimer < 340) {
+                    van.dir = 'DOWN';
+                    van.y += DESKTOP_V_SPEED;
+                    if (tutorialTimer >= 280 && tutorialTimer < 340) {
+                        tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                        tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
+                        tutText.innerText = "Swipe left to turn left";
+                    }
                 }
-                else if (tutorialTimer < 620) {
-                    tutHand.style.opacity = "1"; tutText.style.opacity = "1";
-                    tutHand.style.animation = "swipeDown 2.5s infinite ease-in-out";
-                    tutText.innerText = "Swipe down to turn down";
-                    van.x += 0.8;
-                }
-                else if (tutorialTimer < 740) {
-                    tutHand.style.opacity = "0"; tutText.style.opacity = "0";
-                    van.dir = 'DOWN'; van.y += 1.2;
+                // 4. LEFT (340-460)
+                else if (tutorialTimer < 460) {
+                    van.dir = 'LEFT';
+                    van.x -= DESKTOP_H_SPEED;
+                    if (tutorialTimer > 420) {
+                        tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
+                    }
                 }
                 else { endDemo(); return; }
             }
@@ -364,7 +397,6 @@
             ctx.restore();
         }
 
-        // Reverted Trailer rendering: Straight horizontal stack
         function drawTrailer(x, y, angle, bagsInside) {
             ctx.save();
             ctx.translate(x, y);
@@ -378,8 +410,6 @@
             ctx.fillStyle = "#bdc3c7"; ctx.strokeStyle = "#2c3e50"; ctx.lineWidth = 2;
             ctx.fillRect(-tLength, -tWidth/2, tLength, tWidth);
             ctx.strokeRect(-tLength, -tWidth/2, tLength, tWidth);
-
-            // Straight horizontal line logic restored
             if (bagsInside > 0 && useImage) {
                 const spacing = 7; 
                 for(let i = 0; i < bagsInside; i++) {
@@ -407,7 +437,7 @@
             if (trailerHitch) {
                 let vanAngle = (van.dir === 'LEFT' ? Math.PI : van.dir === 'UP' ? -Math.PI/2 : van.dir === 'DOWN' ? Math.PI/2 : 0);
                 const vhX = van.x - Math.cos(vanAngle) * 18; const vhY = van.y - Math.sin(vanAngle) * 18;
-                ctx.beginPath(); ctx.moveTo(vhX, vhY); ctx.quadraticCurveTo(van.history[Math.floor(van.trailerGap/2)].x, van.history[Math.floor(van.trailerGap/2)].y, trailerHitch.x, trailerHitch.y);
+                const cp = van.history[Math.floor(van.trailerGap/2)]; ctx.beginPath(); ctx.moveTo(vhX, vhY); ctx.quadraticCurveTo(cp.x, cp.y, trailerHitch.x, trailerHitch.y);
                 ctx.strokeStyle = "#555"; ctx.lineWidth = 3; ctx.stroke();
             }
         }
