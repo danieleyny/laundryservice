@@ -180,8 +180,8 @@
 
         const isMobile = canvas.width < 500;
         
-        // --- GAME PLAY SPEEDS ---
-        const moveSpeed = isMobile ? 1.6 : 2.4;
+        // --- MOBILE SPEED INCREASED (Game) ---
+        const moveSpeed = isMobile ? 2.2 : 2.4;
 
         let van = {
             x: canvas.width / 2,
@@ -222,11 +222,11 @@
         let demoFinished = true; 
         let demoCargo = 0;
         
-        // --- DEMO SPEEDS (REDUCED FOR DESKTOP SLOW DOWN) ---
-        const MOBILE_V_SPEED = 0.5;
-        const MOBILE_H_SPEED = 0.7;
-        const DESKTOP_V_SPEED = 0.8; // Reduced for slow demo
-        const DESKTOP_H_SPEED = 1.0; // Reduced for slow demo
+        // --- MOBILE SPEEDS INCREASED (Demo) ---
+        const MOBILE_V_SPEED = 0.8; // Up from 0.5
+        const MOBILE_H_SPEED = 1.0; // Up from 0.7
+        const DESKTOP_V_SPEED = 1.6;
+        const DESKTOP_H_SPEED = 1.8;
 
         function manualStartDemo() {
             tutorialTimer = 0;
@@ -259,7 +259,6 @@
             tutorialTimer++;
 
             if (isMobile) {
-                // Mobile Logic (Kept Same)
                 if (tutorialTimer < 180) {
                     van.dir = 'UP'; 
                     if (van.y > laundryBag.y + 2) van.y -= MOBILE_V_SPEED; else van.y = laundryBag.y;
@@ -308,7 +307,6 @@
                 }
                 else { endDemo(); return; }
             } else {
-                // --- SLOWED DESKTOP PATH ---
                 if (tutorialTimer < 120) {
                     van.dir = 'UP';
                     if (van.y > laundryBag.y) van.y -= DESKTOP_V_SPEED; else van.y = laundryBag.y;
@@ -321,8 +319,7 @@
                     }
                 }
                 else if (tutorialTimer < 280) {
-                    van.dir = 'RIGHT'; 
-                    van.x += DESKTOP_H_SPEED;
+                    van.dir = 'RIGHT'; van.x += DESKTOP_H_SPEED;
                     if (demoCargo === 0 && Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 30) { 
                         demoCargo = 1; laundryBag.x = -5000; 
                     }
@@ -333,8 +330,7 @@
                     }
                 }
                 else if (tutorialTimer < 400) {
-                    van.dir = 'DOWN';
-                    van.y += DESKTOP_V_SPEED;
+                    van.dir = 'DOWN'; van.y += DESKTOP_V_SPEED;
                     if (tutorialTimer >= 340 && tutorialTimer < 400) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
@@ -342,8 +338,7 @@
                     }
                 }
                 else if (tutorialTimer < 520) {
-                    van.dir = 'LEFT';
-                    van.x -= DESKTOP_H_SPEED;
+                    van.dir = 'LEFT'; van.x -= DESKTOP_H_SPEED;
                     if (tutorialTimer > 480) {
                         tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
                     }
@@ -478,7 +473,7 @@
             if (trailerHitch) {
                 let vanAngle = (van.dir === 'LEFT' ? Math.PI : van.dir === 'UP' ? -Math.PI/2 : van.dir === 'DOWN' ? Math.PI/2 : 0);
                 const vhX = van.x - Math.cos(vanAngle) * 18; const vhY = van.y - Math.sin(vanAngle) * 18;
-                ctx.beginPath(); ctx.moveTo(vhX, vhY); ctx.quadraticCurveTo(van.history[Math.floor(van.trailerGap/2)].x, van.history[Math.floor(van.trailerGap/2)].y, trailerHitch.x, trailerHitch.y);
+                const cp = van.history[Math.floor(van.trailerGap/2)]; ctx.beginPath(); ctx.moveTo(vhX, vhY); ctx.quadraticCurveTo(cp.x, cp.y, trailerHitch.x, trailerHitch.y);
                 ctx.strokeStyle = "#555"; ctx.lineWidth = 3; ctx.stroke();
             }
         }
