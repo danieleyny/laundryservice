@@ -5,22 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Laundry Dash | $20 Credit</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     
-           <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="description" content="Play Laundry Dash! Beat our game to win a $20 laundry credit. The fastest way to get your wash and fold done in NYC.">
-<meta name="keywords" content="Laundry Dash game, free, free money, free laundry, win laundry credit, NYC laundry service, wash and fold NYC, laundry delivery, apartment laundry service, laundry day nyc">
-<meta name="author" content="Daniel Eyny">
-        <!--=============== FAVICON ===============-->
-        <link rel="shortcut icon" href="assets/img/Laundry Day (4) copy.png" type="image/x-icon">
     <style>
         :root {
             --first-color: #3d969c; 
             --title-color: #393939;
             --text-color: #707070;
             --body-color: #fbfefd;
-            --container-color: #ffffff;
-            --police-red-orange: #ff4500; 
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; touch-action: none; }
@@ -40,24 +32,9 @@
             padding-top: 40px; 
         }
 
-        .game-header {
-            text-align: center;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        h1 {
-            color: var(--first-color);
-            font-size: 1.6rem;
-            margin-bottom: 2px;
-        }
-
-        .score-panel {
-            font-weight: 700;
-            color: var(--title-color);
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
+        .game-header { text-align: center; margin-bottom: 10px; width: 100%; }
+        h1 { color: var(--first-color); font-size: 1.6rem; margin-bottom: 2px; }
+        .score-panel { font-weight: 700; color: var(--title-color); font-size: 1.1rem; margin-bottom: 5px; }
 
         #game-container {
             position: relative;
@@ -78,32 +55,64 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: center; /* This centers everything vertically */
             z-index: 10;
             text-align: center;
             padding: 20px;
         }
 
-        .button {
-            display: inline-block;
-            background-color: var(--first-color);
-            color: #FFF;
-            padding: 1rem 1.75rem;
-            border-radius: .5rem;
-            font-weight: 600;
-            transition: .3s;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            margin-top: 15px;
+        /* Fixed the gap by reducing the margin on h2 and p tags */
+        .overlay-content { 
+            transition: opacity 0.5s ease-in-out; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        
+        .overlay-content h2 {
+            color: var(--first-color);
+            margin-bottom: 15px; /* Reduced from 70px */
+            font-size: 1.8rem;
         }
 
-        .instructions {
-            margin-top: 10px;
-            font-size: 0.75rem;
-            line-height: 1.3;
+        .overlay-content p {
+            margin-bottom: 20px; /* Standard spacing */
+            font-size: 0.9rem;
+            padding: 0 20px;
+        }
+
+        .hidden { opacity: 0; pointer-events: none; display: none !important; }
+
+        .tutorial-container {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
-            padding: 0 10px;
+            z-index: 11;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .tutorial-hand { font-size: 60px; color: var(--first-color); display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); opacity: 0; }
+
+        @keyframes swipeUp { 0% { transform: translateY(50px); opacity: 0; } 20% { opacity: 1; } 80% { transform: translateY(-50px); opacity: 1; } 100% { transform: translateY(-50px); opacity: 0; } }
+        @keyframes swipeRight { 0% { transform: translateX(-50px); opacity: 0; } 20% { opacity: 1; } 80% { transform: translateX(50px); opacity: 1; } 100% { transform: translateX(50px); opacity: 0; } }
+        @keyframes swipeLeft { 0% { transform: translateX(50px); opacity: 0; } 20% { opacity: 1; } 80% { transform: translateX(-50px); opacity: 1; } 100% { transform: translateX(-50px); opacity: 0; } }
+
+        .tutorial-text {
+            margin-top: 25px; font-weight: 700; color: var(--first-color); text-transform: uppercase; letter-spacing: 2px;
+            font-size: 0.85rem; background: rgba(255,255,255,0.8); padding: 4px 12px; border-radius: 20px; opacity: 0; transition: opacity 0.3s;
+        }
+
+        .button {
+            display: inline-block; background-color: var(--first-color); color: #FFF; padding: 1rem 1.75rem;
+            border-radius: .5rem; font-weight: 600; transition: .3s; text-decoration: none; border: none; cursor: pointer; margin-top: 5px;
+        }
+
+        .how-to-btn {
+            background: transparent; color: var(--first-color); border: 2px solid var(--first-color);
+            padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 15px; border-radius: 0.5rem; cursor: pointer; font-weight: 600;
         }
     </style>
 </head>
@@ -116,17 +125,19 @@
 
     <div id="game-container">
         <canvas id="gameCanvas"></canvas>
-        
         <div id="start-overlay" class="overlay">
-            <h2 style="color: var(--first-color)">Ready for Pickup?</h2>
-            <p>Collect all of the laundry bags! Don't let the traffic cops get you.</p>
-            <button class="button" id="start-btn">Start Driving</button>
+            <div id="ui-content" class="overlay-content">
+                <h2>Ready for Pickup?</h2>
+                <p>Avoid traffic cops & collect laundry bags!</p>
+                <button class="button" id="start-btn">Start Driving</button>
+                <button class="how-to-btn" onclick="manualStartDemo()">How To Play</button>
+            </div>
+            
+            <div id="tutorial-box" class="tutorial-container hidden">
+                <i id="tut-hand" class='bx bxs-hand-up tutorial-hand'></i>
+                <p id="tut-text" class="tutorial-text"></p>
+            </div>
         </div>
-    </div>
-
-    <div class="instructions">
-        Don't hit the curbs or ticket men!<br>
-        <b style="font-size: 0.7rem; opacity: 0.8;">*Disclaimer: Offer for first-time laundry users.</b>
     </div>
 
     <script>
@@ -135,6 +146,10 @@
         const scoreDisplay = document.getElementById("score-display");
         const startOverlay = document.getElementById("start-overlay");
         const startBtn = document.getElementById("start-btn");
+        const tutHand = document.getElementById("tut-hand");
+        const tutText = document.getElementById("tut-text");
+        const tutBox = document.getElementById("tutorial-box");
+        const uiContent = document.getElementById("ui-content");
 
         let useImage = false;
         const bagImage = new Image();
@@ -142,7 +157,7 @@
         bagImage.onload = () => { useImage = true; };
 
         const gridSize = 40; 
-        const moveSpeed = 2.5; 
+        const moveSpeed = 1.8; 
         const targetScore = 10;
         
         let score = 0;
@@ -159,11 +174,12 @@
         canvas.width = Math.floor(availableWidth / gridSize) * gridSize;
         canvas.height = Math.floor(availableHeight / gridSize) * gridSize;
 
+        const isMobile = canvas.width < 500;
+
         let van = {
             x: canvas.width / 2,
-            y: canvas.height / 2,
-            dir: 'RIGHT',
-            nextDir: 'RIGHT',
+            y: canvas.height * 0.75, 
+            dir: 'UP',
             history: [],
             trailerGap: 35 
         };
@@ -177,18 +193,12 @@
             };
         }
 
-        // Improved Spawn logic to ensure unique locations
         function getSafeSpawn() {
             const pos = getRandomFood();
             const tooCloseToBag = Math.hypot(pos.x - laundryBag.x, pos.y - laundryBag.y) < gridSize * 1.5;
             const tooCloseToVan = Math.hypot(pos.x - van.x, pos.y - van.y) < gridSize * 3;
-            
-            // Also check if too close to other ticket men already in the list
             const tooCloseToOtherCop = ticketMen.some(man => Math.hypot(pos.x - man.x, pos.y - man.y) < gridSize * 1.5);
-
-            if (tooCloseToBag || tooCloseToVan || tooCloseToOtherCop) {
-                return getSafeSpawn();
-            }
+            if (tooCloseToBag || tooCloseToVan || tooCloseToOtherCop) return getSafeSpawn();
             return pos;
         }
 
@@ -197,184 +207,262 @@
             if (score >= 9) copCount = 3;
             else if (score >= 7) copCount = 2;
             else if (score >= 5) copCount = 1;
-
-            ticketMen = []; // Clear existing locations
-            for (let i = 0; i < copCount; i++) {
-                ticketMen.push(getSafeSpawn());
-            }
+            ticketMen = []; 
+            for (let i = 0; i < copCount; i++) ticketMen.push(getSafeSpawn());
         }
 
-        function update() {
-            if (!gameStarted) return;
-            animationTime += 0.08; 
-            van.dir = van.nextDir;
+        let tutorialTimer = 0;
+        let demoFinished = true; 
+        let demoCargo = 0;
+        const MOBILE_V_SPEED = 0.6;
+        const MOBILE_H_SPEED = 0.8;
 
-            if (van.dir === 'LEFT') van.x -= moveSpeed;
-            if (van.dir === 'RIGHT') van.x += moveSpeed;
-            if (van.dir === 'UP') van.y -= moveSpeed;
-            if (van.dir === 'DOWN') van.y += moveSpeed;
+        function manualStartDemo() {
+            tutorialTimer = 0;
+            demoFinished = false;
+            demoCargo = 0;
+            uiContent.classList.add("hidden");
+            tutBox.classList.remove("hidden");
+            tutHand.style.animation = "none"; 
+            tutHand.style.opacity = "0";
+            tutText.style.opacity = "0";
+            
+            if (isMobile) {
+                van.x = canvas.width * 0.4;
+                van.y = canvas.height * 0.85;
+                const turnY = (canvas.height * 0.85) - (180 * MOBILE_V_SPEED);
+                laundryBag = { x: canvas.width * 0.7, y: turnY };
+            } else {
+                van.x = canvas.width / 2;
+                van.y = canvas.height * 0.75;
+                laundryBag = { x: canvas.width * 0.85, y: canvas.height * 0.3 };
+            }
+            van.dir = 'UP';
+            van.history = [];
+            runTutorial();
+        }
 
+        function runTutorial() {
+            if (gameStarted || demoFinished) return;
+            tutorialTimer++;
+
+            if (isMobile) {
+                if (tutorialTimer < 180) {
+                    van.dir = 'UP'; van.y -= MOBILE_V_SPEED;
+                    if (tutorialTimer >= 120 && tutorialTimer <= 240) {
+                        tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                        tutHand.style.animation = "swipeRight 1.5s infinite ease-in-out";
+                        tutText.innerText = "Swipe right to turn right";
+                    } else {
+                        tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
+                    }
+                }
+                else if (tutorialTimer < 300) {
+                    van.dir = 'RIGHT'; van.x += MOBILE_H_SPEED;
+                    if (demoCargo === 0 && Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 25) {
+                        demoCargo = 1; laundryBag.x = -5000;
+                    }
+                }
+                else if (tutorialTimer < 480) {
+                    van.dir = 'UP'; van.y -= MOBILE_V_SPEED;
+                    if (tutorialTimer >= 300 && tutorialTimer < 420) {
+                        tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                        tutHand.style.animation = "swipeUp 1.5s infinite ease-in-out";
+                        tutText.innerText = "Swipe up to turn up";
+                    } else {
+                        tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
+                    }
+                }
+                else if (tutorialTimer < 600) {
+                    van.dir = 'LEFT'; van.x -= MOBILE_H_SPEED;
+                    if (tutorialTimer >= 480 && tutorialTimer < 560) {
+                        tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                        tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
+                        tutText.innerText = "Swipe left to turn left";
+                    } else {
+                        tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
+                    }
+                }
+                else { endDemo(); return; }
+            } else {
+                if (tutorialTimer < 100) {
+                    tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                    tutHand.style.animation = "swipeUp 2.5s infinite ease-in-out";
+                    tutText.innerText = "Swipe up to go up";
+                    van.x += 0.8; 
+                } 
+                else if (tutorialTimer < 220) {
+                    tutHand.style.opacity = "0"; tutText.style.opacity = "0";
+                    van.dir = 'UP'; van.y -= 1.2;
+                }
+                else if (tutorialTimer < 320) {
+                    tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                    tutHand.style.animation = "swipeRight 2.5s infinite ease-in-out";
+                    tutText.innerText = "Swipe right to turn right";
+                    van.y -= 0.8; 
+                }
+                else if (tutorialTimer < 520) {
+                    tutHand.style.opacity = "0"; tutText.style.opacity = "0";
+                    van.dir = 'RIGHT'; van.x += 1.5;
+                    if (Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 25) { demoCargo = 1; laundryBag.x = -1000; }
+                }
+                else if (tutorialTimer < 620) {
+                    tutHand.style.opacity = "1"; tutText.style.opacity = "1";
+                    tutHand.style.animation = "swipeDown 2.5s infinite ease-in-out";
+                    tutText.innerText = "Swipe down to turn down";
+                    van.x += 0.8;
+                }
+                else if (tutorialTimer < 740) {
+                    tutHand.style.opacity = "0"; tutText.style.opacity = "0";
+                    van.dir = 'DOWN'; van.y += 1.2;
+                }
+                else { endDemo(); return; }
+            }
             van.history.unshift({ x: van.x, y: van.y });
             if (van.history.length > 400) van.history.pop();
+            drawDemo(demoCargo);
+            requestAnimationFrame(runTutorial);
+        }
 
-            if (van.x < 0 || van.x > canvas.width || van.y < 0 || van.y > canvas.height) {
-                failGame("Delivery failed! Watch the curbs.");
-                return;
-            }
-
-            for (let man of ticketMen) {
-                if (Math.hypot(van.x - man.x, van.y - man.y) < gridSize * 0.6) {
-                    failGame("NYC Ticket! You've been fined.");
-                    return;
-                }
-            }
-
-            const dist = Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y);
-            if (dist < gridSize * 0.7) {
-                score++;
-                scoreDisplay.innerText = `Pickups: ${score}/${targetScore}`;
-                
-                if (score >= targetScore) { winGame(); return; }
-
-                laundryBag = getRandomFood();
-                
-                // NEW LOGIC: Respawn all cops at new unique locations every bag pick up
-                if (score >= 5) {
-                    respawnAllCops();
-                }
-            }
-
-            draw();
-            frameId = requestAnimationFrame(update);
+        function endDemo() {
+            demoFinished = true; tutBox.classList.add("hidden"); uiContent.classList.remove("hidden"); 
+            van.x = canvas.width / 2; van.y = canvas.height / 2; van.dir = 'RIGHT'; van.history = []; 
+            demoCargo = 0; laundryBag = getRandomFood(); draw();
         }
 
         function drawTicketMan(x, y) {
-            ctx.save();
-            ctx.translate(x, y);
-            
-            // Slowed Angry Ear Steam
+            ctx.save(); ctx.translate(x, y);
             for(let i=0; i<4; i++) {
                 let shift = (animationTime * 8 + i * 5) % 25;
-                let opacity = 1 - (shift / 25);
-                let size = 2 + (shift / 5);
+                let opacity = 1 - (shift / 25); let size = 2 + (shift / 5);
                 ctx.fillStyle = i % 2 === 0 ? `rgba(255, 69, 0, ${opacity * 0.6})` : `rgba(150, 150, 150, ${opacity * 0.4})`;
                 ctx.beginPath(); ctx.arc(-8 - shift, -18 - shift * 0.5, size, 0, Math.PI * 2); ctx.fill();
                 ctx.beginPath(); ctx.arc(8 + shift, -18 - shift * 0.5, size, 0, Math.PI * 2); ctx.fill();
             }
-
-            // Uniform & Orange-Red Vest
             ctx.fillStyle = "#1a252f"; ctx.fillRect(-8, -12, 16, 24); 
             ctx.fillStyle = "#ff4500"; ctx.fillRect(-8, -8, 16, 12);
-            ctx.strokeStyle = "#333"; ctx.lineWidth = 1; ctx.strokeRect(-8, -8, 16, 12);
-            
-            // Angry Face & Cap
             ctx.fillStyle = "#f5cba7"; ctx.beginPath(); ctx.arc(0, -18, 8, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5;
-            ctx.beginPath(); ctx.moveTo(-5, -20); ctx.lineTo(-2, -18); ctx.stroke(); 
-            ctx.beginPath(); ctx.moveTo(5, -20); ctx.lineTo(2, -18); ctx.stroke(); 
-            ctx.beginPath(); ctx.arc(0, -13, 3, Math.PI, 0, false); ctx.stroke(); 
             ctx.fillStyle = "#1a252f"; ctx.fillRect(-10, -24, 20, 5); 
-            ctx.fillStyle = "#f1c40f"; ctx.fillRect(-2, -23, 4, 3);
-
-            // Waving Red Ticket
-            const wave = Math.sin(animationTime * 1.5) * 5;
-            ctx.translate(6, -5 + wave);
-            ctx.rotate(Math.sin(animationTime * 0.8) * 0.2);
+            const wave = Math.sin(animationTime * 1.5) * 5; ctx.translate(6, -5 + wave);
             ctx.fillStyle = "#ff0000"; ctx.fillRect(0, 0, 12, 16); 
-            ctx.strokeStyle = "#fff"; ctx.strokeRect(0, 0, 12, 16);
+            ctx.restore();
+        }
+
+        function drawVan(x, y, dir) {
+            ctx.save();
+            ctx.translate(x, y);
+            let vanAngle = (dir === 'LEFT' ? Math.PI : dir === 'UP' ? -Math.PI/2 : dir === 'DOWN' ? Math.PI/2 : 0);
+            ctx.rotate(vanAngle);
+            ctx.fillStyle = "#000";
+            ctx.fillRect(-14, -15, 8, 4); ctx.fillRect(6, -15, 8, 4);
+            ctx.fillRect(-14, 11, 8, 4); ctx.fillRect(6, 11, 8, 4);
+            ctx.fillStyle = "#111111";
+            ctx.fillRect(-18, -12, 36, 24); 
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(10, -10, 6, 20); 
             ctx.restore();
         }
 
         function drawTrailer(x, y, angle, bagsInside) {
             ctx.save();
-            ctx.translate(x, y); ctx.rotate(angle);
-            const trailerLength = 80; const trailerWidth = 34;
-            ctx.fillStyle = "#bdc3c7"; ctx.strokeStyle = "#7f8c8d"; ctx.lineWidth = 2;
-            ctx.fillRect(-trailerLength, -trailerWidth/2, trailerLength, trailerWidth);
-            ctx.strokeRect(-trailerLength, -trailerWidth/2, trailerLength, trailerWidth);
-            if (bagsInside > 0 && useImage) {
-                const bSize = 32; const spacing = 7; let startX = -trailerLength + 5; 
-                for(let i = 0; i < bagsInside; i++) ctx.drawImage(bagImage, startX + (i * spacing), -16, bSize, bSize);
-            }
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            const tLength = 80; const tWidth = 34;
             ctx.fillStyle = "#000";
-            ctx.fillRect(-trailerLength + 10, -21, 10, 5); ctx.fillRect(-trailerLength + 10, 16, 10, 5);
-            ctx.fillRect(-25, -21, 10, 5); ctx.fillRect(-25, 16, 10, 5);
+            ctx.fillRect(-tLength + 15, -tWidth/2 - 3, 12, 6); 
+            ctx.fillRect(-tLength + 15, tWidth/2 - 3, 12, 6);  
+            ctx.fillRect(-25, -tWidth/2 - 3, 12, 6);          
+            ctx.fillRect(-25, tWidth/2 - 3, 12, 6);           
+            ctx.fillStyle = "#bdc3c7"; ctx.strokeStyle = "#2c3e50"; ctx.lineWidth = 2;
+            ctx.fillRect(-tLength, -tWidth/2, tLength, tWidth);
+            ctx.strokeRect(-tLength, -tWidth/2, tLength, tWidth);
+            if (bagsInside > 0 && useImage) {
+                const spacing = 12; const rows = 2;
+                for(let i = 0; i < bagsInside; i++) {
+                    const col = Math.floor(i / rows); const row = i % rows;
+                    ctx.drawImage(bagImage, -tLength + 10 + (col * spacing), -12 + (row * 10), 24, 24);
+                }
+            }
             ctx.restore();
             return { x: x + Math.cos(angle) * 10, y: y + Math.sin(angle) * 10 };
         }
 
-        function draw() {
+        function drawDemo(cargo) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.imageSmoothingEnabled = false; 
             ctx.strokeStyle = "#e2ecec"; ctx.setLineDash([5, 15]);
             for(let i=0; i<=canvas.width; i+=gridSize) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke(); }
             for(let i=0; i<=canvas.height; i+=gridSize) { ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke(); }
             ctx.setLineDash([]);
             if (useImage) ctx.drawImage(bagImage, laundryBag.x - 20, laundryBag.y - 20, 40, 40);
-            
-            for (let man of ticketMen) drawTicketMan(man.x, man.y);
-            
             let trailerHitch = null;
             if (van.history.length > van.trailerGap) {
                 const tPos = van.history[van.trailerGap];
-                const forwardPos = van.history[van.trailerGap - 5]; 
-                let angle = Math.atan2(forwardPos.y - tPos.y, forwardPos.x - tPos.x);
-                trailerHitch = drawTrailer(tPos.x, tPos.y, angle, score);
+                let angle = Math.atan2(van.history[van.trailerGap - 5].y - tPos.y, van.history[van.trailerGap - 5].x - tPos.x);
+                trailerHitch = drawTrailer(tPos.x, tPos.y, angle, cargo);
             }
-            ctx.save();
-            ctx.translate(van.x, van.y);
-            let vanAngle = (van.dir === 'LEFT' ? Math.PI : van.dir === 'UP' ? -Math.PI/2 : van.dir === 'DOWN' ? Math.PI/2 : 0);
-            ctx.rotate(vanAngle);
-            ctx.fillStyle = "#111111"; ctx.fillRect(-18, -12, 36, 24); 
-            ctx.fillStyle = "#ffffff"; ctx.fillRect(10, -10, 6, 20);
-            ctx.fillStyle = "#000"; ctx.fillRect(-12, -15, 8, 4); ctx.fillRect(-12, 11, 8, 4);
-            ctx.fillRect(6, -15, 8, 4); ctx.fillRect(6, 11, 8, 4);
-            ctx.restore();
+            drawVan(van.x, van.y, van.dir);
             if (trailerHitch) {
-                const vhX = van.x - Math.cos(vanAngle) * 18;
-                const vhY = van.y - Math.sin(vanAngle) * 18;
-                const cp = van.history[Math.floor(van.trailerGap/2)];
-                ctx.beginPath(); ctx.moveTo(vhX, vhY); ctx.quadraticCurveTo(cp.x, cp.y, trailerHitch.x, trailerHitch.y);
+                let vanAngle = (van.dir === 'LEFT' ? Math.PI : van.dir === 'UP' ? -Math.PI/2 : van.dir === 'DOWN' ? Math.PI/2 : 0);
+                const vhX = van.x - Math.cos(vanAngle) * 18; const vhY = van.y - Math.sin(vanAngle) * 18;
+                ctx.beginPath(); ctx.moveTo(vhX, vhY); ctx.quadraticCurveTo(van.history[Math.floor(van.trailerGap/2)].x, van.history[Math.floor(van.trailerGap/2)].y, trailerHitch.x, trailerHitch.y);
                 ctx.strokeStyle = "#555"; ctx.lineWidth = 3; ctx.stroke();
             }
         }
 
-        function startGame() { if(!gameStarted) { gameStarted = true; startOverlay.style.display = "none"; update(); } }
-        startBtn.addEventListener("click", startGame);
-
-        function failGame(msg) {
-            cancelAnimationFrame(frameId);
-            alert(msg || "Delivery failed!");
-            location.reload();
-        }
-
-        function winGame() {
-            cancelAnimationFrame(frameId);
-            window.location.href = `interest.html?message=${encodeURIComponent('FREE $20 CREDIT WON')}`;
-        }
-
-        function handleInput(newDir) {
+        function update() {
             if (!gameStarted) return;
-            const opposites = { 'UP': 'DOWN', 'DOWN': 'UP', 'LEFT': 'RIGHT', 'RIGHT': 'LEFT' };
-            if (newDir !== opposites[van.dir]) van.nextDir = newDir;
+            animationTime += 0.05; 
+            if (van.dir === 'LEFT') van.x -= moveSpeed;
+            if (van.dir === 'RIGHT') van.x += moveSpeed;
+            if (van.dir === 'UP') van.y -= moveSpeed;
+            if (van.dir === 'DOWN') van.y += moveSpeed;
+            van.history.unshift({ x: van.x, y: van.y });
+            if (van.history.length > 400) van.history.pop();
+            if (van.x < 0 || van.x > canvas.width || van.y < 0 || van.y > canvas.height) { failGame("Watch the curbs!"); return; }
+            for (let man of ticketMen) if (Math.hypot(van.x - man.x, van.y - man.y) < gridSize * 0.6) { failGame("NYC Ticket! You've been fined."); return; }
+            if (Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < gridSize * 0.7) {
+                score++; scoreDisplay.innerText = `Pickups: ${score}/${targetScore}`;
+                if (score >= targetScore) { winGame(); return; }
+                laundryBag = getRandomFood();
+                if (score >= 5) respawnAllCops();
+            }
+            draw(); frameId = requestAnimationFrame(update);
         }
 
-        window.addEventListener("keydown", e => {
-            const keyMap = { "ArrowUp": "UP", "ArrowDown": "DOWN", "ArrowLeft": "LEFT", "ArrowRight": "RIGHT" };
-            if (keyMap[e.key]) handleInput(keyMap[e.key]);
-        });
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "#e2ecec"; ctx.setLineDash([5, 15]);
+            for(let i=0; i<=canvas.width; i+=gridSize) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke(); }
+            for(let i=0; i<=canvas.height; i+=gridSize) { ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke(); }
+            ctx.setLineDash([]);
+            if (useImage) ctx.drawImage(bagImage, laundryBag.x - 20, laundryBag.y - 20, 40, 40);
+            for (let man of ticketMen) drawTicketMan(man.x, man.y);
+            let trailerHitch = null;
+            if (van.history.length > van.trailerGap) {
+                const tPos = van.history[van.trailerGap];
+                let angle = Math.atan2(van.history[van.trailerGap - 5].y - tPos.y, van.history[van.trailerGap - 5].x - tPos.x);
+                trailerHitch = drawTrailer(tPos.x, tPos.y, angle, score);
+            }
+            drawVan(van.x, van.y, van.dir);
+            if (trailerHitch) {
+                let vanAngle = (van.dir === 'LEFT' ? Math.PI : van.dir === 'UP' ? -Math.PI/2 : van.dir === 'DOWN' ? Math.PI/2 : 0);
+                const vhX = van.x - Math.cos(vanAngle) * 18; const vhY = van.y - Math.sin(vanAngle) * 18;
+                ctx.beginPath(); ctx.moveTo(vhX, vhY); ctx.quadraticCurveTo(van.history[Math.floor(van.trailerGap/2)].x, van.history[Math.floor(van.trailerGap/2)].y, trailerHitch.x, trailerHitch.y);
+                ctx.strokeStyle = "#555"; ctx.lineWidth = 3; ctx.stroke();
+            }
+        }
 
+        function startGame() { if(!gameStarted) { gameStarted = true; startOverlay.style.display = "none"; van.x = canvas.width/2; van.y = canvas.height/2; van.dir = 'RIGHT'; van.history = []; update(); } }
+        startBtn.addEventListener("click", startGame);
+        function failGame(msg) { cancelAnimationFrame(frameId); alert(msg); location.reload(); }
+        function winGame() { cancelAnimationFrame(frameId); window.location.href = `interest.html?message=${encodeURIComponent('FREE $20 CREDIT WON')}`; }
+        function handleInput(newDir) { if (!gameStarted) return; const opposites = {'UP':'DOWN','DOWN':'UP','LEFT':'RIGHT','RIGHT':'LEFT'}; if (newDir !== opposites[van.dir]) van.dir = newDir; }
+        window.addEventListener("keydown", e => { const keyMap = {"ArrowUp":"UP","ArrowDown":"DOWN","ArrowLeft":"LEFT","ArrowRight":"RIGHT"}; if(keyMap[e.key]) handleInput(keyMap[e.key]); });
         let tsX, tsY;
-        window.addEventListener('touchstart', e => { tsX = e.touches[0].clientX; tsY = e.touches[0].clientY; }, {passive: false});
-        window.addEventListener('touchend', e => {
-            if(!gameStarted) return;
-            let dx = e.changedTouches[0].clientX - tsX; 
-            let dy = e.changedTouches[0].clientY - tsY;
-            if (Math.abs(dx) > Math.abs(dy)) { if (Math.abs(dx) > 20) handleInput(dx > 0 ? "RIGHT" : "LEFT"); }
-            else { if (Math.abs(dy) > 20) handleInput(dy > 0 ? "DOWN" : "UP"); }
-        }, {passive: false});
-
-        draw();
+        window.addEventListener('touchstart', e => { tsX = e.touches[0].clientX; tsY = e.touches[0].clientY; });
+        window.addEventListener('touchend', e => { if(!gameStarted) return; let dx = e.changedTouches[0].clientX - tsX; let dy = e.changedTouches[0].clientY - tsY; if(Math.abs(dx)>Math.abs(dy)) { if(Math.abs(dx)>20) handleInput(dx>0?"RIGHT":"LEFT"); } else { if(Math.abs(dy)>20) handleInput(dy>0?"DOWN":"UP"); } });
+        
+        draw(); 
     </script>
 </body>
 </html>
