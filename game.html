@@ -112,7 +112,7 @@
 
         .how-to-btn {
             background: transparent; color: var(--first-color); border: 2px solid var(--first-color);
-            padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 10px; border-radius: 0.5rem; cursor: pointer; font-weight: 600;
+            padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 15px; border-radius: 0.5rem; cursor: pointer; font-weight: 600;
         }
     </style>
 </head>
@@ -138,6 +138,11 @@
                 <p id="tut-text" class="tutorial-text"></p>
             </div>
         </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 10px; font-size: 0.75rem; line-height: 1.3;">
+        Don't hit the curbs or ticket men!<br>
+        <b style="font-size: 0.7rem; opacity: 0.8;">*Disclaimer: Offer for first-time laundry users.</b>
     </div>
 
     <script>
@@ -174,8 +179,6 @@
         canvas.height = Math.floor(availableHeight / gridSize) * gridSize;
 
         const isMobile = canvas.width < 500;
-        
-        // Speed logic
         const moveSpeed = isMobile ? 3.0 : 2.8;
 
         let van = {
@@ -238,10 +241,8 @@
                 const turnY = (canvas.height * 0.85) - (180 * MOBILE_V_SPEED);
                 laundryBag = { x: canvas.width * 0.75, y: turnY };
             } else {
-                // FIXED DESKTOP START
                 van.x = canvas.width * 0.35;
                 van.y = canvas.height * 0.8;
-                // Anchor bag on horizontal path
                 const turnY = (canvas.height * 0.8) - (120 * DESKTOP_V_SPEED);
                 laundryBag = { x: canvas.width * 0.65, y: turnY };
             }
@@ -278,13 +279,14 @@
                          tutText.innerText = "Swipe up to turn up";
                     }
                 }
-                else if (tutorialTimer < 450) {
+                // Fixed: Final Mobile Turn left earlier
+                else if (tutorialTimer < 420) {
                     van.dir = 'UP'; van.y -= MOBILE_V_SPEED;
-                    if (tutorialTimer < 380) {
+                    if (tutorialTimer < 360) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeUp 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe up to turn up";
-                    } else if (tutorialTimer >= 400 && tutorialTimer < 450) {
+                    } else if (tutorialTimer >= 380 && tutorialTimer < 420) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe left to turn left";
@@ -292,9 +294,9 @@
                         tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
                     }
                 }
-                else if (tutorialTimer < 570) {
+                else if (tutorialTimer < 540) {
                     van.dir = 'LEFT'; van.x -= MOBILE_H_SPEED;
-                    if (tutorialTimer < 520) {
+                    if (tutorialTimer < 480) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe left to turn left";
@@ -304,13 +306,10 @@
                 }
                 else { endDemo(); return; }
             } else {
-                // --- DESKTOP PATH: UP -> RIGHT (COLLECT) -> DOWN -> LEFT ---
-                
-                // 1. UP (0-120)
+                // --- DESKTOP PATH ---
                 if (tutorialTimer < 120) {
                     van.dir = 'UP';
                     if (van.y > laundryBag.y) van.y -= DESKTOP_V_SPEED; else van.y = laundryBag.y;
-                    
                     if (tutorialTimer >= 40 && tutorialTimer <= 100) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeRight 1.5s infinite ease-in-out";
@@ -319,10 +318,8 @@
                         tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
                     }
                 }
-                // 2. RIGHT & COLLECT (120-240)
                 else if (tutorialTimer < 240) {
-                    van.dir = 'RIGHT'; 
-                    van.x += DESKTOP_H_SPEED;
+                    van.dir = 'RIGHT'; van.x += DESKTOP_H_SPEED;
                     if (demoCargo === 0 && Math.hypot(van.x - laundryBag.x, van.y - laundryBag.y) < 30) { 
                         demoCargo = 1; laundryBag.x = -5000; 
                     }
@@ -332,20 +329,16 @@
                         tutText.innerText = "Swipe down to turn down";
                     }
                 }
-                // 3. DOWN (240-340)
                 else if (tutorialTimer < 340) {
-                    van.dir = 'DOWN';
-                    van.y += DESKTOP_V_SPEED;
+                    van.dir = 'DOWN'; van.y += DESKTOP_V_SPEED;
                     if (tutorialTimer >= 280 && tutorialTimer < 340) {
                         tutHand.style.opacity = "1"; tutText.style.opacity = "1";
                         tutHand.style.animation = "swipeLeft 1.5s infinite ease-in-out";
                         tutText.innerText = "Swipe left to turn left";
                     }
                 }
-                // 4. LEFT (340-460)
                 else if (tutorialTimer < 460) {
-                    van.dir = 'LEFT';
-                    van.x -= DESKTOP_H_SPEED;
+                    van.dir = 'LEFT'; van.x -= DESKTOP_H_SPEED;
                     if (tutorialTimer > 420) {
                         tutHand.style.opacity = "0"; tutText.style.opacity = "0"; tutHand.style.animation = "none";
                     }
