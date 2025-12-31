@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="We are Laundry Day! A team dedicated to providing effective contraceptives to college dorms everywhere.">
-    <meta name="keywords" content="Laundry NYC, townhouse laundry, apartment laundry, laundry service, laundry business, wash and fold service, dry cleaner, laundry new york, laundry 10025, laundry 10024 ">
-    <meta name="author" content="Daniel Eyny">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="We are Laundry Day! A team dedicated to providing effective contraceptives to college dorms everywhere." />
+    <meta name="keywords" content="Laundry NYC, townhouse laundry, apartment laundry, laundry service, laundry business, wash and fold service, dry cleaner, laundry new york, laundry 10025, laundry 10024 " />
+    <meta name="author" content="Daniel Eyny" />
 
-    <link rel="shortcut icon" href="assets/img/Laundry Day (4) copy.png" type="image/x-icon">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="shortcut icon" href="assets/img/Laundry Day (4) copy.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <title>Interest Form</title>
 
     <style>
-        /* Modal styling for the Congratulations Pop-Up */
         #win-modal {
             display: none; 
             position: fixed; 
@@ -29,6 +26,46 @@
             justify-content: center; 
             padding: 20px;
         }
+
+        .button-container {
+            width: 100%;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .request-button {
+            display: inline-block;
+            background-color: var(--first-color);
+            color: #FFF;
+            padding: 1rem 3.5rem;
+            border-radius: .5rem;
+            font-weight: 600;
+            transition: .3s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(61, 150, 156, 0.3);
+        }
+
+        .request-button:hover {
+            background-color: #2f7a7f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(61, 150, 156, 0.4);
+        }
+
+        /* Improved alignment for contact info */
+        .contact-footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -37,236 +74,150 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-DDP450P7LP');
 </script>
 
-    <body>
-        <div id="win-modal">
-            <div style="background: white; max-width: 450px; width: 100%; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; border: 4px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5);">
-                <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>
-                <h2 style="color: #3d969c; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 15px;">Congratulations!</h2>
-                <p style="color: #444; line-height: 1.6; font-family: 'Poppins', sans-serif; margin-bottom: 25px;">
-                    Complete our interest form so that we can get more information about our service sent over to you. 
-                    <b>Your $20 credit will automatically be applied</b> to your account once you begin using the service.
-                </p>
-                <button onclick="closeWinModal()" style="background: #3d969c; color: white; border: none; padding: 12px 35px; border-radius: 30px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s;">
-                    Got it!
-                </button>
-            </div>
-        </div>
-
-        <header class="header" id="header">
-            <nav class="nav container">
-                <img class="nav__img" src="./assets/img/Laundry Day (4) copy.png">
-
-
-                <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
-                        <li class="nav__item">
-                            <a href="index.html#home" class="nav__link active-link">Home</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="index.html#about" class="nav__link">About us</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="index.html#services" class="nav__link">Services</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="index.html#faqs" class="nav__link">FAQ</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="index.html#contact" class="nav__link">Contact us</a>
-                        </li>
-
-                        <i class='bx bx-toggle-left change-theme' id="theme-button"></i>
-                    </ul>
-                </div>
-
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class='bx bx-grid-alt'></i>
-                </div>
-
-            </nav>
-        </header>
-
-        <main class="main">
-       
-
- <section class="request request-section request-container" id="contact">                
-    <div class="request__container request-grid">
-        <div class="request__box">
-            <h2 class="section__title-center">
-                <span class="interestformtitle"> Laundry Service </span> <br> Interest Form
-            </h2>
-
-            <br/>
-
-    <div class="security__container grid">
-        <div class="security__data">
-           </p>
-        </div>
-    </div>
-
-
-
-    <div class="request__data">
-        <div class="request__information">
-            <h3 class="contact__subtitle">Price</h3>
-               <span class="contact__text"><span style="color: rgb(244, 56, 56); font-weight: 900; text-decoration: line-through;"> $2.30</span>    <span style="color: rgb(68, 229, 68); font-weight: 900;"> $0.80</span> - <span style="color: rgb(68, 229, 68); font-weight: 900;">$1.50</span> per pound!<br/><br/>(price varies depending on the amount of tenants using the service within your building)</span>
-        </div>
-
-        <div class="request__information">
-            <h3 class="contact__subtitle"> Minimum Weight Requirement </h3>
-            <span class="contact__text">NO MINIMUMS EVER!!!</span>
-
-        </div>
-
-        <div class="request__information">
-            <h3 class="contact__subtitle"> Pick Up & Drop Off </h3>
-            <span class="contact__text">Twice a week!</span> 
-
-        </div>
-
-       
-
-
-    </div>
-    <br/><br/>
-
-            
-        </div>
-
-        <form action="https://formspree.io/f/xpqzdjjo" method="POST" class="request__form">
-            <div class="request__inputs">
-
-                <div id="reward-emblem" style="display: none; margin-top: 20px; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, #2c3e50, #000000); border: 2px solid #f1c40f; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-    <h3 style="color: #f1c40f; font-family: 'Poppins', sans-serif; font-weight: 700; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
-        ✨ FREE $20 CREDIT WON ✨
-    </h3>
-    <p style="color: #ffffff; font-size: 0.8rem; margin-top: 5px; font-family: 'Poppins', sans-serif;">
-        $20 Reward Will Be Applied to your Account
-    </p>
-</div>
-
-
-<input type="hidden" name="Reward_Status" id="reward-status-note" value="No Reward">
-
-                <div class="request__content">
-                    <input type="email" name="Email-215" placeholder=" " class="request__input" required>
-                    <label for="" class="request__label">Email</label>
-                </div>
-
-                <div class="request__content">
-                    <input type="text" placeholder=" " name="Full Name-215" class="request__input">
-                    <label for="" class="request__label">Full Name</label>
-                </div>
-
-                <div class="request__content">
-                    <input type="text" placeholder=" " name="Building Address" class="request__input" required>
-                    <label for="" class="request__label">Building Address</label>
-                </div>
-
-                <div class="request__content">
-                    <input type="text" placeholder=" " name="Apartment Number-215" class="request__input" required>
-                    <label for="" class="request__label">Apartment Number</label>
-                </div>
-
-                <div class="request__content">
-                    <input type="text" placeholder=" " name="Referral-215" class="request__input" >
-                    <label for="" class="request__label">Referral</label>
-                </div>
-
-            
-
-                <div class="request__content request__area">
-                    <textarea name="message" placeholder="Additional Questions / Messages (Optional)" class="request__input"></textarea>                              
-                </div>
-                
-            </div>
-            
-
-            <div class="request__content-checkbox">
-   <label class="request__label-checkbox" style="display: block; margin-bottom: 8px;">
-      <input type="checkbox" name="sms_consent" required>
-  I agree to receive SMS messages from Laundry Day NYC regarding laundry service scheduling, pickup, and delivery updates. Message and data rates may apply. Text STOP to opt out.
-   </label>
-</div>
-
-
-  
-
-</div>
-
-    <br><br><br>
-
-
-            <button class="request-button request-button--flex">
-                Submit
+<body>
+    <div id="win-modal">
+        <div style="background: white; max-width: 450px; width: 100%; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; border: 4px solid #f1c40f; box-shadow: 0 0 30px rgba(241, 196, 15, 0.5);">
+            <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>
+            <h2 style="color: #3d969c; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 15px;">Congratulations!</h2>
+            <p style="color: #444; line-height: 1.6; font-family: 'Poppins', sans-serif; margin-bottom: 25px;">
+                Complete our interest form so that we can get more information about our service sent over to you. 
+                <b>Your $20 credit will automatically be applied</b> to your account once you begin using the service.
+            </p>
+            <button onclick="closeWinModal()" style="background: #3d969c; color: white; border: none; padding: 12px 35px; border-radius: 30px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s;">
+                Got it!
             </button>
-        </form>
-    </div>
-
-    <br><br><br><br><br>
-
-    <div class="request__data">
-        <div class="request__information">
-            <h3 class="contact__subtitle"> Email Us </h3>
-            <a href="mailto:laundrydaynyc@gmail.com"><span class="contact__text">laundrydaynyc@gmail.com</span> </a>
-
-        </div>
-        <div class="request__information">
-            <h3 class="contact__subtitle"> Call Us </h3>
-            <a href="tel:6467050600"><span class="contact__text">(646) 705-0600</span> </a>
-
         </div>
     </div>
-</section>
- <br/>
 
+    <header class="header" id="header">
+        <nav class="nav container">
+            <img class="nav__img" src="./assets/img/Laundry Day (4) copy.png">
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html#home" class="nav__link active-link">Home</a></li>
+                    <li class="nav__item"><a href="index.html#about" class="nav__link">About us</a></li>
+                    <li class="nav__item"><a href="index.html#services" class="nav__link">Services</a></li>
+                    <li class="nav__item"><a href="index.html#faqs" class="nav__link">FAQ</a></li>
+                    <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact us</a></li>
+                    <i class='bx bx-toggle-left change-theme' id="theme-button"></i>
+                </ul>
+            </div>
+            <div class="nav__toggle" id="nav-toggle"><i class='bx bx-grid-alt'></i></div>
+        </nav>
+    </header>
 
+    <main class="main">
+        <section class="request request-section request-container" id="contact">                
+            <div class="request__container request-grid">
+                <div class="request__box">
+                    <h2 class="section__title-center">
+                        <span class="interestformtitle"> Laundry Service </span> <br> Interest Form
+                    </h2>
+                    <br/>
+                    <div class="request__data">
+                        <div class="request__information">
+                            <h3 class="contact__subtitle">Price</h3>
+                            <span class="contact__text"><span style="color: rgb(244, 56, 56); font-weight: 900; text-decoration: line-through;"> $2.30</span>    <span style="color: rgb(68, 229, 68); font-weight: 900;"> $0.80</span> - <span style="color: rgb(68, 229, 68); font-weight: 900;">$1.50</span> per pound!<br/><br/>(price varies depending on the amount of tenants using the service within your building)</span>
+                        </div>
+                        <div class="request__information">
+                            <h3 class="contact__subtitle"> Minimum Weight Requirement </h3>
+                            <span class="contact__text">NO MINIMUMS EVER!!!</span>
+                        </div>
+                        <div class="request__information">
+                            <h3 class="contact__subtitle"> Pick Up & Drop Off </h3>
+                            <span class="contact__text">Twice a week!</span> 
+                        </div>
+                        <div class="request__information">
+                            <h3 class="contact__subtitle"> Email Us </h3>
+                            <a href="mailto:laundrydaynyc@gmail.com"><span class="contact__text">laundrydaynyc@gmail.com</span> </a>
+                        </div>
+                        <div class="request__information">
+                            <h3 class="contact__subtitle"> Call Us </h3>
+                            <a href="tel:6467050600"><span class="contact__text">(646) 705-0600</span> </a>
+                        </div>
+                    </div>
+                </div>
 
+                <form action="https://formspree.io/f/xpqzdjjo" method="POST" class="request__form">
+                    <div class="request__inputs">
+                        <div id="reward-emblem" style="display: none; margin-bottom: 25px; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, #2c3e50, #000000); border: 2px solid #f1c40f; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                            <h3 style="color: #f1c40f; font-family: 'Poppins', sans-serif; font-weight: 700; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
+                                ✨ FREE $20 CREDIT WON ✨
+                            </h3>
+                            <p style="color: #ffffff; font-size: 0.8rem; margin-top: 5px; font-family: 'Poppins', sans-serif;">
+                                $20 Reward Will Be Applied to your Account
+                            </p>
+                        </div>
 
+                        <input type="hidden" name="Reward_Status" id="reward-status-note" value="No Reward">
 
-        </main>
+                        <div class="request__content">
+                            <input type="email" name="Email-215" placeholder=" " class="request__input" required>
+                            <label for="" class="request__label">Email</label>
+                        </div>
+                        <div class="request__content">
+                            <input type="text" placeholder=" " name="Full Name-215" class="request__input">
+                            <label for="" class="request__label">Full Name</label>
+                        </div>
+                        <div class="request__content">
+                            <input type="text" placeholder=" " name="Building Address" class="request__input" required>
+                            <label for="" class="request__label">Building Address</label>
+                        </div>
+                        <div class="request__content">
+                            <input type="text" placeholder=" " name="Apartment Number-215" class="request__input" required>
+                            <label for="" class="request__label">Apartment Number</label>
+                        </div>
+                        <div class="request__content">
+                            <input type="text" placeholder=" " name="Referral-215" class="request__input" >
+                            <label for="" class="request__label">Referral</label>
+                        </div>
+                        <div class="request__content request__area">
+                            <textarea name="message" placeholder="Additional Questions / Messages (Optional)" class="request__input"></textarea>                              
+                        </div>
+                    </div>
 
-     <footer class="footer section">
+                    <div class="request__content-checkbox" style="margin-top: 1.5rem;">
+                        <label class="request__label-checkbox" style="display: block; font-size: 0.85rem; color: var(--text-color);">
+                            <input type="checkbox" name="sms_consent" required style="margin-right: 8px;">
+                            I agree to receive SMS messages from Laundry Day NYC riguardo scheduling, pickup, and delivery updates. Message and data rates may apply. Text STOP to opt out.
+                        </label>
+                    </div>
+
+                    <div class="button-container">
+                        <button type="submit" class="request-button">
+                            Submit Interest
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer section">
         <div class="footer__container container grid">
             <div class="footer__content">
-                
                 <a href="#" class="footer__logo">Laundry Day</a>
                 <p class="footer__description">Let us take the load off your mind!</p>
             </div>
-
             <div class="footer__content">
                 <h3 class="footer__title">Our Services</h3>
                 <ul class="footer__links">
                     <li><a href="#faqs" class="footer__link">Pricing </a></li>
-                    <li>
-                        <a href="/assets/partnerassets/documents/Terms Of Service.pdf" 
-                           class="footer__link" 
-                           download="Terms Of Service.pdf">
-                           Terms of Service
-                        </a>
-                    </li>                          <li><a href="/laundrylyfe/index.html" class="footer__link">Rewards Program</a></li>
+                    <li><a href="/assets/partnerassets/documents/Terms Of Service.pdf" class="footer__link" download="Terms Of Service.pdf">Terms of Service</a></li>
+                    <li><a href="/laundrylyfe/index.html" class="footer__link">Rewards Program</a></li>
                 </ul>
             </div>
-
             <div class="footer__content">
                 <h3 class="footer__title">Our Company</h3>
                 <ul class="footer__links">
                     <li><a href="partner.html" class="footer__link">Be A Partner</a></li>
-                </ul>
-                <ul class="footer__links">
                     <li><a href="/buildinglist.html" class="footer__link">Our Buildings</a></li>
-                </ul>
-                <ul class="footer__links">
                     <li><a href="https://laundryday.app/" class="footer__link">Management Portal</a></li>
                 </ul>
-
-
             </div>
-
             <div class="footer__content">
                 <h3 class="footer__title">Community</h3>
                 <ul class="footer__links">
@@ -275,97 +226,60 @@
                     <li><a href="#contact" class="footer__link">Setup Your Property</a></li>
                 </ul>
             </div>
-
             <div>
                 <h3 class="footer__title">Our Socials</h3>
-
-
-                  <div class="social-icons">
-                    <a target="_blank" href="https://www.tiktok.com/@safechoiceusa">
-                      <i class="bx bxl-tiktok"></i>
-                    </a>
-                    <a target="_blank" href="https://www.instagram.com/safechoiceusa/?hl=en">
-                      <i class="bx bxl-instagram"></i>
-                    </a>
-                    <a target="_blank" href="https://www.linkedin.com/company/safechoiceusa/">
-                      <i class="bx bxl-linkedin"></i>
-                    </a>
-                    <a target="_blank" href="https://twitter.com/SafeChoiceUSA">
-                      <i class="bx bxl-twitter"></i>
-                    </a>
-                    <a target="_blank" href="https://www.youtube.com/channel/UC4JY-mk3vmE2juEcx5An8Fg">
-                      <i class="bx bxl-youtube"></i>
-                    </a>
+                <div class="social-icons">
+                    <a target="_blank" href="https://www.tiktok.com/@safechoiceusa"><i class="bx bxl-tiktok"></i></a>
+                    <a target="_blank" href="https://www.instagram.com/safechoiceusa/?hl=en"><i class="bx bxl-instagram"></i></a>
+                    <a target="_blank" href="https://www.linkedin.com/company/safechoiceusa/"><i class="bx bxl-linkedin"></i></a>
+                    <a target="_blank" href="https://twitter.com/SafeChoiceUSA"><i class="bx bxl-twitter"></i></a>
+                    <a target="_blank" href="https://www.youtube.com/channel/UC4JY-mk3vmE2juEcx5An8Fg"><i class="bx bxl-youtube"></i></a>
                 </div>
             </div>
-
-
-
         </div>
-
         <p class="footer__copy">&#169; Eyny. All right reserved</p>
     </footer>
 
-        <a href="#" class="scrollup" id="scroll-up">
-            <i class='bx bx-up-arrow-alt scrollup__icon'></i>
-        </a>
+    <a href="#" class="scrollup" id="scroll-up"><i class='bx bx-up-arrow-alt scrollup__icon'></i></a>
 
-        <script src="assets/js/main.js"></script>
-<script>
-    function closeWinModal() {
-        // 1. Hide the modal
-        document.getElementById('win-modal').style.display = 'none';
-        
-        // 2. Restore scrolling
-        document.body.style.overflow = 'auto'; 
-        
-        // 3. Smooth scroll to the hidden status note field
-        const noteField = document.getElementById('reward-status-note');
-        if (noteField) {
-            // Since the field is hidden, this will scroll the form to the position 
-            // where that hidden input is located.
-            noteField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const winMessage = urlParams.get('message');
-        
-        if (winMessage && winMessage.includes('FREE $20 CREDIT WON')) {
-            // 1. Show the Modal Pop-Up
-            document.getElementById('win-modal').style.display = 'flex';
-            
-            // 2. Disable scrolling while modal is open
-            document.body.style.overflow = 'hidden'; 
-
-            // 3. Show the Gold Emblem
+    <script src="assets/js/main.js"></script>
+    <script>
+        function closeWinModal() {
+            document.getElementById('win-modal').style.display = 'none';
+            document.body.style.overflow = 'auto'; 
+            document.documentElement.style.overflow = 'auto';
             const emblem = document.getElementById('reward-emblem');
-            if (emblem) emblem.style.display = 'block';
-
-            // 4. Update hidden note
-            const noteField = document.getElementById('reward-status-note');
-            if (noteField) noteField.value = "VERIFIED WINNER: This user won the $20 credit challenge!";
-
-            // 5. Trigger Fireworks & Confetti
-            const duration = 5 * 1000;
-            const animationEnd = Date.now() + duration;
-            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
-
-            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-
-            const interval = setInterval(function() {
-                const timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-
-                const particleCount = 50 * (timeLeft / duration);
-                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
-            }, 250);
-            
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, zIndex: 10000 });
+            if (emblem) {
+                setTimeout(() => {
+                    emblem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 50);
+            }
         }
-    });
-</script>
-    </body>
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const winMessage = urlParams.get('message');
+            if (winMessage && winMessage.includes('FREE $20 CREDIT WON')) {
+                document.getElementById('win-modal').style.display = 'flex';
+                document.body.style.overflow = 'hidden'; 
+                const emblem = document.getElementById('reward-emblem');
+                if (emblem) emblem.style.display = 'block';
+                const noteField = document.getElementById('reward-status-note');
+                if (noteField) noteField.value = "VERIFIED WINNER: This user won the $20 credit challenge!";
+                const duration = 5 * 1000;
+                const animationEnd = Date.now() + duration;
+                const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+                function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+                const interval = setInterval(function() {
+                    const timeLeft = animationEnd - Date.now();
+                    if (timeLeft <= 0) return clearInterval(interval);
+                    const particleCount = 50 * (timeLeft / duration);
+                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+                }, 250);
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, zIndex: 10000 });
+            }
+        });
+    </script>
+</body>
 </html>
