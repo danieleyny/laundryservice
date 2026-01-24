@@ -13,6 +13,24 @@ const showMenu = (toggleId, navId) =>{
 }
 showMenu('nav-toggle','nav-menu')
 
+
+/*=============== SCROLL REVEAL ANIMATION ===============*/
+const revealElements = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Un-comment the line below if you only want the animation to happen once
+            // revealObserver.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.1 // Triggers when 10% of the element is visible
+});
+
+revealElements.forEach(el => revealObserver.observe(el));
+
 /*=============== REMOVE MENU MOBILE ===============*/
 const navLink = document.querySelectorAll('.nav__link')
 
