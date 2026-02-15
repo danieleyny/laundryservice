@@ -108,6 +108,9 @@ themeButton.addEventListener('click', () => {
 })
 
 
+
+
+
  /*=============== QUESTIONS ACCORDION ===============*/
  const accordionItems = document.querySelectorAll('.questions__item')
 
@@ -147,3 +150,132 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+
+/*=============== SYNCHRONIZED SAVINGS & VFX ANIMATION ===============*/
+const DURATION = 2000; // Total time for counter and bars (2 seconds)
+
+const animateVault = () => {
+    const startTime = performance.now();
+    const counters = document.querySelectorAll('.counter');
+    const bars = document.querySelectorAll('.v-bar');
+    const character = document.querySelector('.character-wrap');
+
+    // 1. Reset Progress Bars to 0
+    bars.forEach(bar => {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+    });
+
+    // Force a browser reflow to register the 0% state
+    document.body.offsetHeight;
+
+    // 2. Start Neon Bar Growth
+    bars.forEach(bar => {
+        const cardValue = bar.closest('.v-card').querySelector('.counter').getAttribute('data-target');
+        // Use 75% for the $442 bar, otherwise use the percentage target
+        const finalWidth = (cardValue === "663") ? "75%" : cardValue + "%";
+        
+        bar.style.transition = `width ${DURATION}ms linear`;
+        bar.style.width = finalWidth;
+    });
+
+    // 3. Numerical Counter Loop (High-precision)
+    const updateCounter = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / DURATION, 1);
+
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const current = target * progress;
+            counter.innerText = current.toFixed(target % 1 === 0 ? 0 : 1);
+        });
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    };
+    requestAnimationFrame(updateCounter);
+
+    // 4. Character Pop Animation
+    if (character) {
+        character.style.transform = 'scale(1.1)';
+        setTimeout(() => { character.style.transform = 'scale(1)'; }, 500);
+    }
+
+    // 5. Continuous Shooting Coins Loop (Repeating indefinitely every 1.2 seconds)
+    setInterval(createShootingCoin, 1500);
+};
+
+/*=============== VFX HELPERS (FIREWORKS & COINS) ===============*/
+const createShootingCoin = () => {
+    const container = document.getElementById('shooting-coins');
+    if (!container) return;
+
+    const coin = document.createElement('img');
+    coin.src = './assets/img/goldcoin.png';
+    coin.className = 'shooting-coin';
+    
+    const side = Math.random() > 0.5 ? 'left' : 'right';
+    const startY = container.offsetHeight + 50; 
+    const startX = side === 'left' ? -50 : container.offsetWidth + 50;
+    
+    const travelX = side === 'left' ? (Math.random() * 300 + 200) : -(Math.random() * 300 + 200);
+    const travelY = -(Math.random() * 400 + 400); 
+
+    coin.style.left = `${startX}px`;
+    coin.style.top = `${startY}px`;
+    coin.style.setProperty('--x', `${travelX}px`);
+    coin.style.setProperty('--y', `${travelY}px`);
+    
+    // SLOWED DOWN: Increased from 1800ms to 3000ms
+    const flightTime = 3000; 
+    coin.style.animation = `shoot ${flightTime}ms cubic-bezier(0.25, 1, 0.5, 1) forwards`;
+    container.appendChild(coin);
+
+    setTimeout(() => {
+        createFirework(startX + travelX, startY + travelY);
+        coin.remove(); 
+    }, flightTime);
+};
+
+const createFirework = (x, y) => {
+    const container = document.getElementById('shooting-coins');
+    const particleCount = 35; // Dense explosion for firework effect
+    const colors = ['#ffd700', '#ffae00', '#ffffff', '#ffed4a'];
+
+    for (let i = 0; i < particleCount; i++) {
+        const spark = document.createElement('div');
+        spark.className = 'firework-spark';
+        
+        // Radial explosion math
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 180 + 70;
+        const ex = Math.cos(angle) * velocity;
+        const ey = Math.sin(angle) * velocity;
+
+        spark.style.left = `${x}px`;
+        spark.style.top = `${y}px`;
+        spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        spark.style.setProperty('--ex', `${ex}px`);
+        spark.style.setProperty('--ey', `${ey}px`);
+        
+        container.appendChild(spark);
+        
+        // Cleanup particles after they fade
+        setTimeout(() => spark.remove(), 1000);
+    }
+};
+
+/*=============== VAULT OBSERVER ===============*/
+const vaultSection = document.querySelector('#savings-impact');
+if (vaultSection) {
+    const vaultObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateVault();
+                vaultObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    vaultObserver.observe(vaultSection);
+}

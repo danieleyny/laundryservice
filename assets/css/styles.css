@@ -617,6 +617,310 @@ body.dark-theme {
 
 
 
+/*=============== SAVINGS IMPACT ===============*/
+/*=============== ULTIMATE SAVINGS DASHBOARD ===============*/
+.savings-vault {
+    background: #0a1120;
+    border-radius: 3rem;
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Styling for the new static gold coins */
+.static-coin-img {
+    width: 35px; /* Smaller size as requested */
+    height: auto;
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    display: block;
+}
+
+/* Ensure the character-wrap keeps items behind the cards if they overlap */
+.character-wrap {
+    z-index: 1; /* Lower than cards (z-index: 10) */
+}
+
+/* Adjust the positions to make them look natural around the character */
+.v-coin.c1 { 
+    top: -10px; 
+    right: -5px; 
+}
+
+.v-coin.c2 { 
+    bottom: 20px; 
+    left: -10px; 
+}
+
+.vault-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #70e1f5, #ffd194);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.vault-subtitle {
+    text-align: center;
+    opacity: 0.8;
+}
+
+.vault-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.7fr 1fr;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.v-card {
+    position: relative;
+    z-index: 10; 
+    background: rgba(255, 255, 255, 0.05); /* Slightly more visible glass effect */
+    backdrop-filter: blur(12px); /* Stronger blur for "nicer" look */
+    padding: 2rem 1.5rem; /* Restored padding */
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for definition */
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.v-card:hover {
+    transform: translateY(-5px); /* Interactive lift effect */
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.v-value {
+    font-size: 2.2rem; /* Restored prominent size */
+    font-weight: 800;
+    margin: 0.5rem 0 1rem;
+    color: #fff;
+    white-space: nowrap;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.v-desc {
+    font-size: var(--smaller-font-size);
+    line-height: 1.4;
+    opacity: 0.9;
+    margin-top: 1rem;
+}
+
+.v-value small { 
+    font-size: 1rem; 
+    color: var(--text-color-light);
+    font-weight: 400;
+}
+.v-progress {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.v-bar { 
+    height: 100%; 
+    border-radius: 10px; 
+    transition: 2s linear; /* Match the linear speed of the JS counter */
+}
+.v-bar.blue { background: #00d2ff; box-shadow: 0 0 15px #00d2ff; }
+.v-bar.green { background: #3dfc9d; box-shadow: 0 0 15px #3dfc9d; }
+
+/* Character Center Piece */
+.v-core { position: relative; display: flex; justify-content: center; align-items: center; }
+
+.character-wrap {
+    width: 200px; 
+    height: auto;
+    z-index: 2;
+    position: relative;
+    transition: .5s;
+    background: transparent; /* Ensures no background box */
+    border: none; /* Removes any accidental borders */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.moneyman-img {
+    width: 100%;
+    height: auto;
+    background: transparent; /* Extra safety for the image itself */
+    filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.3));
+    pointer-events: none;
+    display: block;
+}
+/*=============== SHOOTING COINS & FIREWORKS ===============*/
+.shooting-coins-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Set to 1 so particles stay behind the cards and character */
+    z-index: 1; 
+}
+
+.shooting-coin {
+    position: absolute;
+    /* SMALLER COINS: Reduced from 45px to 30px */
+    width: 30px; 
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+    opacity: 0;
+    /* Behind everything else in the container */
+    z-index: 1; 
+}
+
+.v-card, .character-wrap, .vault-header {
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes shoot {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+        transform: translate(calc(var(--x) * 0.1), calc(var(--y) * 0.1)) scale(1.1);
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) rotate(720deg) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Firework Sparks Styling */
+.firework-spark {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    /* Sparks also stay behind cards */
+    z-index: 1; 
+    box-shadow: 0 0 6px currentColor;
+    animation: fireworkExplode 1s cubic-bezier(0.1, 0.5, 0.5, 1) forwards;
+}
+
+@keyframes fireworkExplode {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--ex), var(--ey)) scale(0);
+        opacity: 0;
+    }
+}
+
+
+.v-orbit {
+  display: none;
+    position: absolute;
+    width: 320px; /* Slightly wider to give character more 'breathing' room */
+    height: 320px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+}
+
+/* Floating Coins around character */
+.v-coin {
+    position: absolute;
+    color: #ffd700;
+    font-size: 2rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    animation: floatParticle 4s infinite ease-in-out;
+}
+
+.v-label {
+    display: block;
+    font-size: var(--small-font-size);
+    font-weight: 600;
+    color: var(--first-color-light);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.c1 { top: -20px; right: -10px; }
+.c2 { bottom: 10px; left: -20px; animation-delay: 1s; }
+
+/* Particles */
+.vault-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #3dfc9d;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: floatParticle 8s infinite ease-in-out;
+}
+.p1 { top: 20%; left: 10%; }
+.p2 { top: 70%; left: 80%; background: #00d2ff; }
+.p3 { top: 40%; left: 50%; animation-delay: 2s; }
+
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes floatParticle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@media screen and (max-width: 968px) {
+    .vault-grid { 
+        grid-template-columns: 1fr; 
+        gap: 2.5rem;
+    }
+
+    .v-card {
+        text-align: center; /* Center text on mobile for better flow */
+        padding: 1.5rem;
+    }
+
+
+
+    .v-core { 
+        margin: 2rem 0; /* Adjusted margin to keep the section compact but clear */
+    }
+
+    .v-progress {
+        width: 80%;
+        margin: 0 auto 1rem; /* Center progress bars on mobile */
+    }
+
+    /* Increased character size for mobile visibility */
+    .character-wrap { 
+        width: 280px; /* Increased from 150px to make it pop on mobile */
+        max-width: 85vw; /* Safety check to ensure it doesn't exceed screen width */
+    }
+
+    /* Adjust the dashed orbit to fit the larger character on mobile */
+    .v-orbit {
+        width: 340px; 
+        height: 340px;
+    }
+
+    .v-value {
+        font-size: 2.2rem; /* Scale down for smaller screens */
+        justify-content: center;
+    }
+
+    .savings-vault {
+        padding: 4rem 1.5rem; /* Slightly tighter padding for mobile screens */
+    }
+}
+
+
+
+
 /*=============== request ===============*/
 .request__container{
   row-gap: 3.5rem;
