@@ -279,3 +279,45 @@ if (vaultSection) {
     }, { threshold: 0.5 });
     vaultObserver.observe(vaultSection);
 }
+
+
+
+
+
+/*=============== LIFETIME IMPACT OBSERVER ===============*/
+const impactSection = document.querySelector('#lifetime-impact');
+
+const animateImpact = (section) => {
+    const counters = section.querySelectorAll('.counter');
+    const DURATION = 2000;
+    const startTime = performance.now();
+
+    const updateCounter = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / DURATION, 1);
+
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const current = Math.floor(target * progress);
+            // Format with commas for large numbers
+            counter.innerText = current.toLocaleString();
+        });
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    };
+    requestAnimationFrame(updateCounter);
+};
+
+if (impactSection) {
+    const impactObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateImpact(entry.target);
+                impactObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    impactObserver.observe(impactSection);
+}
