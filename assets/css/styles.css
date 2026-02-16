@@ -1434,6 +1434,135 @@ body.dark-theme {
 
 /*=============== Request End ===============*/
 
+
+/*=============== CALCULATOR ===============*/
+.calculator__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.calc__group { margin-bottom: 1.5rem; }
+.calc__label { display: block; font-size: var(--small-font-size); font-weight: 600; margin-bottom: .75rem; color: var(--title-color); }
+
+.calc__input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: .75rem;
+    border: 2px solid var(--first-color-light);
+    background: var(--body-color);
+    color: var(--title-color);
+    font-weight: 600;
+    outline: none;
+}
+
+.calc__presets, .calc__freq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: .5rem;
+}
+
+.calc__preset-btn, .calc__freq-btn {
+    padding: .6rem;
+    border-radius: .5rem;
+    border: 1px solid var(--first-color);
+    background: transparent;
+    color: var(--first-color);
+    cursor: pointer;
+    font-size: var(--smaller-font-size);
+    font-weight: 600;
+    transition: .3s;
+}
+
+/*=============== SAVINGS ENGINE EFFECTS ===============*/
+.engine-glow {
+    position: relative;
+    border: 1px solid rgba(123, 163, 183, 0.2);
+    overflow: hidden;
+}
+
+/* Full card Energy Core */
+.engine-card {
+    background: #0d1626 !important;
+    border: 1px solid rgba(61, 252, 157, 0.2) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 350px;
+}
+
+.engine-energy-core {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(61, 252, 157, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    animation: enginePulse 3s infinite ease-in-out;
+}
+
+@keyframes enginePulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.4); opacity: 0.7; }
+}
+
+.result__box {
+    position: relative;
+    z-index: 2; /* Sits above the glow */
+}
+
+/* CTA Button Styling */
+.calc__cta {
+    margin-top: 2rem;
+    z-index: 2;
+    background: linear-gradient(90deg, var(--first-color), #3dfc9d);
+    box-shadow: 0 4px 15px rgba(61, 252, 157, 0.3);
+    border: none;
+    cursor: pointer;
+}
+
+.calc__cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(61, 252, 157, 0.5);
+}
+
+/* Fix for the moving input border */
+.calc__input:focus {
+    border-color: #3dfc9d;
+    box-shadow: 0 0 10px rgba(61, 252, 157, 0.2);
+}
+
+.calc__preset-btn:hover, .calc__freq-btn.active {
+    background: var(--first-color);
+    color: #fff;
+}
+
+.calc__result-card {
+    background: #0a1120;
+    padding: 3rem 2rem;
+    border-radius: 2rem;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.result__value {
+    font-size: 3.5rem;
+    background: linear-gradient(to right, #3dfc9d, #00d2ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 1rem 0;
+}
+
+.result__details { font-size: var(--smaller-font-size); opacity: 0.8; }
+
+@media screen and (max-width: 767px) {
+    .calculator__grid { grid-template-columns: 1fr; }
+}
+
 /*=============== SCROLL REVEAL ===============*/
 .reveal {
   opacity: 0;
@@ -1737,6 +1866,12 @@ body.dark-theme {
         display: block;
         margin-bottom: 2rem;
     }
+  .impact__container .section__title-center {
+        text-align: center;
+        width: 100%;
+        display: block;
+        margin-bottom: 2rem;
+    }
   .button__header {
     display: block;
   }
@@ -1823,3 +1958,7 @@ body.dark-theme {
     right: 2rem;
   }
 }
+
+
+
+

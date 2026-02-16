@@ -175,6 +175,9 @@
 </section>
 
 
+
+
+
                 <br><br/><br/><br/>
 
             <!--=============== ABOUT ===============-->
@@ -307,6 +310,59 @@
             </div>
 
     
+        </div>
+    </div>
+</section>
+
+
+
+<section class="section container reveal" id="savings-calculator">
+    <div class="impact__container engine-glow">
+        <h2 class="section__title-center">Projected Savings Calculator</h2>
+        <p class="about__description" style="text-align: center; margin-bottom: 2rem;">
+            See how much you'll keep in your pocket by switching to Laundry Day.
+        </p>
+
+        <div class="calculator__grid">
+            <div class="calc__inputs">
+                <div class="calc__group">
+                    <label class="calc__label">Comparison Price ($/lb)</label>
+                    <input type="number" id="comp-price" class="calc__input" placeholder="Enter price" value="2.50" step="0.01">
+                </div>
+
+                <div class="calc__group">
+                    <label class="calc__label">Select a Competitor</label>
+                    <div class="calc__presets">
+                        <button class="calc__preset-btn" onclick="setPreset('Rinse', 3.49, 9.95, 5)">Rinse</button>
+                        <button class="calc__preset-btn" onclick="setPreset('Laundry Heap', 2.65, 0, 0)">Laundry Heap</button>
+                        <button class="calc__preset-btn" onclick="setPreset('Bolt', 1.99, 0, 0)">Bolt</button>
+                    </div>
+                </div>
+
+                <div class="calc__group">
+                    <label class="calc__label">Service Frequency</label>
+                    <div class="calc__freq-grid">
+                        <button class="calc__freq-btn active" data-weeks="52">Weekly</button>
+                        <button class="calc__freq-btn" data-weeks="26">Bi-Weekly</button>
+                        <button class="calc__freq-btn" data-weeks="17">Every 3 Weeks</button>
+                        <button class="calc__freq-btn" data-weeks="12">Monthly</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc__result-card engine-card">
+                <div class="engine-energy-core"></div> <div class="result__box">
+                    <span class="result__label">Annual Projected Savings</span>
+                    <h2 class="result__value">$<span id="annual-savings">0</span></h2>
+                </div>
+                <div class="result__details">
+                    <p>Based on <strong>15lb bags</strong> at <strong>$1.30/lb</strong></p>
+                    <p id="bolt-note" style="display:none; font-size: 10px; color: #3dfc9d;">* Bolt calculation includes 17lb minimum</p>
+                    <p id="rinse-note" style="display:none; font-size: 10px; color: #3dfc9d;">* Rinse includes $9.95 delivery & $5 service fees per pickup</p>    
+                </div>
+                
+                <a href="#contact" class="button calc__cta">Start Saving Today</a>
+            </div>
         </div>
     </div>
 </section>

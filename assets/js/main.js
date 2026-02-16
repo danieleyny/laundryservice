@@ -321,3 +321,103 @@ if (impactSection) {
     }, { threshold: 0.3 });
     impactObserver.observe(impactSection);
 }
+
+
+/*=============== SAVINGS CALCULATOR LOGIC ===============*/
+const compPriceInput = document.getElementById('comp-price');
+const annualSavingsDisplay = document.getElementById('annual-savings');
+const freqButtons = document.querySelectorAll('.calc__freq-btn');
+const boltNote = document.getElementById('bolt-note');
+const rinseNote = document.getElementById('rinse-note'); // Rinse disclaimer
+
+let currentFreq = 52;
+let deliveryFee = 0;
+let serviceFee = 0;
+let isBolt = false;
+
+function setPreset(name, price, delivery, service) {
+    compPriceInput.value = price;
+    deliveryFee = delivery;
+    serviceFee = service;
+    isBolt = (name === 'Bolt');
+    
+    // Toggle disclaimer visibility
+    boltNote.style.display = isBolt ? 'block' : 'none';
+    rinseNote.style.display = (name === 'Rinse') ? 'block' : 'none';
+    
+    calculateSavings();
+}
+
+function calculateSavings() {
+    const compPrice = parseFloat(compPriceInput.value) || 0;
+    const ourPrice = 1.30;
+    const weight = 15;
+    const boltWeight = 17; // Minimum for Bolt
+
+    // Weekly/Monthly cost for Laundry Day
+    const ourCostPerVisit = (weight * ourPrice);
+    
+    // Cost for Competitor logic
+    let compCostPerVisit;
+    if (isBolt) {
+        // Bolt price assumes 17lb minimum
+        compCostPerVisit = (boltWeight * compPrice);
+    } else {
+        // Factors in the $9.95 delivery and $5 service fees for Rinse
+        compCostPerVisit = (weight * compPrice) + deliveryFee + serviceFee;
+    }
+
+    const annualSavings = (compCostPerVisit - ourCostPerVisit) * currentFreq;
+    
+    // Animate the result number
+    let startValue = 0;
+    const endValue = Math.max(0, annualSavings);
+    const duration = 1000;
+    const startTime = performance.now();
+
+    const animate = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const current = startValue + (endValue - startValue) * progress;
+        
+        annualSavingsDisplay.innerText = Math.floor(current).toLocaleString();
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            // Success Flash effect on completion
+            const resultParent = annualSavingsDisplay.parentElement;
+            resultParent.style.transition = "filter 0.2s ease";
+            resultParent.style.filter = "brightness(1.8) drop-shadow(0 0 15px #3dfc9d)";
+            
+            setTimeout(() => {
+                resultParent.style.filter = "brightness(1) drop-shadow(0 0 0px transparent)";
+            }, 300);
+        }
+    };
+    requestAnimationFrame(animate);
+}
+
+// Frequency selection listener
+freqButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        freqButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFreq = parseInt(btn.getAttribute('data-weeks'));
+        calculateSavings();
+    });
+});
+
+// Manual input listener
+compPriceInput.addEventListener('input', () => {
+    // Reset competitor-specific fees if user types custom price
+    deliveryFee = 0;
+    serviceFee = 0;
+    isBolt = false;
+    boltNote.style.display = 'none';
+    rinseNote.style.display = 'none';
+    calculateSavings();
+});
+
+// Initialize on page load
+calculateSavings();
