@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Exclusive laundry service for City Wide Brokerage leads." />
+    <meta name="author" content="Natalie Eyny" />
+
+    <link rel="shortcut icon" href="assets/img/Laundry Day (4) copy.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <title>City Wide x Laundry Day | Exclusive Interest Form</title>
+
+    <style>
+        :root {
+            --city-wide-gold: #c5a059;
+            --luxury-dark: #121212;
+            --glass-panel: rgba(255, 255, 255, 0.03);
+            --first-color: #7ba3b7;
+        }
+
+        /* Modal Styling */
+        #win-modal {
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            z-index: 9999; 
+            background: rgba(0,0,0,0.85); 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px;
+        }
+
+        /* Section Container */
+        .exclusive-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            padding: 120px 0;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .exclusive-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 80px;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        /* Centered Partnership Info */
+        .partnership-info {
+            border-left: 2px solid var(--city-wide-gold);
+            padding-left: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centers everything horizontally */
+            text-align: center;
+        }
+
+        .exclusive-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Perfect stacking */
+            width: 100%;
+        }
+
+        .partnership-separator {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            font-size: 1.8rem;
+            color: var(--city-wide-gold);
+            padding: 10px 0;
+            display: block;
+            line-height: 1;
+        }
+
+        .partnership-info p {
+            max-width: 400px;
+            margin: 0 auto;
+            color: #ccc;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* Cards and Form */
+        .exclusive-price-card {
+            background: var(--glass-panel);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 4px;
+            backdrop-filter: blur(15px);
+            margin-top: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .exclusive-price-value {
+            font-size: 2.2rem;
+            color: #68e568; 
+            font-weight: 700;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .luxury-form-card {
+            background: #ffffff;
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: 25px 25px 80px rgba(0,0,0,0.6);
+            color: #1a1a1a;
+        }
+
+        .form-intro h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        .input-field-wrap {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .luxury-input {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: 0.4s;
+            outline: none;
+            background: transparent;
+        }
+
+        .luxury-input:focus {
+            border-bottom-color: var(--city-wide-gold);
+        }
+
+        .luxury-field-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #999;
+            font-weight: 700;
+        }
+
+        .exclusive-submit-btn {
+            width: 100%;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.5s ease;
+            margin-top: 25px;
+        }
+
+        .exclusive-submit-btn:hover {
+            background: var(--city-wide-gold);
+            letter-spacing: 5px;
+        }
+
+        /* Responsive Mobile */
+        @media (max-width: 968px) {
+            .exclusive-container { grid-template-columns: 1fr; gap: 50px; }
+            .partnership-info { border-left: none; padding-left: 0; }
+            .exclusive-title { font-size: 2.8rem; }
+            .luxury-form-card { padding: 40px 25px; }
+                   .exclusive-section {
+            padding: 60px 0;
+                   }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="win-modal">
+        <div style="background: white; max-width: 450px; width: 100%; border-radius: 20px; padding: 40px 30px; text-align: center; border: 4px solid #f1c40f;">
+            <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>
+            <h2 style="color: #3d969c; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 15px;">Congratulations!</h2>
+            <p style="color: #444; line-height: 1.6; font-family: 'Poppins', sans-serif; margin-bottom: 25px;">
+                Complete the form for your <b>$20 credit</b>. This exclusive credit is part of the City Wide Brokerage partnership.
+            </p>
+            <button onclick="closeWinModal()" style="background: #3d969c; color: white; border: none; padding: 12px 35px; border-radius: 30px; font-weight: 700; cursor: pointer;">
+                Got it!
+            </button>
+        </div>
+    </div>
+
+    <header class="header" id="header">
+        <nav class="nav container">
+            <img class="nav__img" src="./assets/img/Laundry Day (4) copy.png">
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html#home" class="nav__link active-link">Home</a></li>
+                    <li class="nav__item"><a href="index.html#about" class="nav__link">About us</a></li>
+                    <li class="nav__item"><a href="index.html#services" class="nav__link">Services</a></li>
+                    <li class="nav__item"><a href="index.html#faqs" class="nav__link">FAQ</a></li>
+                    <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact us</a></li>
+                    <i class='bx bx-toggle-left change-theme' id="theme-button"></i>
+                </ul>
+            </div>
+            <div class="nav__toggle" id="nav-toggle"><i class='bx bx-grid-alt'></i></div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="exclusive-section" id="contact">
+            <div class="exclusive-container">
+                
+                <div class="partnership-info">
+                    <h2 class="exclusive-title">
+                        <span>City Wide</span>
+                        <span class="partnership-separator">x</span>
+                        <span>Laundry Day</span>
+                    </h2>
+
+                    <p>
+                        A premium laundry experience designed to provide an affordable service to City Wide partnering properties. Complete our sign up form to get started with additional information!
+                    </p>
+
+                    <div class="exclusive-price-card">
+                        <span style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; color: var(--city-wide-gold);">Preferred Brokerage Rate</span>
+                        <span class="exclusive-price-value">$0.80 - $1.50 / lb</span>
+                        <p style="font-size: 0.85rem; color: #aaa; margin: 0;">
+                            No minimum requirements. Complimentary pickup and delivery twice weekly.
+                        </p>
+                    </div>
+                </div>
+
+                <form action="https://formspree.io/f/xpqzdjjo" method="POST" class="luxury-form-card">
+                    <div class="form-intro">
+                        <h3>Interest Form</h3>
+                        <div style="width: 40px; height: 1px; background: var(--city-wide-gold); margin: 15px auto 45px;"></div>
+                    </div>
+
+                    <input type="hidden" name="_subject" value="NEW LEAD: City Wide Brokerage Form Submission">
+                    <input type="hidden" name="Source_Form" value="City Wide Brokerage Page">
+                    <input type="hidden" name="Reward_Status" id="reward-status-note" value="No Reward">
+
+                    <div id="reward-emblem" style="display: none; margin-bottom: 30px; padding: 15px; border: 1px solid var(--city-wide-gold); text-align: center; background: rgba(197, 160, 89, 0.05);">
+                        <h4 style="color: var(--city-wide-gold); margin: 0; font-size: 0.8rem; letter-spacing: 1px;">✨ $20 CREDIT VERIFIED</h4>
+                    </div>
+
+                    <div class="input-field-wrap">
+                        <label class="luxury-field-label">Full Name</label>
+                        <input type="text" name="Full Name" class="luxury-input" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="input-field-wrap">
+                        <label class="luxury-field-label">Email Address</label>
+                        <input type="email" name="Email" class="luxury-input" placeholder="email@example.com" required>
+                    </div>
+
+                    <div class="input-field-wrap">
+                        <label class="luxury-field-label">Phone Number</label>
+                        <input type="number" name="phone" class="luxury-input" placeholder="(123) 456-7890" >
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                        <div class="input-field-wrap">
+                            <label class="luxury-field-label">Building Address</label>
+                            <input type="text" name="Address" class="luxury-input" placeholder="Street Address" required>
+                        </div>
+                        <div class="input-field-wrap">
+                            <label class="luxury-field-label">Apt #</label>
+                            <input type="text" name="Apt" class="luxury-input" placeholder="e.g. 12C" required>
+                        </div>
+                    </div>
+
+                    <div class="input-field-wrap">
+                        <label class="luxury-field-label">Referral Agent</label>
+                        <input type="text" name="Referral Agent" class="luxury-input" placeholder="John Smith" >
+                    </div>
+
+
+                    <div class="input-field-wrap">
+                        <label class="luxury-field-label">Additional Questions / Messages (Optional)</label>
+                        <textarea name="message" class="luxury-input" rows="2" placeholder=""></textarea>
+                    </div>
+
+                    <div style="margin: 10px 0 25px;">
+                        <label style="font-size: 0.8rem; color: #777; cursor: pointer; display: flex; align-items: flex-start; gap: 10px;">
+                            <input type="checkbox" name="sms_consent" required style="margin-top: 3px;"> 
+                            <span>I agree to receive concierge updates via SMS. Text STOP to opt out.</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="exclusive-submit-btn">Enroll Now</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+   <!--=============== FOOTER ===============-->
+  <footer class="footer section">
+    <div class="footer__container container grid">
+        <div class="footer__content">
+            
+            <a href="#" class="footer__logo">Laundry Day</a>
+            <p class="footer__description">Let us take the load off your mind!</p>
+        </div>
+
+        <div class="footer__content">
+            <h3 class="footer__title">Our Services</h3>
+            <ul class="footer__links">
+                <li><a href="#faqs" class="footer__link">Pricing </a></li>
+                <li>
+                    <a href="/assets/partnerassets/documents/Terms Of Service.pdf" 
+                       class="footer__link" 
+                       download="Terms Of Service.pdf">
+                       Terms of Service
+                    </a>
+                </li>                          <li><a href="/laundrylyfe/index.html" class="footer__link">Rewards Program</a></li>
+            </ul>
+        </div>
+
+        <div class="footer__content">
+            <h3 class="footer__title">Our Company</h3>
+            <ul class="footer__links">
+                <li><a href="partner.html" class="footer__link">Be A Partner</a></li>
+            </ul>
+            <ul class="footer__links">
+                <li><a href="/buildinglist.html" class="footer__link">Our Buildings</a></li>
+            </ul>
+            <ul class="footer__links">
+                <li><a href="https://laundryday.app/" class="footer__link">Management Portal</a></li>
+            </ul>
+
+
+        </div>
+
+        <div class="footer__content">
+            <h3 class="footer__title">Community</h3>
+            <ul class="footer__links">
+                <li><a href="mailto:laundrydaynyc@gmail.com" class="footer__link">Support</a></li>
+                <li><a href="#contact" class="footer__link">Questions</a></li>
+                <li><a href="#contact" class="footer__link">Setup Your Property</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="footer__title">Our Socials</h3>
+
+
+              <div class="social-icons">
+                <a target="_blank" href="https://www.tiktok.com/@safechoiceusa">
+                  <i class="bx bxl-tiktok"></i>
+                </a>
+                <a target="_blank" href="https://www.instagram.com/safechoiceusa/?hl=en">
+                  <i class="bx bxl-instagram"></i>
+                </a>
+                <a target="_blank" href="https://www.linkedin.com/company/safechoiceusa/">
+                  <i class="bx bxl-linkedin"></i>
+                </a>
+                <a target="_blank" href="https://twitter.com/SafeChoiceUSA">
+                  <i class="bx bxl-twitter"></i>
+                </a>
+                <a target="_blank" href="https://www.youtube.com/channel/UC4JY-mk3vmE2juEcx5An8Fg">
+                  <i class="bx bxl-youtube"></i>
+                </a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <p class="footer__copy">&#169; Eyny. All right reserved</p>
+</footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        function closeWinModal() {
+            document.getElementById('win-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            const emblem = document.getElementById('reward-emblem');
+            if (emblem) emblem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>
